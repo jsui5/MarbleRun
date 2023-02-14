@@ -13,6 +13,17 @@
 		BE73DD0B299720C70044E639 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD09299720C70044E639 /* Main.storyboard */; };
 		BE73DD0D299720D70044E639 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD0C299720D70044E639 /* Assets.xcassets */; };
 		BE73DD10299720D70044E639 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD0E299720D70044E639 /* LaunchScreen.storyboard */; };
+		BE73DD18299726550044E639 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD17299726550044E639 /* Shader.fsh */; };
+		BE73DD1A299726730044E639 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD19299726730044E639 /* Shader.vsh */; };
+		BE73DD2229986A640044E639 /* GeometryObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD1E29986A640044E639 /* GeometryObject.mm */; };
+		BE73DD2329986A640044E639 /* WavefrontLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2129986A640044E639 /* WavefrontLoader.mm */; };
+		BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2429986B7C0044E639 /* Renderer.mm */; };
+		BE73DD2C29988B780044E639 /* GameObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2A29988B780044E639 /* GameObject.mm */; };
+		BE73DD31299986180044E639 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE73DD30299986180044E639 /* GLKit.framework */; };
+		BE73DD33299992710044E639 /* RendererBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD32299992710044E639 /* RendererBridge.mm */; };
+		BE73DD362999A8B10044E639 /* halo_reach_grenadier.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */; };
+		BE73DD39299BF5CA0044E639 /* Game.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD37299BF5CA0044E639 /* Game.mm */; };
+		BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD3B299C047F0044E639 /* GameBridge.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +35,27 @@
 		BE73DD0C299720D70044E639 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE73DD0F299720D70044E639 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE73DD11299720D70044E639 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE73DD17299726550044E639 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		BE73DD19299726730044E639 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		BE73DD1D29986A630044E639 /* WantToCryEngine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WantToCryEngine-Bridging-Header.h"; sourceTree = "<group>"; };
+		BE73DD1E29986A640044E639 /* GeometryObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GeometryObject.mm; sourceTree = "<group>"; };
+		BE73DD1F29986A640044E639 /* GeometryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometryObject.h; sourceTree = "<group>"; };
+		BE73DD2029986A640044E639 /* WavefrontLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WavefrontLoader.hpp; sourceTree = "<group>"; };
+		BE73DD2129986A640044E639 /* WavefrontLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WavefrontLoader.mm; sourceTree = "<group>"; };
+		BE73DD2429986B7C0044E639 /* Renderer.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = Renderer.mm; sourceTree = "<group>"; };
+		BE73DD2529986B7C0044E639 /* Renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Renderer.hpp; sourceTree = "<group>"; };
+		BE73DD2A29988B780044E639 /* GameObject.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameObject.mm; sourceTree = "<group>"; };
+		BE73DD2B29988B780044E639 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
+		BE73DD2E29988C7B0044E639 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		BE73DD30299986180044E639 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		BE73DD32299992710044E639 /* RendererBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererBridge.mm; sourceTree = "<group>"; };
+		BE73DD34299992850044E639 /* RendererBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RendererBridge.h; sourceTree = "<group>"; };
+		BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = halo_reach_grenadier.obj; path = WantToCryEngine/halo_reach_grenadier.obj; sourceTree = "<group>"; };
+		BE73DD37299BF5CA0044E639 /* Game.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Game.mm; sourceTree = "<group>"; };
+		BE73DD38299BF5CA0044E639 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		BE73DD3A299C047F0044E639 /* GameBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameBridge.h; sourceTree = "<group>"; };
+		BE73DD3B299C047F0044E639 /* GameBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameBridge.mm; sourceTree = "<group>"; };
+		BE73DD3D299C26730044E639 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE73DD31299986180044E639 /* GLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,8 +73,10 @@
 		BE73DCF7299720C70044E639 = {
 			isa = PBXGroup;
 			children = (
+				BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */,
 				BE73DD02299720C70044E639 /* WantToCryEngine */,
 				BE73DD01299720C70044E639 /* Products */,
+				BE73DD2F299986170044E639 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +91,10 @@
 		BE73DD02299720C70044E639 /* WantToCryEngine */ = {
 			isa = PBXGroup;
 			children = (
+				BE73DD1F29986A640044E639 /* GeometryObject.h */,
+				BE73DD1E29986A640044E639 /* GeometryObject.mm */,
+				BE73DD2029986A640044E639 /* WavefrontLoader.hpp */,
+				BE73DD2129986A640044E639 /* WavefrontLoader.mm */,
 				BE73DD03299720C70044E639 /* AppDelegate.swift */,
 				BE73DD05299720C70044E639 /* SceneDelegate.swift */,
 				BE73DD07299720C70044E639 /* ViewController.swift */,
@@ -63,8 +102,31 @@
 				BE73DD0C299720D70044E639 /* Assets.xcassets */,
 				BE73DD0E299720D70044E639 /* LaunchScreen.storyboard */,
 				BE73DD11299720D70044E639 /* Info.plist */,
+				BE73DD19299726730044E639 /* Shader.vsh */,
+				BE73DD17299726550044E639 /* Shader.fsh */,
+				BE73DD1D29986A630044E639 /* WantToCryEngine-Bridging-Header.h */,
+				BE73DD2429986B7C0044E639 /* Renderer.mm */,
+				BE73DD2529986B7C0044E639 /* Renderer.hpp */,
+				BE73DD2A29988B780044E639 /* GameObject.mm */,
+				BE73DD2B29988B780044E639 /* GameObject.hpp */,
+				BE73DD2E29988C7B0044E639 /* Common.h */,
+				BE73DD32299992710044E639 /* RendererBridge.mm */,
+				BE73DD34299992850044E639 /* RendererBridge.h */,
+				BE73DD37299BF5CA0044E639 /* Game.mm */,
+				BE73DD38299BF5CA0044E639 /* Game.hpp */,
+				BE73DD3A299C047F0044E639 /* GameBridge.h */,
+				BE73DD3B299C047F0044E639 /* GameBridge.mm */,
+				BE73DD3D299C26730044E639 /* README.md */,
 			);
 			path = WantToCryEngine;
+			sourceTree = "<group>";
+		};
+		BE73DD2F299986170044E639 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE73DD30299986180044E639 /* GLKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -99,6 +161,7 @@
 				TargetAttributes = {
 					BE73DCFF299720C70044E639 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -125,9 +188,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE73DD362999A8B10044E639 /* halo_reach_grenadier.obj in Resources */,
+				BE73DD18299726550044E639 /* Shader.fsh in Resources */,
 				BE73DD10299720D70044E639 /* LaunchScreen.storyboard in Resources */,
 				BE73DD0D299720D70044E639 /* Assets.xcassets in Resources */,
 				BE73DD0B299720C70044E639 /* Main.storyboard in Resources */,
+				BE73DD1A299726730044E639 /* Shader.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,9 +204,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE73DD39299BF5CA0044E639 /* Game.mm in Sources */,
+				BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */,
+				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,
+				BE73DD2329986A640044E639 /* WavefrontLoader.mm in Sources */,
+				BE73DD2229986A640044E639 /* GeometryObject.mm in Sources */,
 				BE73DD08299720C70044E639 /* ViewController.swift in Sources */,
 				BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */,
 				BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */,
+				BE73DD2C29988B780044E639 /* GameObject.mm in Sources */,
+				BE73DD33299992710044E639 /* RendererBridge.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +280,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GLES_SILENCE_DEPRECATION=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
@@ -264,6 +338,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "GLES_SILENCE_DEPRECATION=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -283,8 +358,13 @@
 		BE73DD15299720D70044E639 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					x86_64,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -298,10 +378,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "Team-Descent.WantToCryEngine";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WantToCryEngine/WantToCryEngine-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -310,8 +392,13 @@
 		BE73DD16299720D70044E639 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					x86_64,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -325,10 +412,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "Team-Descent.WantToCryEngine";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WantToCryEngine/WantToCryEngine-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
