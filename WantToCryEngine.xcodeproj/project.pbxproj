@@ -73,6 +73,7 @@
 		BE73DCF7299720C70044E639 = {
 			isa = PBXGroup;
 			children = (
+				BE73DD3D299C26730044E639 /* README.md */,
 				BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */,
 				BE73DD02299720C70044E639 /* WantToCryEngine */,
 				BE73DD01299720C70044E639 /* Products */,
@@ -116,7 +117,6 @@
 				BE73DD38299BF5CA0044E639 /* Game.hpp */,
 				BE73DD3A299C047F0044E639 /* GameBridge.h */,
 				BE73DD3B299C047F0044E639 /* GameBridge.mm */,
-				BE73DD3D299C26730044E639 /* README.md */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";

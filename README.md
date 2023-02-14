@@ -10,3 +10,5 @@ Coming Soon<sup>TM</sup>:
 - Fog
 - Unity-style Behaviour system for gameobjects.
 - Properly decoupling geometry from gameobjects.
+
+P.S. "Alex" is the username on a Mac I had to borrow to work on this.
