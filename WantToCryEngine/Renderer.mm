@@ -14,7 +14,7 @@
 //and get them out in a convenient fashion.
 enum
 {
-    UNIFORM_VIEWPROJECTION_MATRIX,
+    UNIFORM_ROTATION_MATRIX,
     UNIFORM_CAMERAFACING_VEC4,
     UNIFORM_NORMAL_MATRIX,
     UNIFORM_MODELVIEWPROJECTION_MATRIX,
@@ -208,7 +208,7 @@ void Renderer::setup(GLKView* view){
     
     //Set up uniforms.
     uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(programObject, "modelViewProjectionMatrix");
-    uniforms[UNIFORM_VIEWPROJECTION_MATRIX] = glGetUniformLocation(programObject, "viewProjectionMatrix");
+    uniforms[UNIFORM_ROTATION_MATRIX] = glGetUniformLocation(programObject, "rotMatrix");
     uniforms[UNIFORM_CAMERAFACING_VEC4] = glGetUniformLocation(programObject, "cameraFacing");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(programObject, "normalMatrix");
     
@@ -226,77 +226,40 @@ void Renderer::update(){
     float aspectRatio = (float)targetView.drawableWidth / (float)targetView.drawableHeight;
     perspective = GLKMatrix4MakePerspective(60.0f * M_PI / 180.0f, aspectRatio, 1.0f, 20.0f);
     
+    //this is more efficient than recalculating it every time
+    view = getViewMatrix();
+    
     //Clear the screen - done once per frame so that when objects are done all of them remain until the next frame. Stencil isn't used so we don't touch it.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::drawModel(const std::string& refName, const GLKVector3& pos,
-                         const GLKVector3& rot, CGRect* drawArea){
-    
-    if(!models.contains(refName)){
-        std::cerr << "No model called \"" << refName << "\" - not drawing anything." << std::endl;
-        return;
-    }
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_VIEWPROJECTION_MATRIX], 1, FALSE, (const float*)perspective.m);
-        
-    int indexCount = models[refName].loadSelfIntoBuffers(&posBuffer, &normBuffer, &texCoordBuffer, &indexBuffer);
-    
-    GLKMatrix4 mvp = GLKMatrix4TranslateWithVector3(GLKMatrix4Identity, pos);
-    mvp = GLKMatrix4Rotate(mvp, rot.x, 1, 0, 0);
-    mvp = GLKMatrix4Rotate(mvp, rot.y, 0, 1, 0);
-    mvp = GLKMatrix4Rotate(mvp, rot.z, 0, 0, 1);
-    
-    bool invertFlag;
-    
-    GLKMatrix4 normalMatrix = GLKMatrix4InvertAndTranspose(mvp, &invertFlag);
-    
-    mvp = GLKMatrix4Multiply(perspective, mvp);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, FALSE, (const float*)mvp.m);
-    glUniformMatrix4fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, FALSE, (const float*)normalMatrix.m);
-    glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], 1, 0, 0, 0);
-    
-    
-    glViewport(0, 0, (int)targetView.drawableWidth, (int)targetView.drawableHeight);
-    glUseProgram(programObject);
-    
-    glVertexAttribPointer(ATTRIB_POS, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), posBuffer);
-    glEnableVertexAttribArray(ATTRIB_POS);
-    glVertexAttribPointer(ATTRIB_NORMAL, 3, GL_FLOAT, GL_TRUE, 3*sizeof(GL_FLOAT), normBuffer);
-    glEnableVertexAttribArray(ATTRIB_NORMAL);
-    
-    glVertexAttrib4f(ATTRIB_COLOR, 0, 1, 0, 1);
-    
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, indexBuffer);
-    
-    free(posBuffer);
-    free(normBuffer);
-    free(texCoordBuffer);
-    free(indexBuffer);
-}
-
 void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3 &pos, const GLKVector3 &rot, const GLKVector3 &scale, const GLKVector4 &color, CGRect *drawArea){
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_VIEWPROJECTION_MATRIX], 1, FALSE, (const float*)perspective.m);
-        
+            
     int indexCount = object.loadSelfIntoBuffers(&posBuffer, &normBuffer, &texCoordBuffer, &indexBuffer);
     
-    GLKMatrix4 mvp = GLKMatrix4TranslateWithVector3(GLKMatrix4Identity, pos);
-    mvp = GLKMatrix4Rotate(mvp, rot.x, 1, 0, 0);
-    mvp = GLKMatrix4Rotate(mvp, rot.y, 0, 1, 0);
-    mvp = GLKMatrix4Rotate(mvp, rot.z, 0, 0, 1);
-    mvp = GLKMatrix4ScaleWithVector3(mvp, scale);
+    GLKMatrix4 model = GLKMatrix4TranslateWithVector3(GLKMatrix4Identity, pos);
+    model = GLKMatrix4Rotate(model, rot.x, 1, 0, 0);
+    model = GLKMatrix4Rotate(model, rot.y, 0, 1, 0);
+    model = GLKMatrix4Rotate(model, rot.z, 0, 0, 1);
+    model = GLKMatrix4ScaleWithVector3(model, scale);
+    
+    GLKMatrix4 rotMat;
+    rotMat = GLKMatrix4Rotate(GLKMatrix4Identity, rot.x, 1, 0, 0);
+    rotMat = GLKMatrix4Rotate(rotMat, rot.y, 0, 1, 0);
+    rotMat = GLKMatrix4Rotate(rotMat, rot.z, 0, 0, 1);
+
+    glUniformMatrix4fv(uniforms[UNIFORM_ROTATION_MATRIX], 1, FALSE, (const float*)rotMat.m);
     
     bool invertFlag;
     
-    GLKMatrix4 normalMatrix = GLKMatrix4InvertAndTranspose(mvp, &invertFlag);
-    
+    GLKMatrix4 normalMatrix = GLKMatrix4InvertAndTranspose(model, &invertFlag);
+    GLKMatrix4 mvp = GLKMatrix4Multiply(view, model);
     mvp = GLKMatrix4Multiply(perspective, mvp);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, FALSE, (const float*)mvp.m);
     glUniformMatrix4fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, FALSE, (const float*)normalMatrix.m);
-    glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], 1, 0, 0, 0);
+    
+    glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], view.m03, view.m13, view.m23, 0);// I think this is right?
     
     
     glViewport(0, 0, (int)targetView.drawableWidth, (int)targetView.drawableHeight);
@@ -316,4 +279,24 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     free(texCoordBuffer);
     free(indexBuffer);
 
+}
+
+//This is responsible for making the camera mobile.
+GLKMatrix4 Renderer::getViewMatrix(){
+    GLKMatrix4 rotor = GLKMatrix4MakeYRotation(camRot.y);
+    rotor = GLKMatrix4RotateX(rotor, camRot.x);
+    rotor = GLKMatrix4RotateZ(rotor, camRot.z);
+    
+    GLKVector3 forward = GLKMatrix4MultiplyVector3(rotor, GLKVector3{0, 0, 1});
+    GLKVector3 top = GLKMatrix4MultiplyVector3(rotor, GLKVector3{0, 1, 0});
+    GLKVector3 right = GLKMatrix4MultiplyVector3(rotor, GLKVector3{1, 0, 0});
+    
+    GLKMatrix4 result{
+        right.x, top.x, forward.x, 0,
+        right.y, top.y, forward.y, 0,
+        right.z, top.z, forward.z, 0,
+        GLKVector3DotProduct(right, camPos), GLKVector3DotProduct(top, camPos), GLKVector3DotProduct(forward, camPos), 1
+    };
+    
+    return result;
 }

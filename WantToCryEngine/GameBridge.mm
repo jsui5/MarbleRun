@@ -23,3 +23,11 @@ extern "C" void GameDraw(struct Game* inThis, CGRect rect){
 extern "C" void GameEventSinglePan(struct Game* inThis, GLKVector2 input){
     inThis->EventSinglePan(input);
 }
+
+extern "C" void GameEventDoublePan(struct Game* inThis, GLKVector2 input){
+    inThis->EventDoublePan(input);
+}
+
+extern "C" void GameEventPinch(struct Game* inThis, float input){
+    inThis->EventPinch(input);
+}

@@ -30,6 +30,7 @@ private:
     GLuint programObject;
     std::map<std::string, GeometryObject> models;
     GLKMatrix4 perspective;
+    GLKMatrix4 view;
     float* posBuffer;
     float* normBuffer;
     float* texCoordBuffer;
@@ -46,6 +47,7 @@ public:
     void drawGeometryObject(const GeometryObject& object,
                             const GLKVector3& pos, const GLKVector3& rot, const GLKVector3& scale,
                             const GLKVector4& color, CGRect* drawArea);
+    GLKMatrix4 getViewMatrix();
     GLKVector3 camPos;
     GLKVector3 camRot;
 };

@@ -25,6 +25,8 @@ public:
     void EventSwipeUp();
     //Events can have parameters - once again, pass in from Swift through GameBridge.
     void EventSinglePan(GLKVector2 input);
+    void EventDoublePan(GLKVector2 input);
+    void EventPinch(float input);
     //This is where the magic happens - pass the frame update to this function.
     void Update();
     //This is a bridge to the Renderer.

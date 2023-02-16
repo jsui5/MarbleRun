@@ -24,6 +24,8 @@ void GameUpdate(struct Game* inThis);
 void GameDraw(struct Game* inThis, CGRect rect);
 //Game Event caller.
 void GameEventSinglePan(struct Game* inThis, GLKVector2 input);
+void GameEventDoublePan(struct Game* inThis, GLKVector2 input);
+void GameEventPinch(struct Game* inThis, float input);
 #ifdef __cplusplus
 }
 #endif

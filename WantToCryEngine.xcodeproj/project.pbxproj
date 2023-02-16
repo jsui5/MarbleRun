@@ -20,7 +20,6 @@
 		BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2429986B7C0044E639 /* Renderer.mm */; };
 		BE73DD2C29988B780044E639 /* GameObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2A29988B780044E639 /* GameObject.mm */; };
 		BE73DD31299986180044E639 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE73DD30299986180044E639 /* GLKit.framework */; };
-		BE73DD33299992710044E639 /* RendererBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD32299992710044E639 /* RendererBridge.mm */; };
 		BE73DD362999A8B10044E639 /* halo_reach_grenadier.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */; };
 		BE73DD39299BF5CA0044E639 /* Game.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD37299BF5CA0044E639 /* Game.mm */; };
 		BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD3B299C047F0044E639 /* GameBridge.mm */; };
@@ -48,8 +47,6 @@
 		BE73DD2B29988B780044E639 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
 		BE73DD2E29988C7B0044E639 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		BE73DD30299986180044E639 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		BE73DD32299992710044E639 /* RendererBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererBridge.mm; sourceTree = "<group>"; };
-		BE73DD34299992850044E639 /* RendererBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RendererBridge.h; sourceTree = "<group>"; };
 		BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = halo_reach_grenadier.obj; path = WantToCryEngine/halo_reach_grenadier.obj; sourceTree = "<group>"; };
 		BE73DD37299BF5CA0044E639 /* Game.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Game.mm; sourceTree = "<group>"; };
 		BE73DD38299BF5CA0044E639 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
@@ -111,8 +108,6 @@
 				BE73DD2A29988B780044E639 /* GameObject.mm */,
 				BE73DD2B29988B780044E639 /* GameObject.hpp */,
 				BE73DD2E29988C7B0044E639 /* Common.h */,
-				BE73DD32299992710044E639 /* RendererBridge.mm */,
-				BE73DD34299992850044E639 /* RendererBridge.h */,
 				BE73DD37299BF5CA0044E639 /* Game.mm */,
 				BE73DD38299BF5CA0044E639 /* Game.hpp */,
 				BE73DD3A299C047F0044E639 /* GameBridge.h */,
@@ -213,7 +208,6 @@
 				BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */,
 				BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */,
 				BE73DD2C29988B780044E639 /* GameObject.mm in Sources */,
-				BE73DD33299992710044E639 /* RendererBridge.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
