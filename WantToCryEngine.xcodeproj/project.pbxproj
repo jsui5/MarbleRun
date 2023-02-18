@@ -20,9 +20,9 @@
 		BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2429986B7C0044E639 /* Renderer.mm */; };
 		BE73DD2C29988B780044E639 /* GameObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD2A29988B780044E639 /* GameObject.mm */; };
 		BE73DD31299986180044E639 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE73DD30299986180044E639 /* GLKit.framework */; };
-		BE73DD362999A8B10044E639 /* halo_reach_grenadier.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */; };
 		BE73DD39299BF5CA0044E639 /* Game.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD37299BF5CA0044E639 /* Game.mm */; };
 		BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD3B299C047F0044E639 /* GameBridge.mm */; };
+		BE73DD3F29A197640044E639 /* blender_suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD3E29A197630044E639 /* blender_suzanne.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,12 +47,12 @@
 		BE73DD2B29988B780044E639 /* GameObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameObject.hpp; sourceTree = "<group>"; };
 		BE73DD2E29988C7B0044E639 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		BE73DD30299986180044E639 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = halo_reach_grenadier.obj; path = WantToCryEngine/halo_reach_grenadier.obj; sourceTree = "<group>"; };
 		BE73DD37299BF5CA0044E639 /* Game.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Game.mm; sourceTree = "<group>"; };
 		BE73DD38299BF5CA0044E639 /* Game.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
 		BE73DD3A299C047F0044E639 /* GameBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameBridge.h; sourceTree = "<group>"; };
 		BE73DD3B299C047F0044E639 /* GameBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameBridge.mm; sourceTree = "<group>"; };
 		BE73DD3D299C26730044E639 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BE73DD3E29A197630044E639 /* blender_suzanne.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = blender_suzanne.obj; path = WantToCryEngine/blender_suzanne.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +70,8 @@
 		BE73DCF7299720C70044E639 = {
 			isa = PBXGroup;
 			children = (
+				BE73DD3E29A197630044E639 /* blender_suzanne.obj */,
 				BE73DD3D299C26730044E639 /* README.md */,
-				BE73DD352999A8B10044E639 /* halo_reach_grenadier.obj */,
 				BE73DD02299720C70044E639 /* WantToCryEngine */,
 				BE73DD01299720C70044E639 /* Products */,
 				BE73DD2F299986170044E639 /* Frameworks */,
@@ -183,7 +183,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE73DD362999A8B10044E639 /* halo_reach_grenadier.obj in Resources */,
+				BE73DD3F29A197640044E639 /* blender_suzanne.obj in Resources */,
 				BE73DD18299726550044E639 /* Shader.fsh in Resources */,
 				BE73DD10299720D70044E639 /* LaunchScreen.storyboard in Resources */,
 				BE73DD0D299720D70044E639 /* Assets.xcassets in Resources */,

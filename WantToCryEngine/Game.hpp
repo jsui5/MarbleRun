@@ -22,7 +22,7 @@ public:
     //The view is required to set up the Renderer straight from here.
     Game(GLKView* view);
     //Call these events from Swift using the GameBridge.
-    void EventSwipeUp();
+    void EventDoubleTap();
     //Events can have parameters - once again, pass in from Swift through GameBridge.
     void EventSinglePan(GLKVector2 input);
     void EventDoublePan(GLKVector2 input);

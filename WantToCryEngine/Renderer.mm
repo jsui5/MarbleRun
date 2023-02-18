@@ -224,7 +224,7 @@ void Renderer::setup(GLKView* view){
 void Renderer::update(){
     //set up perspective matrix for later use with displaying things.
     float aspectRatio = (float)targetView.drawableWidth / (float)targetView.drawableHeight;
-    perspective = GLKMatrix4MakePerspective(60.0f * M_PI / 180.0f, aspectRatio, 1.0f, 20.0f);
+    perspective = GLKMatrix4MakePerspective(60.0f * M_PI / 180.0f, aspectRatio, 1.0f, 200.0f);
     
     //this is more efficient than recalculating it every time
     view = getViewMatrix();

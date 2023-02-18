@@ -49,6 +49,10 @@ class ViewController: GLKViewController {
         doubleDrag.minimumNumberOfTouches = 2;
         doubleDrag.maximumNumberOfTouches = 2;
         view.addGestureRecognizer(doubleDrag);
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.doDoubleTap(_:)));
+        doubleTap.numberOfTapsRequired = 2;
+        view.addGestureRecognizer(doubleTap);
 
     }
     
@@ -66,6 +70,10 @@ class ViewController: GLKViewController {
 
     @objc func doPinch(_ sender: UIPinchGestureRecognizer){
         GameEventPinch(game, Float(sender.velocity/10));
+    }
+    
+    @objc func doDoubleTap(_ sender: UITapGestureRecognizer){
+        GameEventDoubleTap(game);
     }
     
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {

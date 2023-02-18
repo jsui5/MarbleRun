@@ -31,3 +31,7 @@ extern "C" void GameEventDoublePan(struct Game* inThis, GLKVector2 input){
 extern "C" void GameEventPinch(struct Game* inThis, float input){
     inThis->EventPinch(input);
 }
+
+extern "C" void GameEventDoubleTap(struct Game* inThis){
+    inThis->EventDoubleTap();
+}

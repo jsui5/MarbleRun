@@ -23,33 +23,34 @@ Game::Game(GLKView* view){
     models = std::map<std::string, GeometryObject>();
     objects = std::map<std::string, GameObject>();
     
-    models["helmet"] = WavefrontLoader::ReadFile(resourcePath + "halo_reach_grenadier.obj");
+//    models["helmet"] = WavefrontLoader::ReadFile(resourcePath + "halo_reach_grenadier.obj");
+    models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["static"].geometry = models["helmet"];
+    objects["static"].geometry = models["monkey"];
     
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["bottom"].geometry = models["helmet"];
+    objects["bottom"].geometry = models["monkey"];
     objects["bottom"].color = GLKVector4{0, 0, .25, 1};
 
     objects["top"] = GameObject(GLKVector3{0, 5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["top"].geometry = models["helmet"];
+    objects["top"].geometry = models["monkey"];
     objects["top"].color = GLKVector4{.5, .5, 0, 1};
 
     objects["left"] = GameObject(GLKVector3{-5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["left"].geometry = models["helmet"];
+    objects["left"].geometry = models["monkey"];
     objects["left"].color = GLKVector4{1, 0, 0, 1};
 
     objects["right"] = GameObject(GLKVector3{5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["right"].geometry = models["helmet"];
+    objects["right"].geometry = models["monkey"];
     objects["right"].color = GLKVector4{0, 1, 0, 1};
 
     objects["back"] = GameObject(GLKVector3{0, 0, 5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["back"].geometry = models["helmet"];
+    objects["back"].geometry = models["monkey"];
     objects["back"].color = GLKVector4{.5, 0, .5, 1};
     
     objects["victim"] =  GameObject(GLKVector3{0, 1, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
-    objects["victim"].geometry = models["helmet"];
+    objects["victim"].geometry = models["monkey"];
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
 }
 
@@ -83,4 +84,9 @@ void Game::EventDoublePan(GLKVector2 input){
 void Game::EventPinch(float input){
     renderer.camPos.z -= cos(renderer.camRot.y) * input;
     renderer.camPos.x -= sin(renderer.camRot.y) * input;
+}
+
+void Game::EventDoubleTap(){
+    renderer.camRot = GLKVector3{0, 0, 0};
+    renderer.camPos = GLKVector3{0, 0, 0};
 }
