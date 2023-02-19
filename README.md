@@ -1,6 +1,9 @@
 #  WantToCryEngine
 ## Version 0.2 - iOS + OpenGL ES
 
+This is a work in progress project. If you got it from somewhere else, there's
+probably a newer version at https://github.com/OrbitalMechanist/WantToCryEngine
+
 Game.cpp is where you should program the game itself.
 Swift just initializes the whole thing and passes in input events.
 
