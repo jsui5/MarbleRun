@@ -28,7 +28,9 @@ private:
     std::string resourcePath;
     GLKView* targetView;
     GLuint programObject;
-    std::map<std::string, GeometryObject> models;
+    GLuint nextTexture;
+//    std::map<std::string, GeometryObject> models;
+//    std::map<std::string, GLuint> textures;
     GLKMatrix4 perspective;
     GLKMatrix4 view;
     float* posBuffer;
@@ -45,8 +47,9 @@ public:
     void drawModel(const std::string& refName, const GLKVector3& pos,
                    const GLKVector3& rot, CGRect* drawArea);
     void drawGeometryObject(const GeometryObject& object,
-                            const GLKVector3& pos, const GLKVector3& rot, const GLKVector3& scale,
+                            const GLKVector3& pos, const GLKVector3& rot, const GLKVector3& scale, GLuint textureIndex,
                             const GLKVector4& color, CGRect* drawArea);
+    GLuint loadTexture(CGImageRef img);
     GLKMatrix4 getViewMatrix();
     GLKVector3 camPos;
     GLKVector3 camRot;

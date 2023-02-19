@@ -14,8 +14,9 @@
 class Game{
 public:
     std::string resourcePath;
-    //these are used to store models and gameobjects in an easily accessible way.
+    //these are used to store models, texture indices, and gameobjects in an easily accessible way.
     std::map<std::string, GeometryObject> models;
+    std::map<std::string, GLuint> textures;
     std::map<std::string, GameObject> objects;
     Renderer renderer;
     //Set up the base state upon construction. Build the level, etc...

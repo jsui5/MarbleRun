@@ -18,6 +18,7 @@ enum
     UNIFORM_CAMERAFACING_VEC4,
     UNIFORM_NORMAL_MATRIX,
     UNIFORM_MODELVIEWPROJECTION_MATRIX,
+    UNIFORM_TEX_SAMPLER2D,
     NUM_UNIFORMS
 };
 GLint uniforms[NUM_UNIFORMS];
@@ -40,7 +41,7 @@ Renderer::Renderer(){
     resourcePath = std::string();
     resourcePath = nspathAppended.UTF8String;
 
-    models = std::map<std::string, GeometryObject>();
+    nextTexture = 0;
     
     std::cout << "Finished renderer creation." << std::endl;
 }
@@ -171,6 +172,7 @@ GLuint Renderer::loadGLProgram(char* vertexShaderSource, char* fragShaderSource)
     return resultProgram;
 }
 
+/*
 void Renderer::loadModel(const std::string& path, const std::string& refName){
     if(models.contains(refName)){
         std::cerr << "Model called " << refName << " already loaded. Overwriting." << std::endl;
@@ -179,6 +181,7 @@ void Renderer::loadModel(const std::string& path, const std::string& refName){
     models[refName] = WavefrontLoader::ReadFile(resourcePath + path);
     std::cout << "Loaded model " << path << std::endl;
 }
+*/
 
 void Renderer::setup(GLKView* view){
     //Allocate, set up, and tests the Context that will manage OpenGL ES.
@@ -211,6 +214,7 @@ void Renderer::setup(GLKView* view){
     uniforms[UNIFORM_ROTATION_MATRIX] = glGetUniformLocation(programObject, "rotMatrix");
     uniforms[UNIFORM_CAMERAFACING_VEC4] = glGetUniformLocation(programObject, "cameraFacing");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(programObject, "normalMatrix");
+    uniforms[UNIFORM_TEX_SAMPLER2D] = glGetUniformLocation(programObject, "tex");
     
     glClearColor(0.1, 0.1, 0.1, 1); //Set background color.
     glEnable(GL_DEPTH_TEST); //Enable depth testing for objects to be obscured by each other
@@ -233,7 +237,7 @@ void Renderer::update(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3 &pos, const GLKVector3 &rot, const GLKVector3 &scale, const GLKVector4 &color, CGRect *drawArea){
+void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3 &pos, const GLKVector3 &rot, const GLKVector3 &scale, GLuint textureIndex, const GLKVector4 &color, CGRect *drawArea){
             
     int indexCount = object.loadSelfIntoBuffers(&posBuffer, &normBuffer, &texCoordBuffer, &indexBuffer);
     
@@ -261,6 +265,8 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     
     glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], view.m03, view.m13, view.m23, 0);// I think this is right?
     
+//    glActiveTexture(GL_TEXTURE0 + textureIndex);
+    glUniform1i(uniforms[UNIFORM_TEX_SAMPLER2D], (textureIndex));
     
     glViewport(0, 0, (int)targetView.drawableWidth, (int)targetView.drawableHeight);
     glUseProgram(programObject);
@@ -269,7 +275,9 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     glEnableVertexAttribArray(ATTRIB_POS);
     glVertexAttribPointer(ATTRIB_NORMAL, 3, GL_FLOAT, GL_TRUE, 3*sizeof(GL_FLOAT), normBuffer);
     glEnableVertexAttribArray(ATTRIB_NORMAL);
-    
+    glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, GL_TRUE, 2*sizeof(GL_FLOAT), texCoordBuffer);
+    glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+
     glVertexAttrib4fv(ATTRIB_COLOR, color.v);
     
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, indexBuffer);
@@ -298,5 +306,37 @@ GLKMatrix4 Renderer::getViewMatrix(){
         GLKVector3DotProduct(right, camPos), GLKVector3DotProduct(top, camPos), GLKVector3DotProduct(forward, camPos), 1
     };
     
+    return result;
+}
+
+GLuint Renderer::loadTexture(CGImage* img){
+        
+    size_t xSize = CGImageGetWidth(img);
+    size_t ySize = CGImageGetHeight(img);
+    
+    GLubyte* pixelBuffer = (GLubyte*)malloc(xSize * ySize * 4 * sizeof(GLubyte));
+    
+    //This is some kind of Apple-brand black magic that loads an image into a buffer.
+    CGContextRef context = CGBitmapContextCreate(pixelBuffer, xSize, ySize, 8, xSize*4, CGImageGetColorSpace(img), kCGImageAlphaPremultipliedLast);
+    CGContextDrawImage(context, CGRectMake(0, 0, xSize, ySize), img);
+    CGContextRelease(context);
+
+    //Get a place for the new texture.
+    GLuint handle;
+    glGenTextures(1, &handle);
+    //Set active texture to next free slot.
+    glActiveTexture(GL_TEXTURE0 + nextTexture);
+    //Bind the handle to the active slot as a 2D Texture.
+    glBindTexture(GL_TEXTURE_2D , handle);
+    glTexParameteri(GL_TEXTURE_2D , GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //Upload it.
+    glTexImage2D(GL_TEXTURE_2D , 0, GL_RGBA, xSize, ySize, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
+    //Data has been copied from the buffer to VRAM, so we don't need it anymore.
+    free(pixelBuffer);
+    
+    GLuint result = nextTexture;
+    
+    nextTexture++;
+
     return result;
 }

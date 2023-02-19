@@ -33,17 +33,21 @@ int GeometryObject::loadSelfIntoBuffers(float** pos, float** norm, float** texCo
     return indices.size();
 }
 
-GeometryObject GeometryObject::genTwoSidedPlane(){
+//doesn't work, do not use.
+GeometryObject GeometryObject::genPlane(){
     GeometryObject result = GeometryObject();
-    //plane is offset because badly made shaders may cause a centered object to be unlit
-    GeometryVertex v1 = GeometryVertex(GLKVector3{-0.5, -.5, -.5}, GLKVector3{0, -1, 0}, GLKVector2{0, 0});
-    GeometryVertex v2 = GeometryVertex(GLKVector3{-0.5, -.5, .5}, GLKVector3{0, -1, 0}, GLKVector2{0, 1});
-    GeometryVertex v3 = GeometryVertex(GLKVector3{0.5, -.5, .5}, GLKVector3{0, -1, 0}, GLKVector2{1, 1});
-    GeometryVertex v4 = GeometryVertex(GLKVector3{0.5, -.5, -.5}, GLKVector3{0, -1, 0}, GLKVector2{1, 0});
+    GeometryVertex v1 = GeometryVertex(GLKVector3{-0.5, -.5, 0}, GLKVector3{0, 1, 0}, GLKVector2{0, 0});
+    GeometryVertex v2 = GeometryVertex(GLKVector3{-0.5, -.5, 0}, GLKVector3{0, 1, 0}, GLKVector2{0, 1});
+    GeometryVertex v3 = GeometryVertex(GLKVector3{0.5, -.5, 0}, GLKVector3{0, 1, 0}, GLKVector2{1, 1});
+    GeometryVertex v4 = GeometryVertex(GLKVector3{0.5, -.5, 0}, GLKVector3{0, 1, 0}, GLKVector2{1, 0});
+    GeometryVertex v5 = GeometryVertex(GLKVector3{-0.5, -.5, 0}, GLKVector3{0, -1, 0}, GLKVector2{0, 0});
+    GeometryVertex v6 = GeometryVertex(GLKVector3{-0.5, -.5, 0}, GLKVector3{0, -1, 0}, GLKVector2{0, 1});
+    GeometryVertex v7 = GeometryVertex(GLKVector3{0.5, -.5, 0}, GLKVector3{0, -1, 0}, GLKVector2{1, 1});
+    GeometryVertex v8 = GeometryVertex(GLKVector3{0.5, -.5, 0}, GLKVector3{0, -1, 0}, GLKVector2{1, 0});
+
+    result.vertices = std::vector<GeometryVertex>{ v1, v2, v3, v4, v5, v6, v7, v8};
     
-    result.vertices = std::vector<GeometryVertex>{ v1, v2, v3, v4};
-    
-    result.indices = std::vector<u_int>{0, 2, 1, 0, 3, 2};
+    result.indices = std::vector<u_int>{0, 1, 2, 0, 3, 1, 4, 5, 6, 4, 7, 5};
 
     return result;
 }

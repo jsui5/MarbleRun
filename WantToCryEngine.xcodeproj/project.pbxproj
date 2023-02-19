@@ -23,6 +23,10 @@
 		BE73DD39299BF5CA0044E639 /* Game.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD37299BF5CA0044E639 /* Game.mm */; };
 		BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD3B299C047F0044E639 /* GameBridge.mm */; };
 		BE73DD3F29A197640044E639 /* blender_suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD3E29A197630044E639 /* blender_suzanne.obj */; };
+		BE73DD4129A1CC5C0044E639 /* tile.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4029A1CC5A0044E639 /* tile.jpg */; };
+		BE73DD4629A1EA2D0044E639 /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4529A1EA2D0044E639 /* white.jpg */; };
+		BE73DD4829A1EA3E0044E639 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4729A1EA3E0044E639 /* test.jpg */; };
+		BE73DD4A29A1EF200044E639 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4929A1EF1F0044E639 /* cube.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +57,10 @@
 		BE73DD3B299C047F0044E639 /* GameBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameBridge.mm; sourceTree = "<group>"; };
 		BE73DD3D299C26730044E639 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BE73DD3E29A197630044E639 /* blender_suzanne.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = blender_suzanne.obj; path = WantToCryEngine/blender_suzanne.obj; sourceTree = "<group>"; };
+		BE73DD4029A1CC5A0044E639 /* tile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tile.jpg; path = WantToCryEngine/tile.jpg; sourceTree = "<group>"; };
+		BE73DD4529A1EA2D0044E639 /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = white.jpg; path = WantToCryEngine/white.jpg; sourceTree = "<group>"; };
+		BE73DD4729A1EA3E0044E639 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test.jpg; path = WantToCryEngine/test.jpg; sourceTree = "<group>"; };
+		BE73DD4929A1EF1F0044E639 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = cube.obj; path = WantToCryEngine/cube.obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +78,10 @@
 		BE73DCF7299720C70044E639 = {
 			isa = PBXGroup;
 			children = (
+				BE73DD4929A1EF1F0044E639 /* cube.obj */,
+				BE73DD4729A1EA3E0044E639 /* test.jpg */,
+				BE73DD4529A1EA2D0044E639 /* white.jpg */,
+				BE73DD4029A1CC5A0044E639 /* tile.jpg */,
 				BE73DD3E29A197630044E639 /* blender_suzanne.obj */,
 				BE73DD3D299C26730044E639 /* README.md */,
 				BE73DD02299720C70044E639 /* WantToCryEngine */,
@@ -183,6 +195,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE73DD4A29A1EF200044E639 /* cube.obj in Resources */,
+				BE73DD4829A1EA3E0044E639 /* test.jpg in Resources */,
+				BE73DD4629A1EA2D0044E639 /* white.jpg in Resources */,
+				BE73DD4129A1CC5C0044E639 /* tile.jpg in Resources */,
 				BE73DD3F29A197640044E639 /* blender_suzanne.obj in Resources */,
 				BE73DD18299726550044E639 /* Shader.fsh in Resources */,
 				BE73DD10299720D70044E639 /* LaunchScreen.storyboard in Resources */,
@@ -372,7 +388,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.01;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Team-Descent.WantToCryEngine";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -406,7 +422,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.01;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Team-Descent.WantToCryEngine";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

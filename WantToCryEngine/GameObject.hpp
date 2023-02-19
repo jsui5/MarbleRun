@@ -33,6 +33,7 @@ public:
     GameObject():transform(), color{1, 1, 1, 1}{}
     GameObject(GLKVector3 pos, GLKVector3 rot, GLKVector3 scale):
         transform(pos, rot, scale), color{1, 1, 1, 1}{}
+    GLuint textureIndex;
 };
 
 #endif /* GameObject_hpp */

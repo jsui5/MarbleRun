@@ -30,7 +30,7 @@ public:
     std::vector<GeometryVertex> vertices;
     std::vector<u_int> indices;
     int loadSelfIntoBuffers(float** pos, float** norm, float** texCoord, int** ind) const;
-    static GeometryObject genTwoSidedPlane();
+    static GeometryObject genPlane();
 };
 
 #endif /* GeometryObject_h */

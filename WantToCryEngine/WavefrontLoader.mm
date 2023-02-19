@@ -13,7 +13,7 @@ GeometryObject WavefrontLoader::ReadFile(const std::string& path) {
     if (!fin)
     {
         std::cerr << "Model " << path << " not found!" << std::endl;
-        return GeometryObject::genTwoSidedPlane();
+        return GeometryObject::genPlane();
     }
 
     std::vector<GeometryVertex> verts{};
