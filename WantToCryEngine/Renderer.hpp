@@ -51,6 +51,9 @@ public:
                             const GLKVector4& color, CGRect* drawArea);
     GLuint loadTexture(CGImageRef img);
     GLKMatrix4 getViewMatrix();
+    //fogFullDist must be greater than forStartDist, or there will be no fog. Use this to turn it off.
+    //For whatever reason, fog doesn't appear until it's set a second time.
+    void setEnvironment(float fogStartDist, float fogFullDist, const GLKVector4& color);
     GLKVector3 camPos;
     GLKVector3 camRot;
 };

@@ -16,9 +16,14 @@ enum
 {
     UNIFORM_ROTATION_MATRIX,
     UNIFORM_CAMERAFACING_VEC4,
+    UNIFORM_CAMERAPOS_VEC4,
     UNIFORM_NORMAL_MATRIX,
     UNIFORM_MODELVIEWPROJECTION_MATRIX,
     UNIFORM_TEX_SAMPLER2D,
+    UNIFORM_FOGACTIVE_BOOL,
+    UNIFORM_FOGSTART_FLOAT,
+    UNIFORM_FOGFULL_FLOAT,
+    UNIFORM_FOGCOLOR_VEC4,
     NUM_UNIFORMS
 };
 GLint uniforms[NUM_UNIFORMS];
@@ -213,10 +218,15 @@ void Renderer::setup(GLKView* view){
     uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(programObject, "modelViewProjectionMatrix");
     uniforms[UNIFORM_ROTATION_MATRIX] = glGetUniformLocation(programObject, "rotMatrix");
     uniforms[UNIFORM_CAMERAFACING_VEC4] = glGetUniformLocation(programObject, "cameraFacing");
+    uniforms[UNIFORM_CAMERAPOS_VEC4] = glGetUniformLocation(programObject, "cameraPos");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(programObject, "normalMatrix");
     uniforms[UNIFORM_TEX_SAMPLER2D] = glGetUniformLocation(programObject, "tex");
+    uniforms[UNIFORM_FOGACTIVE_BOOL] = glGetUniformLocation(programObject, "fogActive");
+    uniforms[UNIFORM_FOGSTART_FLOAT] = glGetUniformLocation(programObject, "fogStart");
+    uniforms[UNIFORM_FOGFULL_FLOAT] = glGetUniformLocation(programObject, "fogFull");
+    uniforms[UNIFORM_FOGCOLOR_VEC4] = glGetUniformLocation(programObject, "fogColor");
     
-    glClearColor(0.1, 0.1, 0.1, 1); //Set background color.
+    setEnvironment(15, 50, GLKVector4{0.3, 0.3, 0.4, 1});
     glEnable(GL_DEPTH_TEST); //Enable depth testing for objects to be obscured by each other
     glEnable(GL_CULL_FACE); //Enable backface culling
     
@@ -233,6 +243,9 @@ void Renderer::update(){
     //this is more efficient than recalculating it every time
     view = getViewMatrix();
     
+    glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], view.m03, view.m13, view.m23, 0);// I think this is right?
+    glUniform4f(uniforms[UNIFORM_CAMERAPOS_VEC4], camPos.x, camPos.y, camPos.z, 1);
+
     //Clear the screen - done once per frame so that when objects are done all of them remain until the next frame. Stencil isn't used so we don't touch it.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -262,9 +275,7 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, FALSE, (const float*)mvp.m);
     glUniformMatrix4fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, FALSE, (const float*)normalMatrix.m);
-    
-    glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], view.m03, view.m13, view.m23, 0);// I think this is right?
-    
+        
 //    glActiveTexture(GL_TEXTURE0 + textureIndex);
     glUniform1i(uniforms[UNIFORM_TEX_SAMPLER2D], (textureIndex));
     
@@ -339,4 +350,19 @@ GLuint Renderer::loadTexture(CGImage* img){
     nextTexture++;
 
     return result;
+}
+
+void Renderer::setEnvironment(float fogStartDist, float fogFullDist, const GLKVector4& color){
+    //This minimizes the number of uniform changes when turning fog off.
+    if(fogFullDist > fogStartDist){
+        //non-zero values get evaluated as True when passed into shader bool uniform
+        glUniform1i(uniforms[UNIFORM_FOGACTIVE_BOOL], 1);
+        glUniform1f(uniforms[UNIFORM_FOGSTART_FLOAT], fogStartDist);
+        glUniform1f(uniforms[UNIFORM_FOGFULL_FLOAT], fogFullDist);
+        glUniform4f(uniforms[UNIFORM_FOGCOLOR_VEC4], color.x, color.y, color.z, color.w);
+    } else {
+        //Conversely, zero is false.
+        glUniform1i(uniforms[UNIFORM_FOGACTIVE_BOOL], 0);
+    }
+    glClearColor(color.x, color.y, color.z, color.w);
 }

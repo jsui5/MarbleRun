@@ -23,7 +23,7 @@ Game::Game(GLKView* view){
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
     renderer.setup(view);
-    
+        
     //Load in textures.
     CGImageRef img0 = [UIImage imageNamed:[nspathAppended stringByAppendingString: @"white.jpg"]].CGImage;
     textures[""] = renderer.loadTexture(img0);
@@ -40,10 +40,13 @@ Game::Game(GLKView* view){
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["static"].geometry = models["cube"];
     objects["static"].textureIndex = textures["test"];
-    objects["tilecube"] = GameObject(GLKVector3{2, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["tilecube"].geometry = models["cube"];
-    objects["tilecube"].textureIndex = textures["tile"];
 
+    for(int i = 0; i <= 100; i++){
+        std::string wb = std::string("wallblock").append(std::to_string(i));
+        objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
+        objects[wb].geometry = models["cube"];
+        objects[wb].textureIndex = textures["tile"];
+    }
     
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["bottom"].geometry = models["monkey"];
@@ -75,6 +78,8 @@ Game::Game(GLKView* view){
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
     objects["victim"].textureIndex = textures[""];
 
+    //This doesn't do the fog for some reason.
+    renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
 }
 
 void Game::Update(){
@@ -112,4 +117,6 @@ void Game::EventPinch(float input){
 void Game::EventDoubleTap(){
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
+
+    renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
 }
