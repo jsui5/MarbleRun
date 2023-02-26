@@ -6,24 +6,24 @@ layout(location = 2) in vec4 normal;
 layout(location = 3) in vec2 texCoord;
 
 out vec4 v_color;
-out vec4 v_normal;
+out vec3 v_normal;
+out vec3 v_pos;
 out vec2 v_texCoord;
 out float v_dist;
-out vec4 v_toEye;
 
-uniform mat4 rotMatrix;
-uniform vec4 cameraFacing;
-uniform vec4 cameraPos;
-uniform vec4 normalMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 normalMatrix;
+//this is here because the extra memory is worth not having to calculate it every damn vertex
 uniform mat4 modelViewProjectionMatrix;
-uniform sampler2D tex;
 
 void main()
 {
-    v_dist = length((modelViewProjectionMatrix * position-cameraPos) * vec4(1, 1, 1, 0));
-    v_toEye = (modelViewProjectionMatrix * position-cameraPos) * vec4(1, 1, 1, 0);
+    v_pos = (modelMatrix * position).xyz;
+    v_dist = length(((modelViewProjectionMatrix * position)).xyz);
     v_color = color;
-    v_normal = rotMatrix * normal;
+    v_normal = normalize(mat3(normalMatrix) * normal.xyz);
     v_texCoord = texCoord;
     gl_Position = modelViewProjectionMatrix * position;
 }

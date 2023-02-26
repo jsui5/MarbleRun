@@ -32,6 +32,8 @@ public:
     void Update();
     //This is a bridge to the Renderer.
     void DrawCall(CGRect* drawArea);
+private:
+    bool fogActive;
 };
 
 

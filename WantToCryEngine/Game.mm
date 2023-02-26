@@ -41,12 +41,14 @@ Game::Game(GLKView* view){
     objects["static"].geometry = models["cube"];
     objects["static"].textureIndex = textures["test"];
 
+    /*
     for(int i = 0; i <= 100; i++){
         std::string wb = std::string("wallblock").append(std::to_string(i));
         objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
         objects[wb].geometry = models["cube"];
         objects[wb].textureIndex = textures["tile"];
     }
+    */
     
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["bottom"].geometry = models["monkey"];
@@ -63,6 +65,11 @@ Game::Game(GLKView* view){
     objects["left"].color = GLKVector4{1, 0, 0, 1};
     objects["left"].textureIndex = textures[""];
 
+    objects["far"] = GameObject(GLKVector3{-15, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+    objects["far"].geometry = models["monkey"];
+    objects["far"].color = GLKVector4{1, 0, 0, 1};
+    objects["far"].textureIndex = textures[""];
+    
     objects["right"] = GameObject(GLKVector3{5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["right"].geometry = models["monkey"];
     objects["right"].color = GLKVector4{0, 1, 0, 1};
@@ -79,6 +86,7 @@ Game::Game(GLKView* view){
     objects["victim"].textureIndex = textures[""];
 
     //This doesn't do the fog for some reason.
+    fogActive = false;
     renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
 }
 
@@ -118,5 +126,11 @@ void Game::EventDoubleTap(){
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
 
-    renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
+    if(fogActive){
+        renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});
+        fogActive = false;
+    } else {
+        renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
+        fogActive = true;
+    }
 }

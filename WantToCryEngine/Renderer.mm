@@ -14,7 +14,9 @@
 //and get them out in a convenient fashion.
 enum
 {
-    UNIFORM_ROTATION_MATRIX,
+    UNIFORM_VIEW_MATRIX,
+    UNIFORM_MODEL_MATRIX,
+    UNIFORM_PROJECTION_MATRIX,
     UNIFORM_CAMERAFACING_VEC4,
     UNIFORM_CAMERAPOS_VEC4,
     UNIFORM_NORMAL_MATRIX,
@@ -216,7 +218,9 @@ void Renderer::setup(GLKView* view){
     
     //Set up uniforms.
     uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(programObject, "modelViewProjectionMatrix");
-    uniforms[UNIFORM_ROTATION_MATRIX] = glGetUniformLocation(programObject, "rotMatrix");
+    uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(programObject, "viewMatrix");
+    uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(programObject, "modelMatrix");
+    uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(programObject, "projectionMatrix");
     uniforms[UNIFORM_CAMERAFACING_VEC4] = glGetUniformLocation(programObject, "cameraFacing");
     uniforms[UNIFORM_CAMERAPOS_VEC4] = glGetUniformLocation(programObject, "cameraPos");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(programObject, "normalMatrix");
@@ -239,12 +243,14 @@ void Renderer::update(){
     //set up perspective matrix for later use with displaying things.
     float aspectRatio = (float)targetView.drawableWidth / (float)targetView.drawableHeight;
     perspective = GLKMatrix4MakePerspective(60.0f * M_PI / 180.0f, aspectRatio, 1.0f, 200.0f);
-    
+    glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MATRIX], 1, FALSE, (const float*)perspective.m);
+
     //this is more efficient than recalculating it every time
     view = getViewMatrix();
     
     glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], view.m03, view.m13, view.m23, 0);// I think this is right?
     glUniform4f(uniforms[UNIFORM_CAMERAPOS_VEC4], camPos.x, camPos.y, camPos.z, 1);
+    glUniformMatrix4fv(uniforms[UNIFORM_VIEW_MATRIX], 1, FALSE, (const float*)view.m);
 
     //Clear the screen - done once per frame so that when objects are done all of them remain until the next frame. Stencil isn't used so we don't touch it.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -259,20 +265,22 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     model = GLKMatrix4Rotate(model, rot.y, 0, 1, 0);
     model = GLKMatrix4Rotate(model, rot.z, 0, 0, 1);
     model = GLKMatrix4ScaleWithVector3(model, scale);
-    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, FALSE, (const float*)model.m);
+
     GLKMatrix4 rotMat;
     rotMat = GLKMatrix4Rotate(GLKMatrix4Identity, rot.x, 1, 0, 0);
     rotMat = GLKMatrix4Rotate(rotMat, rot.y, 0, 1, 0);
     rotMat = GLKMatrix4Rotate(rotMat, rot.z, 0, 0, 1);
 
-    glUniformMatrix4fv(uniforms[UNIFORM_ROTATION_MATRIX], 1, FALSE, (const float*)rotMat.m);
+//    glUniformMatrix4fv(uniforms[UNIFORM_ROTATION_MATRIX], 1, FALSE, (const float*)rotMat.m);
     
     bool invertFlag;
     
-    GLKMatrix4 normalMatrix = GLKMatrix4InvertAndTranspose(model, &invertFlag);
     GLKMatrix4 mvp = GLKMatrix4Multiply(view, model);
     mvp = GLKMatrix4Multiply(perspective, mvp);
     
+    GLKMatrix4 normalMatrix = GLKMatrix4Transpose(GLKMatrix4Invert(model, &invertFlag));
+
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, FALSE, (const float*)mvp.m);
     glUniformMatrix4fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, FALSE, (const float*)normalMatrix.m);
         
