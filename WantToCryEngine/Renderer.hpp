@@ -49,8 +49,6 @@ private:
     GLKView* targetView;
     GLuint programObject;
     GLuint nextTexture;
-//    std::map<std::string, GeometryObject> models;
-//    std::map<std::string, GLuint> textures;
     GLKMatrix4 perspective;
     GLKMatrix4 view;
     float* posBuffer;

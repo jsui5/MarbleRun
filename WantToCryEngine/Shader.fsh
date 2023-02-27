@@ -87,30 +87,42 @@ vec3 LightFromSource(Light light){
         return vec3(0, 0, 0);
     }
     float specPower = 1.0f;
-    if(light.type == 0){
+    if(light.type == 0){ //directional light
         if(length(light.direction) == 0.0f){
             return vec3(0, 0, 0);
         }
         vec3 lightDir = normalize(-light.direction);
         return SpecularDiffuse(specPower, light.color, lightDir) * light.power;
-    } else if(light.type == 1){
-        
+    } else if(light.type == 1){ //point light
         float dist = length(light.position - v_pos);
-                
         if((light.distanceLimit >= 0.0f && dist > light.distanceLimit) || (light.attenuationZeroDistance >= 0.0f && dist >= light.attenuationZeroDistance)){
             return vec3(0, 0, 0);
         }
-        
         vec3 lightDir = normalize(light.position - v_pos);
-        
-        
         vec3 result = SpecularDiffuse(specPower, light.color, lightDir);
-        
         if(light.attenuationZeroDistance > 0.0f){
             result *= 1.0f - dist/light.attenuationZeroDistance;
         }
-        
         return result * light.power;
+    } else if(light.type == 2){ //spot light
+        float dist = length(light.position - v_pos);
+        if(length(light.direction) == 0.0f ||
+           (light.distanceLimit >= 0.0f && dist > light.distanceLimit) ||
+           (light.attenuationZeroDistance >= 0.0f && dist >= light.attenuationZeroDistance) ||
+           light.angle <= 0.0f){
+            return vec3(0, 0, 0);
+        }
+        vec3 lightDir = normalize(light.position - v_pos);
+        if(acos(dot(lightDir, light.direction)) > light.angle){
+            return vec3(0, 0, 0);
+        }
+        vec3 result = SpecularDiffuse(specPower, light.color, lightDir);
+        if(light.attenuationZeroDistance > 0.0f){
+            result *= 1.0f - dist/light.attenuationZeroDistance;
+        }
+        return result * light.power;
+    } else {
+        return vec3(0, 0, 0);
     }
 }
 

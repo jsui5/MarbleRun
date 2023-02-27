@@ -36,6 +36,7 @@ private:
     bool fogActive;
     bool firstUpdated;
     void FirstUpdate();
+    GLKVector3 rotToDir(const GLKVector3& rot);
 };
 
 

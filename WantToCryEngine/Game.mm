@@ -8,6 +8,7 @@
 #include "Game.hpp"
 
 Game::Game(GLKView* view){
+    //basic setup
     NSBundle* bundleName = [NSBundle mainBundle];
     NSString* nspath = [bundleName bundlePath];
     NSString* nspathAppended = [nspath stringByAppendingString: @"/"];
@@ -19,6 +20,7 @@ Game::Game(GLKView* view){
     objects = std::map<std::string, GameObject>();
     textures = std::map<std::string, GLuint>();
     
+    //renderer setup
     renderer = Renderer();
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
@@ -32,11 +34,12 @@ Game::Game(GLKView* view){
     CGImageRef img2 = [UIImage imageNamed:[nspathAppended stringByAppendingString: @"tile.jpg"]].CGImage;
     textures["tile"] = renderer.loadTexture(img2);
     
-    
+    //Load models
 //    models["helmet"] = WavefrontLoader::ReadFile(resourcePath + "halo_reach_grenadier.obj");
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     models["cube"] = WavefrontLoader::ReadFile(resourcePath + "cube.obj");
     
+    //Create game objects
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["static"].geometry = models["cube"];
     objects["static"].textureIndex = textures["test"];
@@ -112,19 +115,23 @@ void Game::FirstUpdate(){
 }
 
 void Game::Update(){
+    //Deal with FirstUpdate
     if(!firstUpdated){
         FirstUpdate();
         firstUpdated = true;
     }
+    
+    //Per-frame events - here, a spotlight attached to the camera has its position changed.
     Light l = Light();
     
-    l.type = 1;
+    l.type = 2;
     l.color = GLKVector3{0.2, 0.2, 1};
-    l.direction = GLKVector3{0, 0, 0};
+    l.direction = rotToDir(renderer.camRot);
     l.position = renderer.camPos;
     l.power = 1;
     l.attenuationZeroDistance = 15;
     l.distanceLimit = 10;
+    l.angle = 0.25;
     
     renderer.setLight(1, l);
 
@@ -132,6 +139,7 @@ void Game::Update(){
 }
 
 void Game::DrawCall(CGRect* drawArea){
+    //Issue draw calls for each of the game objects to the renderer.
     for(auto i : objects){
         if(i.second.geometry.indices.size() > 3){
             renderer.drawGeometryObject(i.second.geometry, i.second.transform.position, i.second.transform.rotation, i.second.transform.scale, i.second.textureIndex, i.second.color, drawArea);
@@ -170,4 +178,12 @@ void Game::EventDoubleTap(){
         renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
         fogActive = true;
     }
+}
+
+GLKVector3 Game::rotToDir(const GLKVector3& rot){
+    GLKMatrix3 rotor = GLKMatrix3MakeYRotation(rot.y);
+    rotor = GLKMatrix3RotateX(rotor, rot.x);
+    rotor = GLKMatrix3RotateZ(rotor, rot.z);
+    
+    return GLKMatrix3MultiplyVector3(rotor, GLKVector3{0, 0, 1});
 }

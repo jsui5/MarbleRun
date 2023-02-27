@@ -180,17 +180,6 @@ GLuint Renderer::loadGLProgram(char* vertexShaderSource, char* fragShaderSource)
     return resultProgram;
 }
 
-/*
-void Renderer::loadModel(const std::string& path, const std::string& refName){
-    if(models.contains(refName)){
-        std::cerr << "Model called " << refName << " already loaded. Overwriting." << std::endl;
-        models.erase(refName);
-    }
-    models[refName] = WavefrontLoader::ReadFile(resourcePath + path);
-    std::cout << "Loaded model " << path << std::endl;
-}
-*/
-
 void Renderer::setup(GLKView* view){
     //Allocate, set up, and tests the Context that will manage OpenGL ES.
     view.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
@@ -230,14 +219,9 @@ void Renderer::setup(GLKView* view){
     uniforms[UNIFORM_FOGSTART_FLOAT] = glGetUniformLocation(programObject, "fogStart");
     uniforms[UNIFORM_FOGFULL_FLOAT] = glGetUniformLocation(programObject, "fogFull");
     uniforms[UNIFORM_FOGCOLOR_VEC4] = glGetUniformLocation(programObject, "fogColor");
+    //This next one doesn't really do anything useful right now.
     uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] = glGetUniformBlockIndex(programObject, "lights");
-    
-    //set up a buffer to place the lights in it later.
-    //Since we only have one uniform buffer for now, this can be done only once.
 
-//    glGenBuffers(1, &lightsArrayBuffer);
-//    glBindBuffer(GL_UNIFORM_BUFFER, lightsArrayBuffer);
-        
     setEnvironment(15, 50, GLKVector4{0.3, 0.3, 0.4, 1});
     glEnable(GL_DEPTH_TEST); //Enable depth testing for objects to be obscured by each other
     glEnable(GL_CULL_FACE); //Enable backface culling
@@ -260,7 +244,8 @@ void Renderer::update(){
     glUniform4f(uniforms[UNIFORM_CAMERAPOS_VEC4], camPos.x, camPos.y, camPos.z, 1);
     glUniformMatrix4fv(uniforms[UNIFORM_VIEW_MATRIX], 1, FALSE, (const float*)view.m);
         
-    //Clear the screen - done once per frame so that when objects are done all of them remain until the next frame. Stencil isn't used so we don't touch it.
+    //Clear the screen - done once per frame so that when objects are done all
+    //of them remain until the next frame. Stencil isn't used so we don't touch it.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -279,8 +264,6 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     rotMat = GLKMatrix4Rotate(GLKMatrix4Identity, rot.x, 1, 0, 0);
     rotMat = GLKMatrix4Rotate(rotMat, rot.y, 0, 1, 0);
     rotMat = GLKMatrix4Rotate(rotMat, rot.z, 0, 0, 1);
-
-//    glUniformMatrix4fv(uniforms[UNIFORM_ROTATION_MATRIX], 1, FALSE, (const float*)rotMat.m);
     
     bool invertFlag;
     
@@ -292,7 +275,6 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, FALSE, (const float*)mvp.m);
     glUniformMatrix4fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, FALSE, (const float*)normalMatrix.m);
         
-//    glActiveTexture(GL_TEXTURE0 + textureIndex);
     glUniform1i(uniforms[UNIFORM_TEX_SAMPLER2D], (textureIndex));
     
     glViewport(0, 0, (int)targetView.drawableWidth, (int)targetView.drawableHeight);
@@ -399,7 +381,8 @@ void Renderer::setLight(GLuint i, Light light){
     //Something was just too off about uniform blocks for it to work.
     //I don't know why. Maybe I'll get back to it at some point but for now,
     //I have a physics exam to study for.
-    //At least I'm not calling all of these every frame.
+    //At least I'm not calling all of these every frame, but only on the frames
+    //where they're needed. (Spoiler: I need it every frame for the flashlight to work.)
         glUniform1i(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].type").data()), lights[i].type);
         glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].position").data()), lights[i].position.x, lights[i].position.y, lights[i].position.z);
         glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].color").data()), lights[i].color.x, lights[i].color.y, lights[i].color.z);
