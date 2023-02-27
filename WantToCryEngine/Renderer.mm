@@ -26,6 +26,7 @@ enum
     UNIFORM_FOGSTART_FLOAT,
     UNIFORM_FOGFULL_FLOAT,
     UNIFORM_FOGCOLOR_VEC4,
+    UNIFORM_LIGHTS_BUFFERBLOCK,
     NUM_UNIFORMS
 };
 GLint uniforms[NUM_UNIFORMS];
@@ -229,7 +230,14 @@ void Renderer::setup(GLKView* view){
     uniforms[UNIFORM_FOGSTART_FLOAT] = glGetUniformLocation(programObject, "fogStart");
     uniforms[UNIFORM_FOGFULL_FLOAT] = glGetUniformLocation(programObject, "fogFull");
     uniforms[UNIFORM_FOGCOLOR_VEC4] = glGetUniformLocation(programObject, "fogColor");
+    uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] = glGetUniformBlockIndex(programObject, "lights");
     
+    //set up a buffer to place the lights in it later.
+    //Since we only have one uniform buffer for now, this can be done only once.
+
+//    glGenBuffers(1, &lightsArrayBuffer);
+//    glBindBuffer(GL_UNIFORM_BUFFER, lightsArrayBuffer);
+        
     setEnvironment(15, 50, GLKVector4{0.3, 0.3, 0.4, 1});
     glEnable(GL_DEPTH_TEST); //Enable depth testing for objects to be obscured by each other
     glEnable(GL_CULL_FACE); //Enable backface culling
@@ -244,14 +252,14 @@ void Renderer::update(){
     float aspectRatio = (float)targetView.drawableWidth / (float)targetView.drawableHeight;
     perspective = GLKMatrix4MakePerspective(60.0f * M_PI / 180.0f, aspectRatio, 1.0f, 200.0f);
     glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MATRIX], 1, FALSE, (const float*)perspective.m);
-
+    
     //this is more efficient than recalculating it every time
     view = getViewMatrix();
     
     glUniform4f(uniforms[UNIFORM_CAMERAFACING_VEC4], view.m03, view.m13, view.m23, 0);// I think this is right?
     glUniform4f(uniforms[UNIFORM_CAMERAPOS_VEC4], camPos.x, camPos.y, camPos.z, 1);
     glUniformMatrix4fv(uniforms[UNIFORM_VIEW_MATRIX], 1, FALSE, (const float*)view.m);
-
+        
     //Clear the screen - done once per frame so that when objects are done all of them remain until the next frame. Stencil isn't used so we don't touch it.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -318,11 +326,16 @@ GLKMatrix4 Renderer::getViewMatrix(){
     GLKVector3 top = GLKMatrix4MultiplyVector3(rotor, GLKVector3{0, 1, 0});
     GLKVector3 right = GLKMatrix4MultiplyVector3(rotor, GLKVector3{1, 0, 0});
     
+    GLKVector3 antiCam = camPos;
+    antiCam.x *=-1;
+    antiCam.y *=-1;
+    antiCam.z *=-1;
+    
     GLKMatrix4 result{
         right.x, top.x, forward.x, 0,
         right.y, top.y, forward.y, 0,
         right.z, top.z, forward.z, 0,
-        GLKVector3DotProduct(right, camPos), GLKVector3DotProduct(top, camPos), GLKVector3DotProduct(forward, camPos), 1
+        GLKVector3DotProduct(right, antiCam), GLKVector3DotProduct(top, antiCam), GLKVector3DotProduct(forward, antiCam), 1
     };
     
     return result;
@@ -373,4 +386,27 @@ void Renderer::setEnvironment(float fogStartDist, float fogFullDist, const GLKVe
         glUniform1i(uniforms[UNIFORM_FOGACTIVE_BOOL], 0);
     }
     glClearColor(color.x, color.y, color.z, color.w);
+}
+
+void Renderer::setLight(GLuint i, Light light){
+    if(i >= NUM_LIGHTS){
+        return;
+    }
+    lights[i] = light;
+    
+    //This seems like an insanely terrible way of going about things.
+    //Unfortunately, it's the only one I could get working.
+    //Something was just too off about uniform blocks for it to work.
+    //I don't know why. Maybe I'll get back to it at some point but for now,
+    //I have a physics exam to study for.
+    //At least I'm not calling all of these every frame.
+        glUniform1i(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].type").data()), lights[i].type);
+        glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].position").data()), lights[i].position.x, lights[i].position.y, lights[i].position.z);
+        glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].color").data()), lights[i].color.x, lights[i].color.y, lights[i].color.z);
+        glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].direction").data()), lights[i].direction.x, lights[i].direction.y, lights[i].direction.z);
+        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].power").data()), lights[i].power);
+        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].angle").data()), lights[i].angle);
+        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].distanceLimit").data()), lights[i].distanceLimit);
+        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].attenuationZeroDistance").data()), lights[i].attenuationZeroDistance);
+
 }

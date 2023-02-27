@@ -20,6 +20,26 @@
 #include <map>
 #include "WavefrontLoader.hpp"
 
+//This needs to be a constant because GLSL can't handle variable loops
+#define NUM_LIGHTS 2
+
+struct Light{
+    //0 for directional, 1 for spot, 2 for point
+    GLint type;
+    
+    GLKVector3 position;
+    GLKVector3 direction;
+    
+    GLKVector3 color;
+    float power;
+    //spotlight angle in radians.
+    float angle;
+    //set to negative to make it unlimited.
+    float distanceLimit;
+    //attenuation is linear for now. Set to negative to disable.
+    float attenuationZeroDistance;
+};
+
 class Renderer{
 private:
     char* readShaderSource(const std::string& path);
@@ -37,6 +57,7 @@ private:
     float* normBuffer;
     float* texCoordBuffer;
     int* indexBuffer;
+    Light lights[NUM_LIGHTS];
 
 public:
     Renderer();
@@ -51,11 +72,10 @@ public:
                             const GLKVector4& color, CGRect* drawArea);
     GLuint loadTexture(CGImageRef img);
     GLKMatrix4 getViewMatrix();
-    //fogFullDist must be greater than forStartDist, or there will be no fog. Use this to turn it off.
-    //For whatever reason, fog doesn't appear until it's set a second time.
     void setEnvironment(float fogStartDist, float fogFullDist, const GLKVector4& color);
     GLKVector3 camPos;
     GLKVector3 camRot;
+    void setLight(GLuint i, Light light);
 };
 
 #endif /* Renderer_hpp */

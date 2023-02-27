@@ -34,6 +34,8 @@ public:
     void DrawCall(CGRect* drawArea);
 private:
     bool fogActive;
+    bool firstUpdated;
+    void FirstUpdate();
 };
 
 

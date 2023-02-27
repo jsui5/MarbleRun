@@ -84,13 +84,50 @@ Game::Game(GLKView* view){
     objects["victim"].geometry = models["monkey"];
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
     objects["victim"].textureIndex = textures[""];
+    
+}
 
-    //This doesn't do the fog for some reason.
-    fogActive = false;
+//It seems like the renderer needs to have cycled once for some things to work.
+//This might just be the least janky way of going about it.
+void Game::FirstUpdate(){
+    fogActive = true;
     renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
+    
+    Light l = Light();
+    
+    l.type = 0;
+    l.color = GLKVector3{1, 1, 1};
+    l.direction = GLKVector3{0.2, -1, -0.5};
+    l.power = 1;
+    
+    renderer.setLight(0, l);
+    
+    l.type = 0;
+    l.color = GLKVector3{1, 0, 0};
+    l.direction = GLKVector3{-0.5, 0, -0.5};
+    l.power = 0.25;
+    
+    renderer.setLight(1, l);
+    
 }
 
 void Game::Update(){
+    if(!firstUpdated){
+        FirstUpdate();
+        firstUpdated = true;
+    }
+    Light l = Light();
+    
+    l.type = 1;
+    l.color = GLKVector3{0.2, 0.2, 1};
+    l.direction = GLKVector3{0, 0, 0};
+    l.position = renderer.camPos;
+    l.power = 1;
+    l.attenuationZeroDistance = 15;
+    l.distanceLimit = 10;
+    
+    renderer.setLight(1, l);
+
     renderer.update();
 }
 
@@ -112,14 +149,14 @@ void Game::EventSinglePan(GLKVector2 input){
 }
 
 void Game::EventDoublePan(GLKVector2 input){
-    renderer.camPos.x += cos(renderer.camRot.y) * input.x;
-    renderer.camPos.z -= sin(renderer.camRot.y) * input.x;
-    renderer.camPos.y -= input.y;
+    renderer.camPos.x -= cos(renderer.camRot.y) * input.x;
+    renderer.camPos.z += sin(renderer.camRot.y) * input.x;
+    renderer.camPos.y += input.y;
 }
 
 void Game::EventPinch(float input){
-    renderer.camPos.z -= cos(renderer.camRot.y) * input;
-    renderer.camPos.x -= sin(renderer.camRot.y) * input;
+    renderer.camPos.z += cos(renderer.camRot.y) * input;
+    renderer.camPos.x += sin(renderer.camRot.y) * input;
 }
 
 void Game::EventDoubleTap(){
