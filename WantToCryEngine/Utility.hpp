@@ -1,13 +1,14 @@
 //
-//  Common.h
+//  Utility.hpp
 //  WantToCryEngine
 //
-//  Created by Alex on 2023-02-11.
+//  Created by Alex on 2023-03-01.
 //
 
-#ifndef Common_h
-#define Common_h
+#ifndef Utility_hpp
+#define Utility_hpp
 
+#include <stdio.h>
 #include <stdio.h>
 #include <OpenGLES/ES3/gl.h>
 #include <GLKit/GLKit.h>
@@ -17,8 +18,7 @@
 #include "WavefrontLoader.hpp"
 #include "GameObject.hpp"
 #include "GeometryObject.h"
-#include "Utility.hpp"
-#include "Renderer.hpp"
 
+GLKVector3 rotToDir(const GLKVector3& rot);
 
-#endif /* Common_h */
+#endif /* Utility_hpp */

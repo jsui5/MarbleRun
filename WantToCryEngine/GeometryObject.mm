@@ -51,3 +51,14 @@ GeometryObject GeometryObject::genPlane(){
 
     return result;
 }
+
+float GeometryObject::GetRadius() const{
+    return radius;
+}
+
+GeometryObject::GeometryObject(){
+    radius = 0;
+    for(GeometryVertex i : vertices){
+        radius = std::max(radius, GLKVector3Length(i.position));
+    }
+}

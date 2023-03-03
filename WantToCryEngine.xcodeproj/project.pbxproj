@@ -27,6 +27,7 @@
 		BE73DD4629A1EA2D0044E639 /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4529A1EA2D0044E639 /* white.jpg */; };
 		BE73DD4829A1EA3E0044E639 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4729A1EA3E0044E639 /* test.jpg */; };
 		BE73DD4A29A1EF200044E639 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4929A1EF1F0044E639 /* cube.obj */; };
+		BE9338E029B0174F0070B442 /* Utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE9338DE29B0174E0070B442 /* Utility.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,8 @@
 		BE73DD4529A1EA2D0044E639 /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = white.jpg; path = WantToCryEngine/white.jpg; sourceTree = "<group>"; };
 		BE73DD4729A1EA3E0044E639 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test.jpg; path = WantToCryEngine/test.jpg; sourceTree = "<group>"; };
 		BE73DD4929A1EF1F0044E639 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = cube.obj; path = WantToCryEngine/cube.obj; sourceTree = "<group>"; };
+		BE9338DE29B0174E0070B442 /* Utility.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Utility.mm; sourceTree = "<group>"; };
+		BE9338DF29B0174E0070B442 /* Utility.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +127,8 @@
 				BE73DD38299BF5CA0044E639 /* Game.hpp */,
 				BE73DD3A299C047F0044E639 /* GameBridge.h */,
 				BE73DD3B299C047F0044E639 /* GameBridge.mm */,
+				BE9338DE29B0174E0070B442 /* Utility.mm */,
+				BE9338DF29B0174E0070B442 /* Utility.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 			files = (
 				BE73DD39299BF5CA0044E639 /* Game.mm in Sources */,
 				BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */,
+				BE9338E029B0174F0070B442 /* Utility.mm in Sources */,
 				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,
 				BE73DD2329986A640044E639 /* WavefrontLoader.mm in Sources */,
 				BE73DD2229986A640044E639 /* GeometryObject.mm in Sources */,

@@ -251,6 +251,10 @@ void Renderer::update(){
 
 void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3 &pos, const GLKVector3 &rot, const GLKVector3 &scale, GLuint textureIndex, const GLKVector4 &color, CGRect *drawArea){
             
+    if(!ConeCheck(object, pos, 65.0f * M_PI / 180.0f)){
+        return;
+    }
+    
     int indexCount = object.loadSelfIntoBuffers(&posBuffer, &normBuffer, &texCoordBuffer, &indexBuffer);
     
     GLKMatrix4 model = GLKMatrix4TranslateWithVector3(GLKMatrix4Identity, pos);
@@ -392,4 +396,21 @@ void Renderer::setLight(GLuint i, Light light){
         glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].distanceLimit").data()), lights[i].distanceLimit);
         glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].attenuationZeroDistance").data()), lights[i].attenuationZeroDistance);
 
+}
+
+//This is essentially a simpler version of a classic frustrum check.
+//If an object is outside of the camera's view, this returns false.
+GLuint Renderer::ConeCheck(const GeometryObject& object, const GLKVector3& objPos,
+                               float halfFOV){
+    GLKVector3 toObject = GLKVector3Subtract(camPos, objPos);
+    GLKVector3 dir = GLKVector3Normalize(toObject);
+    float dist = GLKVector3Length(toObject);
+    float angle = acos(GLKVector3DotProduct(rotToDir(camRot), dir));
+    if(angle < halfFOV){
+        return FRUSTRUM_OBJECT_ORIGIN;
+    } else if(angle - atan(object.GetRadius()/dist) < halfFOV){
+        return FRUSTRUM_OBJECT_RADIUS;
+    } else {
+        return FRUSTRUM_OBJECT_OUT;
+    }
 }

@@ -29,8 +29,12 @@ class GeometryObject {
 public:
     std::vector<GeometryVertex> vertices;
     std::vector<u_int> indices;
+    GeometryObject();
     int loadSelfIntoBuffers(float** pos, float** norm, float** texCoord, int** ind) const;
     static GeometryObject genPlane();
+    float GetRadius() const;
+private:
+    float radius;
 };
 
 #endif /* GeometryObject_h */

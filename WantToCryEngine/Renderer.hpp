@@ -23,6 +23,11 @@
 //This needs to be a constant because GLSL can't handle variable loops
 #define NUM_LIGHTS 2
 
+//Frustrum check values. Styled after what I presume GLKit does.
+#define FRUSTRUM_OBJECT_OUT 0
+#define FRUSTRUM_OBJECT_RADIUS 1
+#define FRUSTRUM_OBJECT_ORIGIN 2
+
 struct Light{
     //0 for directional, 1 for spot, 2 for point
     GLint type;
@@ -45,6 +50,9 @@ private:
     char* readShaderSource(const std::string& path);
     GLuint loadShader(GLenum shaderType, char* shaderSource);
     GLuint loadGLProgram(char* vertexShaderSource, char* fragShaderSource);
+    //returns FRUSTRUM_OBJECT_OUT if not visible, FRUSTRUM_OBJECT_RADIUS if radius visible, FRUSTRUM_OBJECT_ORIGIN if origin visible.
+    GLuint ConeCheck(const GeometryObject& object, const GLKVector3& objPos,
+                         float halfFOV);    
     std::string resourcePath;
     GLKView* targetView;
     GLuint programObject;
