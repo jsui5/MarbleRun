@@ -47,7 +47,7 @@ GeometryObject GeometryObject::genPlane(){
 
     result.vertices = std::vector<GeometryVertex>{ v1, v2, v3, v4, v5, v6, v7, v8};
     
-    result.indices = std::vector<u_int>{0, 1, 2, 0, 3, 1, 4, 5, 6, 4, 7, 5};
+    result.indices = std::vector<int>{0, 1, 2, 0, 3, 1, 4, 5, 6, 4, 7, 5};
 
     return result;
 }

@@ -22,7 +22,7 @@ GeometryObject WavefrontLoader::ReadFile(const std::string& path) {
     std::vector<GLKVector2> texCoords{};
     std::vector<GLKVector3> normals{};
 
-    std::vector<u_int> indeces{};
+    std::vector<int> indeces{};
 
     std::string currentLine;
     while (std::getline(fin, currentLine, '\n'))
@@ -79,7 +79,7 @@ GeometryObject WavefrontLoader::ReadFile(const std::string& path) {
             verts.at(verts.size() - 1).texCoord = texCoords.at(std::stoi(v1s) - 1);
             std::getline(elem1, v1s, '/');
             verts.at(verts.size() - 1).normal = normals.at(std::stoi(v1s) - 1);
-            indeces.push_back(static_cast<u_int>(verts.size() - 1));
+            indeces.push_back(static_cast<int>(verts.size() - 1));
 
             std::string v2s;
             std::getline(elem2, v2s, '/');
@@ -89,7 +89,7 @@ GeometryObject WavefrontLoader::ReadFile(const std::string& path) {
             verts.at(verts.size() - 1).texCoord = texCoords.at(std::stoi(v2s) - 1);
             std::getline(elem2, v2s, '/');
             verts.at(verts.size() - 1).normal = normals.at(std::stoi(v2s) - 1);
-            indeces.push_back(static_cast<u_int>(verts.size() - 1));
+            indeces.push_back(static_cast<int>(verts.size() - 1));
 
             std::string v3s;
             std::getline(elem3, v3s, '/');
@@ -99,7 +99,7 @@ GeometryObject WavefrontLoader::ReadFile(const std::string& path) {
             verts.at(verts.size() - 1).texCoord = texCoords.at(std::stoi(v3s) - 1);
             std::getline(elem3, v3s, '/');
             verts.at(verts.size() - 1).normal = normals.at(std::stoi(v3s) - 1);
-            indeces.push_back(static_cast<u_int>(verts.size() - 1));
+            indeces.push_back(static_cast<int>(verts.size() - 1));
         }
     }
 

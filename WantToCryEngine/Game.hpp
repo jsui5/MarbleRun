@@ -16,6 +16,7 @@ public:
     std::string resourcePath;
     //these are used to store models, texture indices, and gameobjects in an easily accessible way.
     std::map<std::string, GeometryObject> models;
+    std::map<std::string, PreloadedGeometryObject> loadedGeometry;
     std::map<std::string, GLuint> textures;
     std::map<std::string, GameObject> objects;
     Renderer renderer;

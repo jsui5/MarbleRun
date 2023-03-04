@@ -11,6 +11,7 @@
 #include <OpenGLES/ES3/gl.h>
 #include <GLKit/GLKit.h>
 #include "WavefrontLoader.hpp"
+#include "PreloadedGeometryObject.hpp"
 
 struct Transform{
     GLKVector3 position;
@@ -34,6 +35,7 @@ public:
     GameObject(GLKVector3 pos, GLKVector3 rot, GLKVector3 scale):
         transform(pos, rot, scale), color{1, 1, 1, 1}{}
     GLuint textureIndex;
+    PreloadedGeometryObject preloadedGeometry;
 };
 
 #endif /* GameObject_hpp */

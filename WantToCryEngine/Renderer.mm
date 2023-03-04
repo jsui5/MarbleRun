@@ -249,12 +249,21 @@ void Renderer::update(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+//The upgrade to VAOs has effectively made this unusable. I couldn't figure out why for sure,
+//but it seems that binding VBOs makes the default VBO 0 unusable (in full accordance with
+//the specification). The only thing that makes me question if that is really the problem
+//is that as far as I can tell, it shouldn't have ever worked in the first place.
+//If the need arises, it should be possible to allocate a dedicated VAO for things that change
+//and have it work similar to this, but it's not good practice anyway so I'm just not going
+//to upload anything every frame unless I really need to.
+//Old function is left for posterity and/or reference. Until I get tired of this huge comment.
+/*
 void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3 &pos, const GLKVector3 &rot, const GLKVector3 &scale, GLuint textureIndex, const GLKVector4 &color, CGRect *drawArea){
             
     if(!ConeCheck(object, pos, 65.0f * M_PI / 180.0f)){
         return;
     }
-    
+        
     int indexCount = object.loadSelfIntoBuffers(&posBuffer, &normBuffer, &texCoordBuffer, &indexBuffer);
     
     GLKMatrix4 model = GLKMatrix4TranslateWithVector3(GLKMatrix4Identity, pos);
@@ -293,6 +302,8 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
 
     glVertexAttrib4fv(ATTRIB_COLOR, color.v);
     
+    std::cout << posBuffer[0] << " " << normBuffer[0] << " " << texCoordBuffer[0] << " " << indexBuffer[0] << std::endl;
+    
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, indexBuffer);
     
     free(posBuffer);
@@ -301,6 +312,50 @@ void Renderer::drawGeometryObject(const GeometryObject &object, const GLKVector3
     free(indexBuffer);
 
 }
+*/
+
+void Renderer::drawVAO(GLuint vao, const std::vector<int>& indeces, float radius,
+                       const GLKVector3& pos, const GLKVector3& rot, const GLKVector3& scale,
+                       GLuint textureIndex, const GLKVector4& color, CGRect* drawArea){
+    
+    if(!ConeCheck(radius, pos, 65.0f * M_PI / 180.0f)){
+        return;
+    }
+    
+    glBindVertexArray(vao);
+        
+    GLKMatrix4 model = GLKMatrix4TranslateWithVector3(GLKMatrix4Identity, pos);
+    model = GLKMatrix4Rotate(model, rot.x, 1, 0, 0);
+    model = GLKMatrix4Rotate(model, rot.y, 0, 1, 0);
+    model = GLKMatrix4Rotate(model, rot.z, 0, 0, 1);
+    model = GLKMatrix4ScaleWithVector3(model, scale);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, FALSE, (const float*)model.m);
+
+    GLKMatrix4 rotMat;
+    rotMat = GLKMatrix4Rotate(GLKMatrix4Identity, rot.x, 1, 0, 0);
+    rotMat = GLKMatrix4Rotate(rotMat, rot.y, 0, 1, 0);
+    rotMat = GLKMatrix4Rotate(rotMat, rot.z, 0, 0, 1);
+    
+    bool invertFlag;
+    
+    GLKMatrix4 mvp = GLKMatrix4Multiply(view, model);
+    mvp = GLKMatrix4Multiply(perspective, mvp);
+    
+    GLKMatrix4 normalMatrix = GLKMatrix4Transpose(GLKMatrix4Invert(model, &invertFlag));
+
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, FALSE, (const float*)mvp.m);
+    glUniformMatrix4fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, FALSE, (const float*)normalMatrix.m);
+        
+    glUniform1i(uniforms[UNIFORM_TEX_SAMPLER2D], (textureIndex));
+    
+    glViewport(0, 0, (int)targetView.drawableWidth, (int)targetView.drawableHeight);
+    glUseProgram(programObject);
+    
+    glVertexAttrib4f(ATTRIB_COLOR, color.x, color.y, color.z, color.w);
+    
+    glDrawElements(GL_TRIANGLES, indeces.size(), GL_UNSIGNED_INT, indeces.data());
+}
+
 
 //This is responsible for making the camera mobile.
 GLKMatrix4 Renderer::getViewMatrix(){
@@ -400,7 +455,7 @@ void Renderer::setLight(GLuint i, Light light){
 
 //This is essentially a simpler version of a classic frustrum check.
 //If an object is outside of the camera's view, this returns false.
-GLuint Renderer::ConeCheck(const GeometryObject& object, const GLKVector3& objPos,
+GLuint Renderer::ConeCheck(float radius, const GLKVector3& objPos,
                                float halfFOV){
     GLKVector3 toObject = GLKVector3Subtract(camPos, objPos);
     GLKVector3 dir = GLKVector3Normalize(toObject);
@@ -408,9 +463,50 @@ GLuint Renderer::ConeCheck(const GeometryObject& object, const GLKVector3& objPo
     float angle = acos(GLKVector3DotProduct(rotToDir(camRot), dir));
     if(angle < halfFOV){
         return FRUSTRUM_OBJECT_ORIGIN;
-    } else if(angle - atan(object.GetRadius()/dist) < halfFOV){
+    } else if(angle - atan(radius/dist) < halfFOV){
         return FRUSTRUM_OBJECT_RADIUS;
     } else {
         return FRUSTRUM_OBJECT_OUT;
     }
+}
+
+GLuint Renderer::loadGeometryVAO(const GeometryObject& geo){
+    //Grab a fresh VAO
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    //Bind it to perform operations on it.
+    glBindVertexArray(vao);
+    
+    //The vertex buffer object here will store ALL vertex data, unlike a
+    //basic object draw. It's memory arrangement is an array of structs.
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    //The whole vertices list of a GeometryObject goes straight in this VBO.
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GeometryVertex) * geo.vertices.size(), geo.vertices.data(), GL_STATIC_DRAW);
+
+    //Now, the Vertex Attributes need to be set and enabled.
+    //They describe the structure of the data that is being passed in.
+    
+    //The stride is measured between each beginning of the same attribute, which means it's
+    //equal to the size of the struct we're storing.
+    int sizeOfVertex = sizeof(GeometryVertex);
+    
+    //The last parameter is essentially the starting index of the first instance
+    //of this attribute. For attribute 0, it's the very beginning of the buffer.
+    glVertexAttribPointer(ATTRIB_POS, 3, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)0);
+    glEnableVertexAttribArray(ATTRIB_POS);
+    //For each successive attribute, it increases according to the structure we stored.
+    glVertexAttribPointer(ATTRIB_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(ATTRIB_NORMAL);
+    glVertexAttribPointer(ATTRIB_TEXCOORD, 3, GL_FLOAT, GL_FALSE, sizeOfVertex, (void*)(2 * 3 * sizeof(float)));
+    glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+
+    //There is no color attribute here. That's because it's done on a
+    //per-draw basis to allow different objects to have different colors with the same
+    //geometry.
+    
+    std::cout << "Loaded new VAO, index = " << vao << std::endl;
+    
+    return vao;
 }

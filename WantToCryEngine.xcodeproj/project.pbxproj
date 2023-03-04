@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */; };
 		BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD03299720C70044E639 /* AppDelegate.swift */; };
 		BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD05299720C70044E639 /* SceneDelegate.swift */; };
 		BE73DD08299720C70044E639 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD07299720C70044E639 /* ViewController.swift */; };
@@ -31,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreloadedGeometryObject.mm; sourceTree = "<group>"; };
+		BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PreloadedGeometryObject.hpp; sourceTree = "<group>"; };
 		BE73DD00299720C70044E639 /* WantToCryEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WantToCryEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE73DD03299720C70044E639 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE73DD05299720C70044E639 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				BE73DD3B299C047F0044E639 /* GameBridge.mm */,
 				BE9338DE29B0174E0070B442 /* Utility.mm */,
 				BE9338DF29B0174E0070B442 /* Utility.hpp */,
+				BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */,
+				BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -221,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE73DD39299BF5CA0044E639 /* Game.mm in Sources */,
+				BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */,
 				BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */,
 				BE9338E029B0174F0070B442 /* Utility.mm in Sources */,
 				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,

@@ -51,7 +51,7 @@ private:
     GLuint loadShader(GLenum shaderType, char* shaderSource);
     GLuint loadGLProgram(char* vertexShaderSource, char* fragShaderSource);
     //returns FRUSTRUM_OBJECT_OUT if not visible, FRUSTRUM_OBJECT_RADIUS if radius visible, FRUSTRUM_OBJECT_ORIGIN if origin visible.
-    GLuint ConeCheck(const GeometryObject& object, const GLKVector3& objPos,
+    GLuint ConeCheck(float radius, const GLKVector3& objPos,
                          float halfFOV);    
     std::string resourcePath;
     GLKView* targetView;
@@ -69,14 +69,21 @@ public:
     Renderer();
     ~Renderer();
     void setup(GLKView* view);
-    void loadModel(const std::string& path, const std::string& refName);
     void update();
     void drawModel(const std::string& refName, const GLKVector3& pos,
                    const GLKVector3& rot, CGRect* drawArea);
+    /*
     void drawGeometryObject(const GeometryObject& object,
-                            const GLKVector3& pos, const GLKVector3& rot, const GLKVector3& scale, GLuint textureIndex,
+                            const GLKVector3& pos, const GLKVector3& rot,
+                            const GLKVector3& scale, GLuint textureIndex,
                             const GLKVector4& color, CGRect* drawArea);
+     */
+    void drawVAO(GLuint vao, const std::vector<int>& indeces, float radius,
+                 const GLKVector3& pos, const GLKVector3& rot,
+                 const GLKVector3& scale, GLuint textureIndex,
+                 const GLKVector4& color, CGRect* drawArea);
     GLuint loadTexture(CGImageRef img);
+    GLuint loadGeometryVAO(const GeometryObject& geo);
     GLKMatrix4 getViewMatrix();
     void setEnvironment(float fogStartDist, float fogFullDist, const GLKVector4& color);
     GLKVector3 camPos;

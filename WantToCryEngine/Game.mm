@@ -38,53 +38,55 @@ Game::Game(GLKView* view){
 //    models["helmet"] = WavefrontLoader::ReadFile(resourcePath + "halo_reach_grenadier.obj");
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     models["cube"] = WavefrontLoader::ReadFile(resourcePath + "cube.obj");
+    //load models into reusable VAOs
+    for(auto i : models){
+        loadedGeometry[i.first] = PreloadedGeometryObject(renderer.loadGeometryVAO(i.second), models[i.first].GetRadius(), models[i.first].indices);
+    }
     
     //Create game objects
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["static"].geometry = models["cube"];
+    objects["static"].preloadedGeometry = loadedGeometry["cube"];
     objects["static"].textureIndex = textures["test"];
 
-    /*
     for(int i = 0; i <= 100; i++){
         std::string wb = std::string("wallblock").append(std::to_string(i));
         objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
-        objects[wb].geometry = models["cube"];
+        objects[wb].preloadedGeometry = loadedGeometry["cube"];
         objects[wb].textureIndex = textures["tile"];
     }
-    */
     
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["bottom"].geometry = models["monkey"];
+    objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
     objects["bottom"].color = GLKVector4{0, 0, .25, 1};
     objects["bottom"].textureIndex = textures[""];
 
     objects["top"] = GameObject(GLKVector3{0, 5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["top"].geometry = models["monkey"];
+    objects["top"].preloadedGeometry = loadedGeometry["monkey"];
     objects["top"].color = GLKVector4{.5, .5, 0, 1};
     objects["top"].textureIndex = textures[""];
 
     objects["left"] = GameObject(GLKVector3{-5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["left"].geometry = models["monkey"];
+    objects["left"].preloadedGeometry = loadedGeometry["monkey"];
     objects["left"].color = GLKVector4{1, 0, 0, 1};
     objects["left"].textureIndex = textures[""];
 
     objects["far"] = GameObject(GLKVector3{-15, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["far"].geometry = models["monkey"];
+    objects["far"].preloadedGeometry = loadedGeometry["monkey"];
     objects["far"].color = GLKVector4{1, 0, 0, 1};
     objects["far"].textureIndex = textures[""];
     
     objects["right"] = GameObject(GLKVector3{5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["right"].geometry = models["monkey"];
+    objects["right"].preloadedGeometry = loadedGeometry["monkey"];
     objects["right"].color = GLKVector4{0, 1, 0, 1};
     objects["right"].textureIndex = textures["tile"];
 
     objects["back"] = GameObject(GLKVector3{0, 0, 5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["back"].geometry = models["monkey"];
+    objects["back"].preloadedGeometry = loadedGeometry["monkey"];
     objects["back"].color = GLKVector4{.5, 0, .5, 1};
     objects["back"].textureIndex = textures["tile"];
 
     objects["victim"] =  GameObject(GLKVector3{0, 1, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
-    objects["victim"].geometry = models["monkey"];
+    objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
     objects["victim"].textureIndex = textures[""];
     
@@ -141,8 +143,13 @@ void Game::Update(){
 void Game::DrawCall(CGRect* drawArea){
     //Issue draw calls for each of the game objects to the renderer.
     for(auto i : objects){
-        if(i.second.geometry.indices.size() > 3){
-            renderer.drawGeometryObject(i.second.geometry, i.second.transform.position, i.second.transform.rotation, i.second.transform.scale, i.second.textureIndex, i.second.color, drawArea);
+        if(i.second.preloadedGeometry.vao){
+            renderer.drawVAO(i.second.preloadedGeometry.vao,
+                             i.second.preloadedGeometry.indices,
+                             i.second.preloadedGeometry.radius,
+                             i.second.transform.position, i.second.transform.rotation,
+                             i.second.transform.scale, i.second.textureIndex,
+                             i.second.color, drawArea);
         }
     }
 }

@@ -28,7 +28,7 @@ struct GeometryVertex {
 class GeometryObject {
 public:
     std::vector<GeometryVertex> vertices;
-    std::vector<u_int> indices;
+    std::vector<int> indices;
     GeometryObject();
     int loadSelfIntoBuffers(float** pos, float** norm, float** texCoord, int** ind) const;
     static GeometryObject genPlane();
