@@ -250,7 +250,7 @@ void Renderer::update(){
 }
 
 //The upgrade to VAOs has effectively made this unusable. I couldn't figure out why for sure,
-//but it seems that binding VBOs makes the default VBO 0 unusable (in full accordance with
+//but it seems that binding VAOs makes the default VAO 0 unusable (in full accordance with
 //the specification). The only thing that makes me question if that is really the problem
 //is that as far as I can tell, it shouldn't have ever worked in the first place.
 //If the need arises, it should be possible to allocate a dedicated VAO for things that change
