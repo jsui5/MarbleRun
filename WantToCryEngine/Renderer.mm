@@ -219,9 +219,10 @@ void Renderer::setup(GLKView* view){
     uniforms[UNIFORM_FOGSTART_FLOAT] = glGetUniformLocation(programObject, "fogStart");
     uniforms[UNIFORM_FOGFULL_FLOAT] = glGetUniformLocation(programObject, "fogFull");
     uniforms[UNIFORM_FOGCOLOR_VEC4] = glGetUniformLocation(programObject, "fogColor");
-    //This next one doesn't really do anything useful right now.
-    uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] = glGetUniformBlockIndex(programObject, "lights");
-
+    //As suspected, uniform array-of-struct items seem to store components contigiously.
+    //This means we *can* avoid getting the position of each light struct item separately.
+    uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] = glGetUniformLocation(programObject, "lights[0].type");
+    
     setEnvironment(15, 50, GLKVector4{0.3, 0.3, 0.4, 1});
     glEnable(GL_DEPTH_TEST); //Enable depth testing for objects to be obscured by each other
     glEnable(GL_CULL_FACE); //Enable backface culling
@@ -434,22 +435,21 @@ void Renderer::setLight(GLuint i, Light light){
         return;
     }
     lights[i] = light;
-    
-    //This seems like an insanely terrible way of going about things.
-    //Unfortunately, it's the only one I could get working.
-    //Something was just too off about uniform blocks for it to work.
-    //I don't know why. Maybe I'll get back to it at some point but for now,
-    //I have a physics exam to study for.
-    //At least I'm not calling all of these every frame, but only on the frames
-    //where they're needed. (Spoiler: I need it every frame for the flashlight to work.)
-        glUniform1i(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].type").data()), lights[i].type);
-        glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].position").data()), lights[i].position.x, lights[i].position.y, lights[i].position.z);
-        glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].color").data()), lights[i].color.x, lights[i].color.y, lights[i].color.z);
-        glUniform3f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].direction").data()), lights[i].direction.x, lights[i].direction.y, lights[i].direction.z);
-        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].power").data()), lights[i].power);
-        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].angle").data()), lights[i].angle);
-        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].distanceLimit").data()), lights[i].distanceLimit);
-        glUniform1f(glGetUniformLocation(programObject, ("lights[" + std::to_string(i) + "].attenuationZeroDistance").data()), lights[i].attenuationZeroDistance);
+        
+    //Array-of-struct uniforms store members contigiously. This means we don't have to
+    //store all the locations, only the first one.
+    glUniform1i(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8), lights[i].type);
+    glUniform3f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 1,
+                lights[i].position.x, lights[i].position.y, lights[i].position.z);
+    glUniform3f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 2,
+                lights[i].direction.x, lights[i].direction.y, lights[i].direction.z);
+    glUniform3f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 3,
+                lights[i].color.x, lights[i].color.y, lights[i].color.z);
+    glUniform1f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 4, lights[i].power);
+    glUniform1f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 5, lights[i].angle);
+    glUniform1f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 6, lights[i].distanceLimit);
+    glUniform1f(uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] + (i * 8) + 7,
+                lights[i].attenuationZeroDistance);
 
 }
 
