@@ -33,8 +33,10 @@ public:
     void Update();
     //This is a bridge to the Renderer.
     void DrawCall(CGRect* drawArea);
+    void ToggleDayNight();
 private:
     bool fogActive;
+    bool isNight;
     bool firstUpdated;
     void FirstUpdate();
 };

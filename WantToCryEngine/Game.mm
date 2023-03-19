@@ -48,12 +48,14 @@ Game::Game(GLKView* view){
     objects["static"].preloadedGeometry = loadedGeometry["cube"];
     objects["static"].textureIndex = textures["test"];
 
+    /*
     for(int i = 0; i <= 100; i++){
         std::string wb = std::string("wallblock").append(std::to_string(i));
         objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
         objects[wb].preloadedGeometry = loadedGeometry["cube"];
         objects[wb].textureIndex = textures["tile"];
     }
+     */
     
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
@@ -138,6 +140,15 @@ void Game::Update(){
     renderer.setLight(1, l);
 
     renderer.update();
+}
+
+void Game::ToggleDayNight() {
+    isNight = !isNight;
+    if (isNight) {
+        renderer.setAmbientLight(0.0);
+    } else {
+        renderer.setAmbientLight(1.0);
+    }
 }
 
 void Game::DrawCall(CGRect* drawArea){

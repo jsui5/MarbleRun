@@ -54,6 +54,18 @@ class ViewController: GLKViewController {
         doubleTap.numberOfTapsRequired = 2;
         view.addGestureRecognizer(doubleTap);
 
+        // Toggle Light
+        let toggleLightButton = UIButton();
+        toggleLightButton.setTitle("Toggle Day/Night", for: UIControl.State.normal);
+        toggleLightButton.frame = CGRect(x: 50, y: view.frame.height - 100, width: 150, height: 50);
+        toggleLightButton
+            .backgroundColor = UIColor.red;
+        toggleLightButton.addTarget(self, action: #selector(self.toggleLight), for: .touchUpInside);
+        view.addSubview(toggleLightButton);
+    }
+    
+    @objc func toggleLight(_sender: UIButton) {
+        ToggleDayNight(game);
     }
     
     @objc func doDrag(_ sender: UIPanGestureRecognizer){

@@ -35,3 +35,7 @@ extern "C" void GameEventPinch(struct Game* inThis, float input){
 extern "C" void GameEventDoubleTap(struct Game* inThis){
     inThis->EventDoubleTap();
 }
+
+extern "C" void ToggleDayNight(struct Game* inThis) {
+    inThis->ToggleDayNight();
+}
