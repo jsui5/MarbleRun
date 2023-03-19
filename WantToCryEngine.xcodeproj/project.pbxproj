@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		695EA74029C6D86A00D5EB93 /* newWall.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 695EA73F29C6D86A00D5EB93 /* newWall.jpeg */; };
-		695EA74229C6DA9500D5EB93 /* maze.obj in Resources */ = {isa = PBXBuildFile; fileRef = 695EA74129C6DA9500D5EB93 /* maze.obj */; };
 		BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */; };
 		BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD03299720C70044E639 /* AppDelegate.swift */; };
 		BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD05299720C70044E639 /* SceneDelegate.swift */; };
@@ -34,8 +32,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		695EA73F29C6D86A00D5EB93 /* newWall.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = newWall.jpeg; path = WantToCryEngine/newWall.jpeg; sourceTree = "<group>"; };
-		695EA74129C6DA9500D5EB93 /* maze.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = maze.obj; path = WantToCryEngine/maze.obj; sourceTree = "<group>"; };
 		BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreloadedGeometryObject.mm; sourceTree = "<group>"; };
 		BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PreloadedGeometryObject.hpp; sourceTree = "<group>"; };
 		BE73DD00299720C70044E639 /* WantToCryEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WantToCryEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,8 +84,6 @@
 		BE73DCF7299720C70044E639 = {
 			isa = PBXGroup;
 			children = (
-				695EA74129C6DA9500D5EB93 /* maze.obj */,
-				695EA73F29C6D86A00D5EB93 /* newWall.jpeg */,
 				BE73DD4929A1EF1F0044E639 /* cube.obj */,
 				BE73DD4729A1EA3E0044E639 /* test.jpg */,
 				BE73DD4529A1EA2D0044E639 /* white.jpg */,
@@ -113,33 +107,33 @@
 		BE73DD02299720C70044E639 /* WantToCryEngine */ = {
 			isa = PBXGroup;
 			children = (
-				BE73DD17299726550044E639 /* Shader.fsh */,
-				BE73DD2E29988C7B0044E639 /* Common.h */,
-				BE73DD3A299C047F0044E639 /* GameBridge.h */,
 				BE73DD1F29986A640044E639 /* GeometryObject.h */,
-				BE73DD1D29986A630044E639 /* WantToCryEngine-Bridging-Header.h */,
-				BE73DD38299BF5CA0044E639 /* Game.hpp */,
-				BE73DD2B29988B780044E639 /* GameObject.hpp */,
-				BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */,
-				BE73DD2529986B7C0044E639 /* Renderer.hpp */,
-				BE9338DF29B0174E0070B442 /* Utility.hpp */,
-				BE73DD2029986A640044E639 /* WavefrontLoader.hpp */,
-				BE73DD37299BF5CA0044E639 /* Game.mm */,
-				BE73DD3B299C047F0044E639 /* GameBridge.mm */,
-				BE73DD2A29988B780044E639 /* GameObject.mm */,
 				BE73DD1E29986A640044E639 /* GeometryObject.mm */,
-				BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */,
-				BE73DD2429986B7C0044E639 /* Renderer.mm */,
-				BE9338DE29B0174E0070B442 /* Utility.mm */,
+				BE73DD2029986A640044E639 /* WavefrontLoader.hpp */,
 				BE73DD2129986A640044E639 /* WavefrontLoader.mm */,
-				BE73DD11299720D70044E639 /* Info.plist */,
 				BE73DD03299720C70044E639 /* AppDelegate.swift */,
 				BE73DD05299720C70044E639 /* SceneDelegate.swift */,
 				BE73DD07299720C70044E639 /* ViewController.swift */,
-				BE73DD19299726730044E639 /* Shader.vsh */,
+				BE73DD09299720C70044E639 /* Main.storyboard */,
 				BE73DD0C299720D70044E639 /* Assets.xcassets */,
 				BE73DD0E299720D70044E639 /* LaunchScreen.storyboard */,
-				BE73DD09299720C70044E639 /* Main.storyboard */,
+				BE73DD11299720D70044E639 /* Info.plist */,
+				BE73DD19299726730044E639 /* Shader.vsh */,
+				BE73DD17299726550044E639 /* Shader.fsh */,
+				BE73DD1D29986A630044E639 /* WantToCryEngine-Bridging-Header.h */,
+				BE73DD2429986B7C0044E639 /* Renderer.mm */,
+				BE73DD2529986B7C0044E639 /* Renderer.hpp */,
+				BE73DD2A29988B780044E639 /* GameObject.mm */,
+				BE73DD2B29988B780044E639 /* GameObject.hpp */,
+				BE73DD2E29988C7B0044E639 /* Common.h */,
+				BE73DD37299BF5CA0044E639 /* Game.mm */,
+				BE73DD38299BF5CA0044E639 /* Game.hpp */,
+				BE73DD3A299C047F0044E639 /* GameBridge.h */,
+				BE73DD3B299C047F0044E639 /* GameBridge.mm */,
+				BE9338DE29B0174E0070B442 /* Utility.mm */,
+				BE9338DF29B0174E0070B442 /* Utility.hpp */,
+				BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */,
+				BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -211,8 +205,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				695EA74229C6DA9500D5EB93 /* maze.obj in Resources */,
-				695EA74029C6D86A00D5EB93 /* newWall.jpeg in Resources */,
 				BE73DD4A29A1EF200044E639 /* cube.obj in Resources */,
 				BE73DD4829A1EA3E0044E639 /* test.jpg in Resources */,
 				BE73DD4629A1EA2D0044E639 /* white.jpg in Resources */,
