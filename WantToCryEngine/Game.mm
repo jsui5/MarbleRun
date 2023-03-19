@@ -132,7 +132,11 @@ void Game::Update(){
     l.color = GLKVector3{0.2, 0.2, 1};
     l.direction = rotToDir(renderer.camRot);
     l.position = renderer.camPos;
-    l.power = 1;
+    if (flashlightEnabled) {
+        l.power = 1;
+    } else {
+        l.power = 0;
+    }
     l.attenuationZeroDistance = 15;
     l.distanceLimit = 10;
     l.angle = 0.25;
@@ -140,6 +144,10 @@ void Game::Update(){
     renderer.setLight(1, l);
 
     renderer.update();
+}
+
+void Game::ToggleFlashlight() {
+    flashlightEnabled = !flashlightEnabled;
 }
 
 void Game::ToggleDayNight() {

@@ -39,3 +39,7 @@ extern "C" void GameEventDoubleTap(struct Game* inThis){
 extern "C" void ToggleDayNight(struct Game* inThis) {
     inThis->ToggleDayNight();
 }
+
+extern "C" void ToggleFlashlight(struct Game* inThis) {
+    inThis->ToggleFlashlight();
+}

@@ -54,17 +54,28 @@ class ViewController: GLKViewController {
         doubleTap.numberOfTapsRequired = 2;
         view.addGestureRecognizer(doubleTap);
 
-        // Toggle Light
+        // Toggle Flashlight
         let toggleLightButton = UIButton();
-        toggleLightButton.setTitle("Toggle Day/Night", for: UIControl.State.normal);
-        toggleLightButton.frame = CGRect(x: 50, y: view.frame.height - 100, width: 150, height: 50);
+        toggleLightButton.setTitle("Toggle Flashlight", for: UIControl.State.normal);
+        toggleLightButton.frame = CGRect(x: 50, y: view.frame.height - 150, width: 150, height: 50);
         toggleLightButton
-            .backgroundColor = UIColor.red;
-        toggleLightButton.addTarget(self, action: #selector(self.toggleLight), for: .touchUpInside);
+            .backgroundColor = UIColor.green;
+        toggleLightButton.addTarget(self, action: #selector(self.toggleFlashlight), for: .touchUpInside);
         view.addSubview(toggleLightButton);
-    }
+        
+        // Toggle Day/Night
+        let toggleDayNightButton = UIButton();
+        toggleDayNightButton.setTitle("Toggle Day/Night", for: UIControl.State.normal);
+        toggleDayNightButton.frame = CGRect(x: 50, y: view.frame.height - 100, width: 150, height: 50);
+        toggleDayNightButton
+            .backgroundColor = UIColor.red;
+        toggleDayNightButton.addTarget(self, action: #selector(self.toggleDayNight), for: .touchUpInside);
+        view.addSubview(toggleDayNightButton);    }
     
-    @objc func toggleLight(_sender: UIButton) {
+    @objc func toggleFlashlight(_sender: UIButton) {
+        ToggleFlashlight(game);
+    }
+    @objc func toggleDayNight(_sender: UIButton) {
         ToggleDayNight(game);
     }
     

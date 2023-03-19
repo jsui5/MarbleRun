@@ -34,9 +34,11 @@ public:
     //This is a bridge to the Renderer.
     void DrawCall(CGRect* drawArea);
     void ToggleDayNight();
+    void ToggleFlashlight();
 private:
     bool fogActive;
     bool isNight;
+    bool flashlightEnabled;
     bool firstUpdated;
     void FirstUpdate();
 };
