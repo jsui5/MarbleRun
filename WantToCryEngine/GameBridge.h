@@ -27,6 +27,8 @@ void GameEventSinglePan(struct Game* inThis, GLKVector2 input);
 void GameEventDoublePan(struct Game* inThis, GLKVector2 input);
 void GameEventPinch(struct Game* inThis, float input);
 void GameEventDoubleTap(struct Game* inThis);
+void ToggleDayNight(struct Game* inThis);
+void ToggleFlashlight(struct Game* inThis);
 #ifdef __cplusplus
 }
 #endif

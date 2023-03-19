@@ -64,7 +64,6 @@ private:
     float* texCoordBuffer;
     int* indexBuffer;
     Light lights[NUM_LIGHTS];
-
 public:
     Renderer();
     ~Renderer();
@@ -89,6 +88,7 @@ public:
     GLKVector3 camPos;
     GLKVector3 camRot;
     void setLight(GLuint i, Light light);
+    void setAmbientLight(float power);
 };
 
 #endif /* Renderer_hpp */

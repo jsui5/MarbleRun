@@ -27,6 +27,7 @@ enum
     UNIFORM_FOGFULL_FLOAT,
     UNIFORM_FOGCOLOR_VEC4,
     UNIFORM_LIGHTS_BUFFERBLOCK,
+    UNIFORM_AMBIENT_LIGHT,
     NUM_UNIFORMS
 };
 GLint uniforms[NUM_UNIFORMS];
@@ -222,14 +223,16 @@ void Renderer::setup(GLKView* view){
     //As suspected, uniform array-of-struct items seem to store components contigiously.
     //This means we *can* avoid getting the position of each light struct item separately.
     uniforms[UNIFORM_LIGHTS_BUFFERBLOCK] = glGetUniformLocation(programObject, "lights[0].type");
+    uniforms[UNIFORM_AMBIENT_LIGHT] =
+        glGetUniformLocation(programObject, "ambientLight");
     
     setEnvironment(15, 50, GLKVector4{0.3, 0.3, 0.4, 1});
+    setAmbientLight(1);
+    
     glEnable(GL_DEPTH_TEST); //Enable depth testing for objects to be obscured by each other
     glEnable(GL_CULL_FACE); //Enable backface culling
     
-    
     std::cout << "Finished GL setup." <<std::endl;
-
 }
 
 void Renderer::update(){
@@ -428,6 +431,10 @@ void Renderer::setEnvironment(float fogStartDist, float fogFullDist, const GLKVe
         glUniform1i(uniforms[UNIFORM_FOGACTIVE_BOOL], 0);
     }
     glClearColor(color.x, color.y, color.z, color.w);
+}
+
+void Renderer::setAmbientLight(float power) {
+    glUniform1f(uniforms[UNIFORM_AMBIENT_LIGHT], power);
 }
 
 void Renderer::setLight(GLuint i, Light light){

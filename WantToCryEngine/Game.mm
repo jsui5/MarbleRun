@@ -33,63 +33,68 @@ Game::Game(GLKView* view){
     textures["test"] = renderer.loadTexture(img1);
     CGImageRef img2 = [UIImage imageNamed:[nspathAppended stringByAppendingString: @"tile.jpg"]].CGImage;
     textures["tile"] = renderer.loadTexture(img2);
+    CGImageRef img3 = [UIImage imageNamed:[nspathAppended stringByAppendingString: @"newWall.jpeg"]].CGImage;
+    textures["wall"] = renderer.loadTexture(img3);
     
     //Load models
 //    models["helmet"] = WavefrontLoader::ReadFile(resourcePath + "halo_reach_grenadier.obj");
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     models["cube"] = WavefrontLoader::ReadFile(resourcePath + "cube.obj");
+    models["maze"] = WavefrontLoader::ReadFile(resourcePath + "maze.obj");
     //load models into reusable VAOs
     for(auto i : models){
         loadedGeometry[i.first] = PreloadedGeometryObject(renderer.loadGeometryVAO(i.second), models[i.first].GetRadius(), models[i.first].indices);
     }
     
     //Create game objects
-    objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["static"].preloadedGeometry = loadedGeometry["cube"];
-    objects["static"].textureIndex = textures["test"];
+    objects["static"] = GameObject(GLKVector3{-6, -1, -11}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+    objects["static"].preloadedGeometry = loadedGeometry["maze"];
+    objects["static"].textureIndex = textures["wall"];
 
+    /*
     for(int i = 0; i <= 100; i++){
         std::string wb = std::string("wallblock").append(std::to_string(i));
         objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
         objects[wb].preloadedGeometry = loadedGeometry["cube"];
         objects[wb].textureIndex = textures["tile"];
     }
+     */
     
-    objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["bottom"].color = GLKVector4{0, 0, .25, 1};
-    objects["bottom"].textureIndex = textures[""];
-
-    objects["top"] = GameObject(GLKVector3{0, 5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["top"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["top"].color = GLKVector4{.5, .5, 0, 1};
-    objects["top"].textureIndex = textures[""];
-
-    objects["left"] = GameObject(GLKVector3{-5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["left"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["left"].color = GLKVector4{1, 0, 0, 1};
-    objects["left"].textureIndex = textures[""];
-
-    objects["far"] = GameObject(GLKVector3{-15, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["far"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["far"].color = GLKVector4{1, 0, 0, 1};
-    objects["far"].textureIndex = textures[""];
-    
-    objects["right"] = GameObject(GLKVector3{5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["right"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["right"].color = GLKVector4{0, 1, 0, 1};
-    objects["right"].textureIndex = textures["tile"];
-
-    objects["back"] = GameObject(GLKVector3{0, 0, 5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["back"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["back"].color = GLKVector4{.5, 0, .5, 1};
-    objects["back"].textureIndex = textures["tile"];
-
-    objects["victim"] =  GameObject(GLKVector3{0, 1, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
-    objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
-    objects["victim"].textureIndex = textures[""];
-    
+//    objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+//    objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["bottom"].color = GLKVector4{0, 0, .25, 1};
+//    objects["bottom"].textureIndex = textures[""];
+//
+//    objects["top"] = GameObject(GLKVector3{0, 5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+//    objects["top"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["top"].color = GLKVector4{.5, .5, 0, 1};
+//    objects["top"].textureIndex = textures[""];
+//
+//    objects["left"] = GameObject(GLKVector3{-5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+//    objects["left"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["left"].color = GLKVector4{1, 0, 0, 1};
+//    objects["left"].textureIndex = textures[""];
+//
+//    objects["far"] = GameObject(GLKVector3{-15, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+//    objects["far"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["far"].color = GLKVector4{1, 0, 0, 1};
+//    objects["far"].textureIndex = textures[""];
+//
+//    objects["right"] = GameObject(GLKVector3{5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+//    objects["right"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["right"].color = GLKVector4{0, 1, 0, 1};
+//    objects["right"].textureIndex = textures["tile"];
+//
+//    objects["back"] = GameObject(GLKVector3{0, 0, 5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+//    objects["back"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["back"].color = GLKVector4{.5, 0, .5, 1};
+//    objects["back"].textureIndex = textures["tile"];
+//
+//    objects["victim"] =  GameObject(GLKVector3{0, 1, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
+//    objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
+//    objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
+//    objects["victim"].textureIndex = textures[""];
+//
 }
 
 //It seems like the renderer needs to have cycled once for some things to work.
@@ -130,7 +135,11 @@ void Game::Update(){
     l.color = GLKVector3{0.2, 0.2, 1};
     l.direction = rotToDir(renderer.camRot);
     l.position = renderer.camPos;
-    l.power = 1;
+    if (flashlightEnabled) {
+        l.power = 1;
+    } else {
+        l.power = 0;
+    }
     l.attenuationZeroDistance = 15;
     l.distanceLimit = 10;
     l.angle = 0.25;
@@ -138,6 +147,19 @@ void Game::Update(){
     renderer.setLight(1, l);
 
     renderer.update();
+}
+
+void Game::ToggleFlashlight() {
+    flashlightEnabled = !flashlightEnabled;
+}
+
+void Game::ToggleDayNight() {
+    isNight = !isNight;
+    if (isNight) {
+        renderer.setAmbientLight(0.0);
+    } else {
+        renderer.setAmbientLight(1.0);
+    }
 }
 
 void Game::DrawCall(CGRect* drawArea){
@@ -159,8 +181,8 @@ void Game::EventSinglePan(GLKVector2 input){
     objects["victim"].transform.rotation.x += input.x;
     objects["victim"].transform.rotation.y += input.y;
      */
-    renderer.camRot.y -= input.y;
-    renderer.camRot.x -= input.x;
+//    renderer.camRot.y -= input.y;
+//    renderer.camRot.x -= input.x;
 }
 
 void Game::EventDoublePan(GLKVector2 input){
