@@ -36,7 +36,6 @@ uniform mat4 modelViewProjectionMatrix;
 //light inputs
 #define NUM_LIGHTS 2
 uniform Light lights[NUM_LIGHTS];
-uniform float ambientLight;
 
 //camera info
 uniform vec4 cameraFacing;
@@ -134,7 +133,7 @@ float FogPowerLinear(){
 
 void main()
 {
-    vec4 lightingResult = vec4(ambientLight, ambientLight, ambientLight, 1);
+    vec4 lightingResult = vec4(0, 0, 0, 1);
     
     for(int i = 0; i < NUM_LIGHTS; i++){
         lightingResult.xyz += LightFromSource(lights[i]);
