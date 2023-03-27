@@ -44,6 +44,7 @@ Game::Game(GLKView* view){
     }
     
     //Create game objects
+    
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["static"].preloadedGeometry = loadedGeometry["cube"];
     objects["static"].textureIndex = textures["test"];
@@ -89,7 +90,9 @@ Game::Game(GLKView* view){
     objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
     objects["victim"].textureIndex = textures[""];
-    
+   objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "One!!1!"));
+   objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "Two"));
+    objects["victim"].addComponent(std::make_shared<Spinner>(objects["victim"], GLKVector3{0, 0.1, 0}));
 }
 
 //It seems like the renderer needs to have cycled once for some things to work.
@@ -121,6 +124,10 @@ void Game::Update(){
     if(!firstUpdated){
         FirstUpdate();
         firstUpdated = true;
+    }
+    
+    for(auto i : objects){
+        i.second.update(-1);
     }
     
     //Per-frame events - here, a spotlight attached to the camera has its position changed.
@@ -177,6 +184,11 @@ void Game::EventPinch(float input){
 void Game::EventDoubleTap(){
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
+    
+    auto notifiers = objects["victim"].getComponentsOfType<ObjectNotifier>();
+    if(notifiers.size()){
+        objects["victim"].removeComponent(notifiers[0]);
+    }
 
     if(fogActive){
         renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});

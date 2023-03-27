@@ -28,7 +28,10 @@
 		BE73DD4629A1EA2D0044E639 /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4529A1EA2D0044E639 /* white.jpg */; };
 		BE73DD4829A1EA3E0044E639 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4729A1EA3E0044E639 /* test.jpg */; };
 		BE73DD4A29A1EF200044E639 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4929A1EF1F0044E639 /* cube.obj */; };
+		BE7484CF29D0F0A50030087F /* ObjectNotifier.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484CD29D0F0A50030087F /* ObjectNotifier.mm */; };
+		BE7484D329D150F30030087F /* Spinner.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484D129D150F30030087F /* Spinner.mm */; };
 		BE9338E029B0174F0070B442 /* Utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE9338DE29B0174E0070B442 /* Utility.mm */; };
+		BED8535529CA518F005EF16E /* Component.mm in Sources */ = {isa = PBXBuildFile; fileRef = BED8535329CA518F005EF16E /* Component.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,8 +68,14 @@
 		BE73DD4529A1EA2D0044E639 /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = white.jpg; path = WantToCryEngine/white.jpg; sourceTree = "<group>"; };
 		BE73DD4729A1EA3E0044E639 /* test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = test.jpg; path = WantToCryEngine/test.jpg; sourceTree = "<group>"; };
 		BE73DD4929A1EF1F0044E639 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = cube.obj; path = WantToCryEngine/cube.obj; sourceTree = "<group>"; };
+		BE7484CD29D0F0A50030087F /* ObjectNotifier.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ObjectNotifier.mm; sourceTree = "<group>"; };
+		BE7484CE29D0F0A50030087F /* ObjectNotifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ObjectNotifier.hpp; sourceTree = "<group>"; };
+		BE7484D129D150F30030087F /* Spinner.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Spinner.mm; sourceTree = "<group>"; };
+		BE7484D229D150F30030087F /* Spinner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spinner.hpp; sourceTree = "<group>"; };
 		BE9338DE29B0174E0070B442 /* Utility.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Utility.mm; sourceTree = "<group>"; };
 		BE9338DF29B0174E0070B442 /* Utility.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
+		BED8535329CA518F005EF16E /* Component.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Component.mm; sourceTree = "<group>"; };
+		BED8535429CA518F005EF16E /* Component.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +143,12 @@
 				BE9338DF29B0174E0070B442 /* Utility.hpp */,
 				BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */,
 				BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */,
+				BED8535329CA518F005EF16E /* Component.mm */,
+				BED8535429CA518F005EF16E /* Component.hpp */,
+				BE7484CD29D0F0A50030087F /* ObjectNotifier.mm */,
+				BE7484CE29D0F0A50030087F /* ObjectNotifier.hpp */,
+				BE7484D129D150F30030087F /* Spinner.mm */,
+				BE7484D229D150F30030087F /* Spinner.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -226,11 +241,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE73DD39299BF5CA0044E639 /* Game.mm in Sources */,
+				BED8535529CA518F005EF16E /* Component.mm in Sources */,
 				BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */,
 				BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */,
 				BE9338E029B0174F0070B442 /* Utility.mm in Sources */,
+				BE7484D329D150F30030087F /* Spinner.mm in Sources */,
 				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,
 				BE73DD2329986A640044E639 /* WavefrontLoader.mm in Sources */,
+				BE7484CF29D0F0A50030087F /* ObjectNotifier.mm in Sources */,
 				BE73DD2229986A640044E639 /* GeometryObject.mm in Sources */,
 				BE73DD08299720C70044E639 /* ViewController.swift in Sources */,
 				BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */,

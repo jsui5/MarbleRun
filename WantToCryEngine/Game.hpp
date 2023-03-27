@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include "Common.h"
+#include "ObjectNotifier.hpp"
+#include "Spinner.hpp"
 
 class Game{
 public:

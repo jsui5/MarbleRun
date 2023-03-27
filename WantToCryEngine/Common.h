@@ -11,10 +11,16 @@
 #include <stdio.h>
 #include <OpenGLES/ES3/gl.h>
 #include <GLKit/GLKit.h>
+#include <memory>
+#include <functional>
 #include <string>
 #include <vector>
+#include <set>
 #include <map>
+#include <typeinfo>
+#include <type_traits>
 #include "WavefrontLoader.hpp"
+#include "Component.hpp"
 #include "GameObject.hpp"
 #include "GeometryObject.h"
 #include "Utility.hpp"
