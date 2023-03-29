@@ -9,9 +9,11 @@
 #define Game_hpp
 
 #include <stdio.h>
+#include <chrono>
 #include "Common.h"
 #include "ObjectNotifier.hpp"
 #include "Spinner.hpp"
+#include "SimulatedBody.hpp"
 
 class Game{
 public:
@@ -39,6 +41,7 @@ private:
     bool fogActive;
     bool firstUpdated;
     void FirstUpdate();
+    std::chrono::time_point<std::chrono::steady_clock> prevTime;
 };
 
 

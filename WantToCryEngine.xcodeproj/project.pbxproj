@@ -30,6 +30,7 @@
 		BE73DD4A29A1EF200044E639 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = BE73DD4929A1EF1F0044E639 /* cube.obj */; };
 		BE7484CF29D0F0A50030087F /* ObjectNotifier.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484CD29D0F0A50030087F /* ObjectNotifier.mm */; };
 		BE7484D329D150F30030087F /* Spinner.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484D129D150F30030087F /* Spinner.mm */; };
+		BE7484D929D4D7240030087F /* SimulatedBody.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484D729D4D7240030087F /* SimulatedBody.mm */; };
 		BE9338E029B0174F0070B442 /* Utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE9338DE29B0174E0070B442 /* Utility.mm */; };
 		BED8535529CA518F005EF16E /* Component.mm in Sources */ = {isa = PBXBuildFile; fileRef = BED8535329CA518F005EF16E /* Component.mm */; };
 /* End PBXBuildFile section */
@@ -72,6 +73,8 @@
 		BE7484CE29D0F0A50030087F /* ObjectNotifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ObjectNotifier.hpp; sourceTree = "<group>"; };
 		BE7484D129D150F30030087F /* Spinner.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Spinner.mm; sourceTree = "<group>"; };
 		BE7484D229D150F30030087F /* Spinner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spinner.hpp; sourceTree = "<group>"; };
+		BE7484D729D4D7240030087F /* SimulatedBody.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimulatedBody.mm; sourceTree = "<group>"; };
+		BE7484D829D4D7240030087F /* SimulatedBody.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SimulatedBody.hpp; sourceTree = "<group>"; };
 		BE9338DE29B0174E0070B442 /* Utility.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Utility.mm; sourceTree = "<group>"; };
 		BE9338DF29B0174E0070B442 /* Utility.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
 		BED8535329CA518F005EF16E /* Component.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Component.mm; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 				BE7484CE29D0F0A50030087F /* ObjectNotifier.hpp */,
 				BE7484D129D150F30030087F /* Spinner.mm */,
 				BE7484D229D150F30030087F /* Spinner.hpp */,
+				BE7484D729D4D7240030087F /* SimulatedBody.mm */,
+				BE7484D829D4D7240030087F /* SimulatedBody.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				BED8535529CA518F005EF16E /* Component.mm in Sources */,
 				BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */,
 				BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */,
+				BE7484D929D4D7240030087F /* SimulatedBody.mm in Sources */,
 				BE9338E029B0174F0070B442 /* Utility.mm in Sources */,
 				BE7484D329D150F30030087F /* Spinner.mm in Sources */,
 				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,

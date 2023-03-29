@@ -19,13 +19,11 @@ struct Transform{
     GLKVector3 position;
     GLKVector3 rotation;
     GLKVector3 scale;
-    Transform(){
-        position = GLKVector3{0, 0, 0};
-        rotation = GLKVector3{0, 0, 0};
-        scale = GLKVector3{1, 1, 1};
-    }
+    GLKVector3 linVelocity;
+    Transform() : Transform(GLKVector3{0,0,0}, GLKVector3{0,0,0},GLKVector3{1,1,1}){}
     Transform(GLKVector3 pos, GLKVector3 rot, GLKVector3 scl):
-        position(pos), rotation(rot), scale(scl){}
+        position(pos), rotation(rot), scale(scl),
+        linVelocity(GLKVector3{0,0,0}){}
 };
 
 class Component;

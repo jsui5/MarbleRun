@@ -18,7 +18,6 @@ void GameObject::update(float deltaTime){
     }
 }
 
-
 Component* GameObject::addComponent(std::shared_ptr<Component> c){
     if(c->otherComponentInteractionCheck(components)){
         return nullptr;
@@ -34,6 +33,7 @@ void GameObject::removeComponent(Component* victim){
         if((*i).get() == victim){
             std::cout << "Erasing component at " << *i << std::endl;
             components.erase(i);
+            components.shrink_to_fit();
             return;
         }
     }

@@ -14,7 +14,7 @@ bool ObjectNotifier::otherComponentInteractionCheck(const std::vector<std::share
 
 
 void ObjectNotifier::update(float deltaTime){
-    std::cout << "Updated with dt = " << deltaTime << " position is {" << parent.transform.position.x << "," << parent.transform.position.y << "," << parent.transform.position.z << "} " << proclamation << std::endl;
+    std::cout << "Updated with dt = " << deltaTime << " position is {" << parent.transform.position.x << "," << parent.transform.position.y << "," << parent.transform.position.z << "} " << " velocity is {" << parent.transform.linVelocity.x << "," << parent.transform.linVelocity.y << "," << parent.transform.linVelocity.z << "} " << proclamation << std::endl;
 }
 
 ObjectNotifier::ObjectNotifier(GameObject& p, std::string talk) : Component(p),

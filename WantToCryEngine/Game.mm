@@ -49,12 +49,14 @@ Game::Game(GLKView* view){
     objects["static"].preloadedGeometry = loadedGeometry["cube"];
     objects["static"].textureIndex = textures["test"];
 
+    /*
     for(int i = 0; i <= 100; i++){
         std::string wb = std::string("wallblock").append(std::to_string(i));
         objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
         objects[wb].preloadedGeometry = loadedGeometry["cube"];
         objects[wb].textureIndex = textures["tile"];
     }
+    */
     
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
@@ -86,13 +88,15 @@ Game::Game(GLKView* view){
     objects["back"].color = GLKVector4{.5, 0, .5, 1};
     objects["back"].textureIndex = textures["tile"];
 
+//    SimulatedBody::gravAcceleration = 0.1;
+    
     objects["victim"] =  GameObject(GLKVector3{0, 1, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
     objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
     objects["victim"].textureIndex = textures[""];
-   objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "One!!1!"));
-   objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "Two"));
-    objects["victim"].addComponent(std::make_shared<Spinner>(objects["victim"], GLKVector3{0, 0.1, 0}));
+    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "One!!1!"));
+    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "Two"));
+    //objects["victim"].addComponent(std::make_shared<Spinner>(objects["victim"], GLKVector3{0, 1.0f, 0}));
 }
 
 //It seems like the renderer needs to have cycled once for some things to work.
@@ -117,6 +121,8 @@ void Game::FirstUpdate(){
     
     renderer.setLight(1, l);
     
+    //The first frame takes an eternity, so we'll reset the clock
+    prevTime = std::chrono::steady_clock::now();
 }
 
 void Game::Update(){
@@ -126,8 +132,13 @@ void Game::Update(){
         firstUpdated = true;
     }
     
+    auto nowTime = std::chrono::steady_clock::now();
+    //I want fractions of seconds instead of whole milliseconds.
+    float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(nowTime - prevTime).count() * 0.001f;
+    prevTime = nowTime;
+    
     for(auto i : objects){
-        i.second.update(-1);
+        i.second.update(deltaTime);
     }
     
     //Per-frame events - here, a spotlight attached to the camera has its position changed.
@@ -184,6 +195,13 @@ void Game::EventPinch(float input){
 void Game::EventDoubleTap(){
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
+    
+    objects["victim"].transform.linVelocity.x += 0.15;
+    objects["victim"].transform.linVelocity.y = 0;
+    objects["victim"].transform.position.y = 3;
+    objects["victim"].transform.position.x = 0;
+    
+    objects["victim"].addComponent(std::make_shared<SimulatedBody>(objects["victim"]));
     
     auto notifiers = objects["victim"].getComponentsOfType<ObjectNotifier>();
     if(notifiers.size()){

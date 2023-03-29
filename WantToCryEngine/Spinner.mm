@@ -12,13 +12,7 @@ bool Spinner::otherComponentInteractionCheck(const std::vector<std::shared_ptr<C
 }
 
 void Spinner::update(float deltaTime){
-    if(deltaTime == -1){
-        parent.transform.rotation.x += rotRate.x;
-        parent.transform.rotation.y += rotRate.y;
-        parent.transform.rotation.z += rotRate.z;
-    } else {
-        parent.transform.rotation.x += rotRate.x * deltaTime;
-        parent.transform.rotation.y += rotRate.y * deltaTime;
-        parent.transform.rotation.z += rotRate.z * deltaTime;
-    }
+    parent.transform.rotation.x += rotRate.x * deltaTime;
+    parent.transform.rotation.y += rotRate.y * deltaTime;
+    parent.transform.rotation.z += rotRate.z * deltaTime;
 }
