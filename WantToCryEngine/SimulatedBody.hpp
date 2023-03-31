@@ -24,5 +24,4 @@ public:
     SimulatedBody(GameObject& p) : Component(p){};
 };
 
-
 #endif /* SimulatedBody_hpp */

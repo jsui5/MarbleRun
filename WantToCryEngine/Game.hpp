@@ -14,6 +14,8 @@
 #include "ObjectNotifier.hpp"
 #include "Spinner.hpp"
 #include "SimulatedBody.hpp"
+#include "BoundingBoxCollision.hpp"
+#include "GlobalCollisionHandler.hpp"
 
 class Game{
 public:
@@ -41,6 +43,7 @@ private:
     bool fogActive;
     bool firstUpdated;
     void FirstUpdate();
+    void handleCollisions();
     std::chrono::time_point<std::chrono::steady_clock> prevTime;
 };
 

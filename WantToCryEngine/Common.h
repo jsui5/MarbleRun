@@ -17,6 +17,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <cmath>
 #include <typeinfo>
 #include <type_traits>
 #include "WavefrontLoader.hpp"

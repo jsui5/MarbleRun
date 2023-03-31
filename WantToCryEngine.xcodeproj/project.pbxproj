@@ -31,6 +31,8 @@
 		BE7484CF29D0F0A50030087F /* ObjectNotifier.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484CD29D0F0A50030087F /* ObjectNotifier.mm */; };
 		BE7484D329D150F30030087F /* Spinner.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484D129D150F30030087F /* Spinner.mm */; };
 		BE7484D929D4D7240030087F /* SimulatedBody.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484D729D4D7240030087F /* SimulatedBody.mm */; };
+		BE7484DC29D53BC30030087F /* BoundingBoxCollision.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484DA29D53BC30030087F /* BoundingBoxCollision.mm */; };
+		BE7484DF29D544FC0030087F /* GlobalCollisionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484DD29D544FB0030087F /* GlobalCollisionHandler.mm */; };
 		BE9338E029B0174F0070B442 /* Utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE9338DE29B0174E0070B442 /* Utility.mm */; };
 		BED8535529CA518F005EF16E /* Component.mm in Sources */ = {isa = PBXBuildFile; fileRef = BED8535329CA518F005EF16E /* Component.mm */; };
 /* End PBXBuildFile section */
@@ -75,6 +77,10 @@
 		BE7484D229D150F30030087F /* Spinner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spinner.hpp; sourceTree = "<group>"; };
 		BE7484D729D4D7240030087F /* SimulatedBody.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimulatedBody.mm; sourceTree = "<group>"; };
 		BE7484D829D4D7240030087F /* SimulatedBody.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SimulatedBody.hpp; sourceTree = "<group>"; };
+		BE7484DA29D53BC30030087F /* BoundingBoxCollision.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BoundingBoxCollision.mm; sourceTree = "<group>"; };
+		BE7484DB29D53BC30030087F /* BoundingBoxCollision.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoundingBoxCollision.hpp; sourceTree = "<group>"; };
+		BE7484DD29D544FB0030087F /* GlobalCollisionHandler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GlobalCollisionHandler.mm; sourceTree = "<group>"; };
+		BE7484DE29D544FC0030087F /* GlobalCollisionHandler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GlobalCollisionHandler.hpp; sourceTree = "<group>"; };
 		BE9338DE29B0174E0070B442 /* Utility.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Utility.mm; sourceTree = "<group>"; };
 		BE9338DF29B0174E0070B442 /* Utility.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
 		BED8535329CA518F005EF16E /* Component.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Component.mm; sourceTree = "<group>"; };
@@ -154,6 +160,10 @@
 				BE7484D229D150F30030087F /* Spinner.hpp */,
 				BE7484D729D4D7240030087F /* SimulatedBody.mm */,
 				BE7484D829D4D7240030087F /* SimulatedBody.hpp */,
+				BE7484DA29D53BC30030087F /* BoundingBoxCollision.mm */,
+				BE7484DB29D53BC30030087F /* BoundingBoxCollision.hpp */,
+				BE7484DD29D544FB0030087F /* GlobalCollisionHandler.mm */,
+				BE7484DE29D544FC0030087F /* GlobalCollisionHandler.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -249,7 +259,9 @@
 				BED8535529CA518F005EF16E /* Component.mm in Sources */,
 				BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */,
 				BE73DD2629986B7C0044E639 /* Renderer.mm in Sources */,
+				BE7484DC29D53BC30030087F /* BoundingBoxCollision.mm in Sources */,
 				BE7484D929D4D7240030087F /* SimulatedBody.mm in Sources */,
+				BE7484DF29D544FC0030087F /* GlobalCollisionHandler.mm in Sources */,
 				BE9338E029B0174F0070B442 /* Utility.mm in Sources */,
 				BE7484D329D150F30030087F /* Spinner.mm in Sources */,
 				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,

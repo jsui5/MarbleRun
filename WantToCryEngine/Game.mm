@@ -48,6 +48,12 @@ Game::Game(GLKView* view){
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["static"].preloadedGeometry = loadedGeometry["cube"];
     objects["static"].textureIndex = textures["test"];
+    objects["static"].addComponent(std::make_shared<BoundingBoxCollision>(objects["static"], GLKVector3{0.5,0.5,0.5}, true));
+
+    objects["static2"] = GameObject(GLKVector3{0, -5, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+    objects["static2"].preloadedGeometry = loadedGeometry["cube"];
+    objects["static2"].textureIndex = textures["test"];
+    objects["static2"].addComponent(std::make_shared<BoundingBoxCollision>(objects["static2"], GLKVector3{0.5,0.5,0.5}, true));
 
     /*
     for(int i = 0; i <= 100; i++){
@@ -90,13 +96,20 @@ Game::Game(GLKView* view){
 
 //    SimulatedBody::gravAcceleration = 0.1;
     
-    objects["victim"] =  GameObject(GLKVector3{0, 1, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
+    objects["victim"] =  GameObject(GLKVector3{0, 3, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
     objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
     objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
     objects["victim"].textureIndex = textures[""];
-    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "One!!1!"));
-    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "Two"));
+//    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "One!!1!"));
+//    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "Two"));
+    objects["victim"].addComponent(std::make_shared<BoundingBoxCollision>(objects["victim"], GLKVector3{1,1.7,1}, true));
     //objects["victim"].addComponent(std::make_shared<Spinner>(objects["victim"], GLKVector3{0, 1.0f, 0}));
+    
+    objects["brick"] = GameObject(GLKVector3{0, 20, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+    objects["brick"].preloadedGeometry = loadedGeometry["cube"];
+    objects["brick"].textureIndex = textures["tile"];
+    objects["brick"].addComponent(std::make_shared<BoundingBoxCollision>(objects["brick"], GLKVector3{0.5,0.5,0.5}, true));
+
 }
 
 //It seems like the renderer needs to have cycled once for some things to work.
@@ -196,17 +209,28 @@ void Game::EventDoubleTap(){
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
     
-    objects["victim"].transform.linVelocity.x += 0.15;
-    objects["victim"].transform.linVelocity.y = 0;
-    objects["victim"].transform.position.y = 3;
-    objects["victim"].transform.position.x = 0;
-    
-    objects["victim"].addComponent(std::make_shared<SimulatedBody>(objects["victim"]));
-    
-    auto notifiers = objects["victim"].getComponentsOfType<ObjectNotifier>();
-    if(notifiers.size()){
-        objects["victim"].removeComponent(notifiers[0]);
+        
+    if(objects.contains("victim") && objects["victim"].getComponent<SimulatedBody>() != nullptr && objects["victim"].transform.position.y < 2){
+        objects.erase("victim");
+        objects["brick"].transform.position.y = 15;
+        objects["brick"].transform.linVelocity.y = 0;
+    } else {
+        //    objects["victim"].transform.linVelocity.x += 0.15;
+            objects["victim"].transform.linVelocity.y = 0;
+            objects["victim"].transform.position.y = 3;
+            objects["victim"].transform.position.x = 0;
+        objects["brick"].transform.position.y = 15;
+        objects["brick"].transform.position.x = 0;
+        objects["brick"].transform.linVelocity.y = 0;
+        objects["brick"].transform.linVelocity.x = 0.01;
+
+        objects["victim"].addComponent(std::make_shared<SimulatedBody>(objects["victim"]));
+        objects["brick"].addComponent(std::make_shared<SimulatedBody>(objects["brick"]));
     }
+//    auto notifiers = objects["victim"].getComponentsOfType<ObjectNotifier>();
+//    if(notifiers.size()){
+//        objects["victim"].removeComponent(notifiers[0]);
+//    }
 
     if(fogActive){
         renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});

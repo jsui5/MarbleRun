@@ -12,6 +12,7 @@
 #include "Common.h"
 
 class GameObject;
+struct Transform;
 
 class Component{
 protected:
@@ -24,6 +25,8 @@ public:
     //Should return true if there's a problem and it should NOT be added to a gameobject
     //that already has the existing components.
     virtual bool otherComponentInteractionCheck(const std::vector<std::shared_ptr<Component>>& existing) = 0;
+    
+    Transform& getParentTransform();
 };
 
 #endif /* Component_hpp */

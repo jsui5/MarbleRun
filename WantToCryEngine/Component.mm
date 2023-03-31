@@ -6,6 +6,7 @@
 //
 
 #include "Component.hpp"
+#include "GameObject.hpp"
 
 //Component::Component(const Component& copy) : parent(copy.parent){
 //
@@ -13,4 +14,8 @@
 
 Component::~Component(){
 
+}
+
+Transform& Component::getParentTransform(){
+    return parent.transform;
 }
