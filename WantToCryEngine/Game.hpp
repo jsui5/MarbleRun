@@ -13,6 +13,8 @@
 #include "Common.h"
 #include "ObjectNotifier.hpp"
 #include "Spinner.hpp"
+#include "Follow.hpp"
+#include "PlayerLaneControl.hpp"
 #include "SimulatedBody.hpp"
 #include "BoundingBoxCollision.hpp"
 #include "GlobalCollisionHandler.hpp"
@@ -29,12 +31,14 @@ public:
     //Set up the base state upon construction. Build the level, etc...
     //The view is required to set up the Renderer straight from here.
     Game(GLKView* view);
+    void EventSingleTap();
     //Call these events from Swift using the GameBridge.
     void EventDoubleTap();
     //Events can have parameters - once again, pass in from Swift through GameBridge.
     void EventSinglePan(GLKVector2 input);
     void EventDoublePan(GLKVector2 input);
     void EventPinch(float input);
+    void SetScore(UITextView* set);
     //This is where the magic happens - pass the frame update to this function.
     void Update();
     //This is a bridge to the Renderer.
@@ -44,6 +48,10 @@ private:
     bool firstUpdated;
     void FirstUpdate();
     void handleCollisions();
+    int score;
+    float distancePlayerTravelled;
+    float obstacleTimer;
+    float timeBetweenObstacles;
     std::chrono::time_point<std::chrono::steady_clock> prevTime;
 };
 

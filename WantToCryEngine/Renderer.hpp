@@ -21,7 +21,7 @@
 #include "WavefrontLoader.hpp"
 
 //This needs to be a constant because GLSL can't handle variable loops
-#define NUM_LIGHTS 2
+#define NUM_LIGHTS 1
 
 //Frustrum check values. Styled after what I presume GLKit does.
 #define FRUSTRUM_OBJECT_OUT 0

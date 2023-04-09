@@ -35,3 +35,11 @@ extern "C" void GameEventPinch(struct Game* inThis, float input){
 extern "C" void GameEventDoubleTap(struct Game* inThis){
     inThis->EventDoubleTap();
 }
+
+extern "C" void GameEventSingleTap(struct Game* inThis) {
+    inThis->EventSingleTap();
+}
+
+extern "C" void SetScore(struct Game* inThis, UITextView* setTextOf) {
+    inThis->SetScore(setTextOf);
+}

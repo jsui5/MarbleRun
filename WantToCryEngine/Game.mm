@@ -34,6 +34,10 @@ Game::Game(GLKView* view){
     CGImageRef img2 = [UIImage imageNamed:[nspathAppended stringByAppendingString: @"tile.jpg"]].CGImage;
     textures["tile"] = renderer.loadTexture(img2);
     
+    // Set initial obstacle timer
+    timeBetweenObstacles = 5;
+    obstacleTimer = timeBetweenObstacles;
+    
     //Load models
 //    models["helmet"] = WavefrontLoader::ReadFile(resourcePath + "halo_reach_grenadier.obj");
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
@@ -44,7 +48,30 @@ Game::Game(GLKView* view){
     }
     
     //Create game objects
+    float platformWidth = 5;
+    float platformLength = 50;
+    float platformHeight = 1;
     
+    for (int i = 0; i < 5; i++) {
+        std::string label = "ground" + std::to_string(i);
+        objects[label] = GameObject(GLKVector3{0, -1, -i * platformLength / 2}, GLKVector3{0, 0, 0}, GLKVector3{platformWidth, platformHeight, i * platformLength});
+        objects[label].preloadedGeometry = loadedGeometry["cube"];
+        objects[label].textureIndex = textures["test"];
+        objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{platformWidth / 2, platformHeight / 2, platformLength / 2}, true));
+    }
+    
+    objects["player"] = GameObject(GLKVector3{0, 1.0f, -1}, GLKVector3{0, 0, 0}, GLKVector3{0.75, 2, 0.75});
+    objects["player"].preloadedGeometry = loadedGeometry["cube"];
+    objects["player"].textureIndex = textures["test"];
+    objects["player"].addComponent(std::make_shared<BoundingBoxCollision>(objects["player"], GLKVector3{0.375, 0.5, 0.375}, true));
+    objects["player"].addComponent(std::make_shared<PlayerLaneControl>(objects["player"], 0, -1, 1, 25));
+    SimulatedBody* playerSB = (SimulatedBody*)objects["player"].addComponent(std::make_shared<SimulatedBody>(objects["player"]));
+    playerSB->gravAcceleration = 1;
+    objects["player"].transform.linVelocity = GLKVector3{0.0, 0.0, -5};
+    
+    // SimulatedBody* groundSB = (SimulatedBody*)objects["ground"].addComponent(std::make_shared<SimulatedBody>(objects["ground"]));
+    
+    /*
     objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["static"].preloadedGeometry = loadedGeometry["cube"];
     objects["static"].textureIndex = textures["test"];
@@ -54,7 +81,8 @@ Game::Game(GLKView* view){
     objects["static2"].preloadedGeometry = loadedGeometry["cube"];
     objects["static2"].textureIndex = textures["test"];
     objects["static2"].addComponent(std::make_shared<BoundingBoxCollision>(objects["static2"], GLKVector3{0.5,0.5,0.5}, true));
-
+     */
+    
     /*
     for(int i = 0; i <= 100; i++){
         std::string wb = std::string("wallblock").append(std::to_string(i));
@@ -64,6 +92,7 @@ Game::Game(GLKView* view){
     }
     */
     
+    /*
     objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
     objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
     objects["bottom"].color = GLKVector4{0, 0, .25, 1};
@@ -109,14 +138,14 @@ Game::Game(GLKView* view){
     objects["brick"].preloadedGeometry = loadedGeometry["cube"];
     objects["brick"].textureIndex = textures["tile"];
     objects["brick"].addComponent(std::make_shared<BoundingBoxCollision>(objects["brick"], GLKVector3{0.5,0.5,0.5}, true));
-
+     */
 }
 
 //It seems like the renderer needs to have cycled once for some things to work.
 //This might just be the least janky way of going about it.
 void Game::FirstUpdate(){
-    fogActive = true;
-    renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
+    renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});
+    fogActive = false;
     
     Light l = Light();
     
@@ -127,12 +156,12 @@ void Game::FirstUpdate(){
     
     renderer.setLight(0, l);
     
-    l.type = 0;
-    l.color = GLKVector3{1, 0, 0};
-    l.direction = GLKVector3{-0.5, 0, -0.5};
-    l.power = 0.25;
+    // l.type = 0;
+    // l.color = GLKVector3{1, 0, 0};
+    // l.direction = GLKVector3{-0.5, 0, -0.5};
+    // l.power = 0.25;
     
-    renderer.setLight(1, l);
+    // renderer.setLight(1, l);
     
     //The first frame takes an eternity, so we'll reset the clock
     prevTime = std::chrono::steady_clock::now();
@@ -145,13 +174,58 @@ void Game::Update(){
         firstUpdated = true;
     }
     
+    // Update the camera position to look at the player
+    GLKVector3 playerPosition = objects["player"].transform.position;
+    GLKVector3 cameraOffset = GLKVector3{0, 2.5, 10};
+    renderer.camPos = GLKVector3{playerPosition.x + cameraOffset.x, playerPosition.y + cameraOffset.y, playerPosition.z + cameraOffset.z};
+    
     auto nowTime = std::chrono::steady_clock::now();
     //I want fractions of seconds instead of whole milliseconds.
     float deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(nowTime - prevTime).count() * 0.001f;
     prevTime = nowTime;
     
+    // Add Score
+    score += 1;
+    distancePlayerTravelled = playerPosition.z;
+    
     for(auto i : objects){
         i.second.update(deltaTime);
+    }
+    
+    if (obstacleTimer > 0) {
+        obstacleTimer -= deltaTime;
+    } else {
+        obstacleTimer = timeBetweenObstacles;
+        
+        float obstacleSpawnOffset = 10;
+        int chanceToSpawnInLaneMin = 1;
+        int chanceToSpawnInLaneMax = 5;
+        float scoreGainedOnPassObstacle = 5;
+        int minResultantRandomToSpawnInLane = 3;
+        for (int i = 0; i < 3; i++) {
+            std::string label = "obstacle" + std::to_string(i);
+            
+            
+            // Remove old obstacle
+            if (objects.contains(label)) {
+                // printf("Erased...");
+                objects.erase(label);
+                score += scoreGainedOnPassObstacle;
+            }
+            
+            int randNum = rand()%(chanceToSpawnInLaneMax-chanceToSpawnInLaneMin + 1)
+                + chanceToSpawnInLaneMin;
+            
+            if (randNum < minResultantRandomToSpawnInLane) {
+                continue;
+            }
+            
+            // Spawn new Obstacle
+            objects[label] = GameObject(GLKVector3{(float)i - 1, 1, playerPosition.z - obstacleSpawnOffset}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+            objects[label].preloadedGeometry = loadedGeometry["cube"];
+            objects[label].textureIndex = textures["test"];
+            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, 0.5, 0.5}, true));
+        }
     }
     
     //Per-frame events - here, a spotlight attached to the camera has its position changed.
@@ -187,25 +261,27 @@ void Game::DrawCall(CGRect* drawArea){
 
 void Game::EventSinglePan(GLKVector2 input){
     /*
-    objects["victim"].transform.rotation.x += input.x;
-    objects["victim"].transform.rotation.y += input.y;
+     objects["victim"].transform.rotation.x += input.x;
+     objects["victim"].transform.rotation.y += input.y;
      */
-    renderer.camRot.y -= input.y;
-    renderer.camRot.x -= input.x;
+    // renderer.camRot.y -= input.y;
+    // renderer.camRot.x -= input.x;
+    ((PlayerLaneControl*)objects["player"].getComponent<PlayerLaneControl>())->changeBy(input.x);
 }
 
 void Game::EventDoublePan(GLKVector2 input){
-    renderer.camPos.x -= cos(renderer.camRot.y) * input.x;
-    renderer.camPos.z += sin(renderer.camRot.y) * input.x;
-    renderer.camPos.y += input.y;
+    // renderer.camPos.x -= cos(renderer.camRot.y) * input.x;
+    // renderer.camPos.z += sin(renderer.camRot.y) * input.x;
+    // renderer.camPos.y += input.y;
 }
 
 void Game::EventPinch(float input){
-    renderer.camPos.z += cos(renderer.camRot.y) * input;
-    renderer.camPos.x += sin(renderer.camRot.y) * input;
+    // renderer.camPos.z += cos(renderer.camRot.y) * input;
+    // renderer.camPos.x += sin(renderer.camRot.y) * input;
 }
 
 void Game::EventDoubleTap(){
+    /*
     renderer.camRot = GLKVector3{0, 0, 0};
     renderer.camPos = GLKVector3{0, 0, 0};
     
@@ -227,11 +303,16 @@ void Game::EventDoubleTap(){
         objects["victim"].addComponent(std::make_shared<SimulatedBody>(objects["victim"]));
         objects["brick"].addComponent(std::make_shared<SimulatedBody>(objects["brick"]));
     }
-//    auto notifiers = objects["victim"].getComponentsOfType<ObjectNotifier>();
-//    if(notifiers.size()){
-//        objects["victim"].removeComponent(notifiers[0]);
-//    }
+     */
+    
+    /*
+    auto notifiers = objects["victim"].getComponentsOfType<ObjectNotifier>();
+    if(notifiers.size()){
+        objects["victim"].removeComponent(notifiers[0]);
+    }
+     */
 
+     /*
     if(fogActive){
         renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});
         fogActive = false;
@@ -239,4 +320,15 @@ void Game::EventDoubleTap(){
         renderer.setEnvironment(15, 40, GLKVector4{0.65, 0.7, 0.75, 1});
         fogActive = true;
     }
+      */
+}
+
+void Game::EventSingleTap() {
+    GLKVector3 curVelocity = objects["player"].transform.linVelocity;
+    objects["player"].transform.linVelocity = GLKVector3{curVelocity.x, .05, curVelocity.z};
+}
+
+void Game::SetScore(UITextView* setTextOf) {
+    NSString *scoreText = [NSString stringWithFormat:@"Score: %i", score];
+    setTextOf.text = scoreText;
 }

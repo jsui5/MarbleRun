@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58F2638729E217EA00330627 /* Follow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58F2638629E217EA00330627 /* Follow.mm */; };
+		58F2638E29E21B8100330627 /* PlayerLaneControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58F2638D29E21B8100330627 /* PlayerLaneControl.mm */; };
 		BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */; };
 		BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD03299720C70044E639 /* AppDelegate.swift */; };
 		BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD05299720C70044E639 /* SceneDelegate.swift */; };
@@ -38,6 +40,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		58F2638629E217EA00330627 /* Follow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Follow.mm; sourceTree = "<group>"; };
+		58F2638829E217F300330627 /* Follow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Follow.hpp; sourceTree = "<group>"; };
+		58F2638C29E21B8100330627 /* PlayerLaneControl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayerLaneControl.hpp; sourceTree = "<group>"; };
+		58F2638D29E21B8100330627 /* PlayerLaneControl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayerLaneControl.mm; sourceTree = "<group>"; };
 		BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreloadedGeometryObject.mm; sourceTree = "<group>"; };
 		BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PreloadedGeometryObject.hpp; sourceTree = "<group>"; };
 		BE73DD00299720C70044E639 /* WantToCryEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WantToCryEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +131,10 @@
 		BE73DD02299720C70044E639 /* WantToCryEngine */ = {
 			isa = PBXGroup;
 			children = (
+				58F2638C29E21B8100330627 /* PlayerLaneControl.hpp */,
+				58F2638D29E21B8100330627 /* PlayerLaneControl.mm */,
+				58F2638829E217F300330627 /* Follow.hpp */,
+				58F2638629E217EA00330627 /* Follow.mm */,
 				BE73DD1F29986A640044E639 /* GeometryObject.h */,
 				BE73DD1E29986A640044E639 /* GeometryObject.mm */,
 				BE73DD2029986A640044E639 /* WavefrontLoader.hpp */,
@@ -265,6 +275,7 @@
 				BE9338E029B0174F0070B442 /* Utility.mm in Sources */,
 				BE7484D329D150F30030087F /* Spinner.mm in Sources */,
 				BE73DD3C299C047F0044E639 /* GameBridge.mm in Sources */,
+				58F2638729E217EA00330627 /* Follow.mm in Sources */,
 				BE73DD2329986A640044E639 /* WavefrontLoader.mm in Sources */,
 				BE7484CF29D0F0A50030087F /* ObjectNotifier.mm in Sources */,
 				BE73DD2229986A640044E639 /* GeometryObject.mm in Sources */,
@@ -272,6 +283,7 @@
 				BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */,
 				BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */,
 				BE73DD2C29988B780044E639 /* GameObject.mm in Sources */,
+				58F2638E29E21B8100330627 /* PlayerLaneControl.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
