@@ -8,6 +8,8 @@
 #ifndef Game_hpp
 #define Game_hpp
 
+#define NUM_LANES 5
+
 #define NUM_PLATFORMS 5
 
 #define PLATFORM_LENGTH 50
@@ -16,17 +18,29 @@
 
 #define CAMERA_OFFSET_Z 10
 
-#define OBSTACLE_SPAWN_OFFSET_Z 10
+#define OBSTACLE_SPAWN_INTERVEL 7.5
+#define OBSTACLE_SPAWN_OFFSET_Z 25
 #define OBSTACLE_RAND_MIN 1
 #define OBSTACLE_RAND_MAX 5
 #define OBSTACLE_RAND_TO_SPAWN 3
 #define SCORE_ON_PASS_OBSTACLE 50
+#define BOTTOM_OBSTACLE_SPAWN_Y 1
+#define TOP_OBSTACLE_SPAWN_Y 10
 
 #define WALL_WIDTH 1
-#define WALL_HEIGHT 50
-#define WALL_LENGTH 500
+#define WALL_HEIGHT 25
+#define WALL_LENGTH 2500
 
-#define ENABLE_FOG_ON_START 1
+#define CEIL_SPAWN_Y 12
+#define CEIL_HEIGHT 1
+
+#define ENABLE_FOG_ON_START 0
+
+#define PLAYER_JUMP_STRENGTH 5
+#define PLAYER_SPEED -5
+
+#define FOG_START_OFFSET_FROM_PLAYER 100
+#define FOG_END_OFFSET_FROM_PLAYER 250
 
 #include <stdio.h>
 #include <chrono>
@@ -58,6 +72,10 @@ public:
     //Events can have parameters - once again, pass in from Swift through GameBridge.
     void EventSinglePan(GLKVector2 input);
     void EventDoublePan(GLKVector2 input);
+    void EventSwipeRight();
+    void EventSwipeLeft();
+    void EventSwipeUp();
+    void EventSwipeDown();
     void EventPinch(float input);
     void SetScore(UITextView* set);
     //This is where the magic happens - pass the frame update to this function.
@@ -72,9 +90,7 @@ private:
     int score;
     std::string platforms[NUM_PLATFORMS];
     float nextRePlatformCheckpoint;
-    float distanceBetweenCheckpoints;
     float obstacleTimer;
-    float timeBetweenObstacles;
     int platformsSpawned;
     std::chrono::time_point<std::chrono::steady_clock> prevTime;
 };

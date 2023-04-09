@@ -43,3 +43,19 @@ extern "C" void GameEventSingleTap(struct Game* inThis) {
 extern "C" void SetScore(struct Game* inThis, UITextView* setTextOf) {
     inThis->SetScore(setTextOf);
 }
+
+extern "C" void GameEventSwipeRight(struct Game* inThis) {
+    inThis->EventSwipeRight();
+}
+
+extern "C" void GameEventSwipeLeft(struct Game* inThis) {
+    inThis->EventSwipeLeft();
+}
+
+extern "C" void GameEventSwipeUp(struct Game* inThis) {
+    inThis->EventSwipeUp();
+}
+
+extern "C" void GameEventSwipeDown(struct Game* inThis) {
+    inThis->EventSwipeDown();
+}

@@ -28,6 +28,10 @@ void GameEventDoublePan(struct Game* inThis, GLKVector2 input);
 void GameEventPinch(struct Game* inThis, float input);
 void GameEventDoubleTap(struct Game* inThis);
 void GameEventSingleTap(struct Game* inThis);
+void GameEventSwipeRight(struct Game* inThis);
+void GameEventSwipeLeft(struct Game* inThis);
+void GameEventSwipeUp(struct Game* inThis);
+void GameEventSwipeDown(struct Game* inThis);
 void SetScore(struct Game* inThis, UITextView* text);
 #ifdef __cplusplus
 }

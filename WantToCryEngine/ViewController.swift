@@ -45,7 +45,6 @@ class ViewController: GLKViewController {
 
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(self.doPinch(_:)))
         view.addGestureRecognizer(pinch);
-
         
         let doubleDrag = UIPanGestureRecognizer(target: self, action: #selector(self.doDoubleDrag(_:)))
         doubleDrag.minimumNumberOfTouches = 2;
@@ -70,6 +69,38 @@ class ViewController: GLKViewController {
         scoreText?.textAlignment = NSTextAlignment.center;
         scoreText?.font = .systemFont(ofSize: 24);
         view.addSubview(scoreText!);
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture));
+        swipeRight.direction = .right;
+        view.addGestureRecognizer(swipeRight);
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture));
+        swipeLeft.direction = .left;
+        view.addGestureRecognizer(swipeLeft);
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture));
+        swipeUp.direction = .up;
+        view.addGestureRecognizer(swipeUp);
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture));
+        swipeDown.direction = .down;
+        view.addGestureRecognizer(swipeDown);
+        
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer
+        {
+            switch swipeGesture.direction{
+            case .right:
+                GameEventSwipeRight(game);
+            case .down:
+                GameEventSwipeDown(game);
+            case .left:
+                GameEventSwipeLeft(game);
+            case .up:
+                GameEventSwipeUp(game);
+            default:
+                break;
+            }
+        }
     }
     
     @objc func doDrag(_ sender: UIPanGestureRecognizer){

@@ -44,16 +44,16 @@ Game::Game(GLKView* view){
     textures["cave2"] = renderer.loadTexture(img6);
     
     // Set initial obstacle timer
-    timeBetweenObstacles = 5;
-    obstacleTimer = timeBetweenObstacles;
+    obstacleTimer = OBSTACLE_SPAWN_INTERVEL;
     
     // Set distance checks
-    distanceBetweenCheckpoints = PLATFORM_LENGTH / 2;
-    nextRePlatformCheckpoint -= distanceBetweenCheckpoints;
+    nextRePlatformCheckpoint = -PLATFORM_LENGTH / 2;
     
     //Load models
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     models["cube"] = WavefrontLoader::ReadFile(resourcePath + "cube.obj");
+    models["caveRock"] = WavefrontLoader::ReadFile(resourcePath = "CaveRock02_Obj.obj");
+    
     //load models into reusable VAOs
     for(auto i : models){
         loadedGeometry[i.first] = PreloadedGeometryObject(renderer.loadGeometryVAO(i.second), models[i.first].GetRadius(), models[i.first].indices);
@@ -71,96 +71,33 @@ Game::Game(GLKView* view){
         platformsSpawned++;
     }
     
-    objects["wallLeft"] = GameObject(GLKVector3{-PLATFORM_WIDTH / 2, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{WALL_WIDTH, WALL_HEIGHT, WALL_LENGTH});
+    // Spawn Walls
+    objects["wallLeft"] = GameObject(GLKVector3{-PLATFORM_WIDTH / 2, WALL_HEIGHT / 2, -WALL_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{WALL_WIDTH, WALL_HEIGHT, WALL_LENGTH});
     objects["wallLeft"].preloadedGeometry = loadedGeometry["cube"];
     objects["wallLeft"].textureIndex = textures["cave2"];
     objects["wallLeft"].addComponent(std::make_shared<BoundingBoxCollision>(objects["wallLeft"], GLKVector3{WALL_WIDTH / 2, WALL_HEIGHT / 2, WALL_LENGTH / 2}, true));
     
-    objects["wallRight"] = GameObject(GLKVector3{PLATFORM_WIDTH / 2, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{WALL_WIDTH, WALL_HEIGHT, WALL_LENGTH});
+    objects["wallRight"] = GameObject(GLKVector3{PLATFORM_WIDTH / 2, WALL_HEIGHT / 2, -WALL_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{WALL_WIDTH, WALL_HEIGHT, WALL_LENGTH});
     objects["wallRight"].preloadedGeometry = loadedGeometry["cube"];
     objects["wallRight"].textureIndex = textures["cave2"];
     objects["wallRight"].addComponent(std::make_shared<BoundingBoxCollision>(objects["wallRight"], GLKVector3{WALL_WIDTH / 2, WALL_HEIGHT / 2, WALL_LENGTH / 2}, true));
     
+    // Spawn Ceiling
+    objects["ceiling"] = GameObject(GLKVector3{0, CEIL_SPAWN_Y, -WALL_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{PLATFORM_WIDTH, CEIL_HEIGHT, WALL_LENGTH});
+    objects["ceiling"].preloadedGeometry = loadedGeometry["cube"];
+    objects["ceiling"].textureIndex = textures["cave2"];
+    objects["ceiling"].addComponent(std::make_shared<BoundingBoxCollision>(objects["ceiling"], GLKVector3{PLATFORM_WIDTH / 2, CEIL_HEIGHT / 2, WALL_LENGTH / 2}, true));
+    
+    // Spawn Player
     objects["player"] = GameObject(GLKVector3{0, 2.0f, -1}, GLKVector3{0, 0, 0}, GLKVector3{0.75, 2, 0.75});
     objects["player"].preloadedGeometry = loadedGeometry["cube"];
     objects["player"].textureIndex = textures["marble"];
     objects["player"].addComponent(std::make_shared<BoundingBoxCollision>(objects["player"], GLKVector3{0.375, 0.5, 0.375}, true));
-    objects["player"].addComponent(std::make_shared<PlayerLaneControl>(objects["player"], 0, -1, 1, 25));
+    objects["player"].addComponent(std::make_shared<PlayerLaneControl>(objects["player"], 0, -ceil(NUM_LANES / 2), ceil(NUM_LANES / 2)));
     objects["player"].addComponent(std::make_shared<PositionLimiter>(objects["player"], false, true, false, 0, 1, 0, 0, 500, 0));
     SimulatedBody* playerSB = (SimulatedBody*)objects["player"].addComponent(std::make_shared<SimulatedBody>(objects["player"]));
-    playerSB->gravAcceleration = 3;
-    objects["player"].transform.linVelocity = GLKVector3{0.0, 0.0, -5};
-    
-    // SimulatedBody* groundSB = (SimulatedBody*)objects["ground"].addComponent(std::make_shared<SimulatedBody>(objects["ground"]));
-    
-    /*
-    objects["static"] = GameObject(GLKVector3{0, -1, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["static"].preloadedGeometry = loadedGeometry["cube"];
-    objects["static"].textureIndex = textures["test"];
-    objects["static"].addComponent(std::make_shared<BoundingBoxCollision>(objects["static"], GLKVector3{0.5,0.5,0.5}, true));
-
-    objects["static2"] = GameObject(GLKVector3{0, -5, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["static2"].preloadedGeometry = loadedGeometry["cube"];
-    objects["static2"].textureIndex = textures["test"];
-    objects["static2"].addComponent(std::make_shared<BoundingBoxCollision>(objects["static2"], GLKVector3{0.5,0.5,0.5}, true));
-     */
-    
-    /*
-    for(int i = 0; i <= 100; i++){
-        std::string wb = std::string("wallblock").append(std::to_string(i));
-        objects[wb] = GameObject(GLKVector3{2, -1, -50.0f + i}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
-        objects[wb].preloadedGeometry = loadedGeometry["cube"];
-        objects[wb].textureIndex = textures["tile"];
-    }
-    */
-    
-    /*
-    objects["bottom"] = GameObject(GLKVector3{0, -5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["bottom"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["bottom"].color = GLKVector4{0, 0, .25, 1};
-    objects["bottom"].textureIndex = textures[""];
-
-    objects["top"] = GameObject(GLKVector3{0, 5, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["top"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["top"].color = GLKVector4{.5, .5, 0, 1};
-    objects["top"].textureIndex = textures[""];
-
-    objects["left"] = GameObject(GLKVector3{-5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["left"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["left"].color = GLKVector4{1, 0, 0, 1};
-    objects["left"].textureIndex = textures[""];
-
-    objects["far"] = GameObject(GLKVector3{-15, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["far"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["far"].color = GLKVector4{1, 0, 0, 1};
-    objects["far"].textureIndex = textures[""];
-    
-    objects["right"] = GameObject(GLKVector3{5, 0, 0}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["right"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["right"].color = GLKVector4{0, 1, 0, 1};
-    objects["right"].textureIndex = textures["tile"];
-
-    objects["back"] = GameObject(GLKVector3{0, 0, 5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["back"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["back"].color = GLKVector4{.5, 0, .5, 1};
-    objects["back"].textureIndex = textures["tile"];
-
-//    SimulatedBody::gravAcceleration = 0.1;
-    
-    objects["victim"] =  GameObject(GLKVector3{0, 3, -5}, GLKVector3{0, 4.712, 0}, GLKVector3{1, 1, 1});
-    objects["victim"].preloadedGeometry = loadedGeometry["monkey"];
-    objects["victim"].color = GLKVector4{0, 0.25, .5, 1};
-    objects["victim"].textureIndex = textures[""];
-//    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "One!!1!"));
-//    objects["victim"].addComponent(std::make_shared<ObjectNotifier>(objects["victim"], "Two"));
-    objects["victim"].addComponent(std::make_shared<BoundingBoxCollision>(objects["victim"], GLKVector3{1,1.7,1}, true));
-    //objects["victim"].addComponent(std::make_shared<Spinner>(objects["victim"], GLKVector3{0, 1.0f, 0}));
-    
-    objects["brick"] = GameObject(GLKVector3{0, 20, -5}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
-    objects["brick"].preloadedGeometry = loadedGeometry["cube"];
-    objects["brick"].textureIndex = textures["tile"];
-    objects["brick"].addComponent(std::make_shared<BoundingBoxCollision>(objects["brick"], GLKVector3{0.5,0.5,0.5}, true));
-     */
+    playerSB->gravAcceleration = 2;
+    objects["player"].transform.linVelocity = GLKVector3{0.0, 0.0, PLAYER_SPEED};
 }
 
 //It seems like the renderer needs to have cycled once for some things to work.
@@ -170,7 +107,7 @@ void Game::FirstUpdate(){
         renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});
         fogActive = false;
     } else {
-        renderer.setEnvironment(50, 250, GLKVector4{0.65, 0.7, 0.75, 1});
+        renderer.setEnvironment(FOG_START_OFFSET_FROM_PLAYER, FOG_END_OFFSET_FROM_PLAYER, GLKVector4{0.65, 0.7, 0.75, 1});
         fogActive = true;
     }
     
@@ -249,22 +186,19 @@ void Game::Update(){
         objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{PLATFORM_WIDTH / 2, PLATFORM_HEIGHT / 2, PLATFORM_LENGTH / 2}, true));
         platforms[4] = label;
         platformsSpawned++;
-        nextRePlatformCheckpoint -= distanceBetweenCheckpoints;
-         
-        /*
-        for (int i = 0; i < NUM_PLATFORMS; i++) {
-            printf("Post Shift: %i: %s\n", i, platforms[i].c_str());
-        }
-         */
+        nextRePlatformCheckpoint -= PLATFORM_LENGTH / 2;
+        
+        
     }
     
     if (obstacleTimer > 0) {
         obstacleTimer -= deltaTime;
     } else {
-        obstacleTimer = timeBetweenObstacles;
+        obstacleTimer = OBSTACLE_SPAWN_INTERVEL;
         
-        for (int i = 0; i < 3; i++) {
-            std::string label = "obstacle" + std::to_string(i);
+        // Bottom Obstacles
+        for (int i = 0; i < NUM_LANES; i++) {
+            std::string label = "bottomObstacle" + std::to_string(i);
             
             // Remove old obstacle
             if (objects.contains(label)) {
@@ -281,14 +215,43 @@ void Game::Update(){
             }
             
             // Spawn new Obstacle
-            objects[label] = GameObject(GLKVector3{(float)i - 1, 1, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, 1, 1});
+            objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
             objects[label].preloadedGeometry = loadedGeometry["cube"];
-            objects[label].textureIndex = textures["cave2"];
+            objects[label].textureIndex = textures["cave1"];
             objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, 0.5, 0.5}, true));
             // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
             // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
             // obstacleSB->gravAcceleration = 0;
         }
+        
+        // Top Obstacles
+        for (int i = 0; i < NUM_LANES; i++) {
+            std::string label = "topObstacle" + std::to_string(i);
+            
+            // Remove old obstacle
+            if (objects.contains(label)) {
+                // printf("Erased...");
+                objects.erase(label);
+                score += SCORE_ON_PASS_OBSTACLE;
+            }
+            
+            int randNum = rand()%(OBSTACLE_RAND_MAX-OBSTACLE_RAND_MIN + 1)
+                + OBSTACLE_RAND_MIN;
+            
+            if (randNum < OBSTACLE_RAND_TO_SPAWN) {
+                continue;
+            }
+            
+            // Spawn new Obstacle
+            objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, TOP_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
+            objects[label].preloadedGeometry = loadedGeometry["cube"];
+            objects[label].textureIndex = textures["coin"];
+            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, 0.5, 0.5}, true));
+            // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
+            // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
+            // obstacleSB->gravAcceleration = 0;
+        }
+        
     }
     
     //Per-frame events - here, a spotlight attached to the camera has its position changed.
@@ -329,7 +292,6 @@ void Game::EventSinglePan(GLKVector2 input){
      */
     // renderer.camRot.y -= input.y;
     // renderer.camRot.x -= input.x;
-    ((PlayerLaneControl*)objects["player"].getComponent<PlayerLaneControl>())->changeBy(input.x);
 }
 
 void Game::EventDoublePan(GLKVector2 input){
@@ -387,13 +349,31 @@ void Game::EventDoubleTap(){
 }
 
 void Game::EventSingleTap() {
+    
     if(objects["player"].transform.position.y < 1.1){
         GLKVector3 curVelocity = objects["player"].transform.linVelocity;
-        objects["player"].transform.linVelocity = GLKVector3{curVelocity.x, 4, curVelocity.z};
+        objects["player"].transform.linVelocity = GLKVector3{curVelocity.x, PLAYER_JUMP_STRENGTH, curVelocity.z};
     }
+    
 }
 
 void Game::SetScore(UITextView* setTextOf) {
     NSString *scoreText = [NSString stringWithFormat:@"Score: %i", score];
     setTextOf.text = scoreText;
+}
+
+void Game::EventSwipeRight() {
+    ((PlayerLaneControl*)objects["player"].getComponent<PlayerLaneControl>())->changeBy(1);
+}
+
+void Game::EventSwipeLeft() {
+    ((PlayerLaneControl*)objects["player"].getComponent<PlayerLaneControl>())->changeBy(-1);
+}
+
+void Game::EventSwipeUp(){
+    
+}
+
+void Game::EventSwipeDown() {
+    
 }

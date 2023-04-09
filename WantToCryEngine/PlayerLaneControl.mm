@@ -13,13 +13,16 @@ bool PlayerLaneControl::otherComponentInteractionCheck(const std::vector<std::sh
 }
 
 void PlayerLaneControl::update(float deltaTime){
-    parent.transform.position = GLKVector3{round(lane), parent.transform.position.y, parent.transform.position.z};
+    parent.transform.position = GLKVector3{(float)lane, parent.transform.position.y, parent.transform.position.z};
 }
 
-void PlayerLaneControl::changeBy(float num) {
-    lane += num * changeMult;
+void PlayerLaneControl::changeBy(int num) {
+    lane += num;
+    //printf("Attempt: %i\n", lane);
     if (lane > laneMax)
         lane = laneMax;
     if (lane < laneMin)
         lane = laneMin;
+    //printf("Set: %i\n", lane);
+    
 }

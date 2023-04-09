@@ -14,15 +14,14 @@
 
 class PlayerLaneControl : public Component{
 public:
-    float lane;
-    float laneMin;
-    float laneMax;
-    float changeMult;
+    int lane;
+    int laneMin;
+    int laneMax;
     ~PlayerLaneControl() = default;
-    void changeBy(float num);
+    void changeBy(int num);
     void update(float deltaTime);
     bool otherComponentInteractionCheck(const std::vector<std::shared_ptr<Component>>& existing);
-    PlayerLaneControl(GameObject& p, float defaultLane, float min, float max, float rate) : Component(p), lane(defaultLane), laneMin(min), laneMax(max), changeMult(rate) {};
+    PlayerLaneControl(GameObject& p, int defaultLane, int min, int max) : Component(p), lane(defaultLane), laneMin(min), laneMax(max) {};
 };
 
 #endif /* ComponentPlayerLaneControl_hpp */
