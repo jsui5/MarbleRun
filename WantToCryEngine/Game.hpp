@@ -8,6 +8,26 @@
 #ifndef Game_hpp
 #define Game_hpp
 
+#define NUM_PLATFORMS 5
+
+#define PLATFORM_LENGTH 50
+#define PLATFORM_WIDTH 10
+#define PLATFORM_HEIGHT 1
+
+#define CAMERA_OFFSET_Z 10
+
+#define OBSTACLE_SPAWN_OFFSET_Z 10
+#define OBSTACLE_RAND_MIN 1
+#define OBSTACLE_RAND_MAX 5
+#define OBSTACLE_RAND_TO_SPAWN 3
+#define SCORE_ON_PASS_OBSTACLE 50
+
+#define WALL_WIDTH 1
+#define WALL_HEIGHT 50
+#define WALL_LENGTH 500
+
+#define ENABLE_FOG_ON_START 1
+
 #include <stdio.h>
 #include <chrono>
 #include "Common.h"
@@ -18,6 +38,7 @@
 #include "SimulatedBody.hpp"
 #include "BoundingBoxCollision.hpp"
 #include "GlobalCollisionHandler.hpp"
+#include "GameObject.hpp"
 
 class Game{
 public:
@@ -49,9 +70,12 @@ private:
     void FirstUpdate();
     void handleCollisions();
     int score;
-    float distancePlayerTravelled;
+    std::string platforms[NUM_PLATFORMS];
+    float nextRePlatformCheckpoint;
+    float distanceBetweenCheckpoints;
     float obstacleTimer;
     float timeBetweenObstacles;
+    int platformsSpawned;
     std::chrono::time_point<std::chrono::steady_clock> prevTime;
 };
 

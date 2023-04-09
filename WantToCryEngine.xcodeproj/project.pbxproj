@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		58F2638729E217EA00330627 /* Follow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58F2638629E217EA00330627 /* Follow.mm */; };
 		58F2638E29E21B8100330627 /* PlayerLaneControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58F2638D29E21B8100330627 /* PlayerLaneControl.mm */; };
+		58F2639329E2795B00330627 /* cave_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F2638F29E2795A00330627 /* cave_tex.jpg */; };
+		58F2639429E2795B00330627 /* coin_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F2639029E2795A00330627 /* coin_tex.jpg */; };
+		58F2639529E2795B00330627 /* cave_tex_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F2639129E2795B00330627 /* cave_tex_2.jpg */; };
+		58F2639629E2795B00330627 /* marble_tex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F2639229E2795B00330627 /* marble_tex.jpg */; };
 		BE481A5029B2DBD3005C575F /* PreloadedGeometryObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */; };
 		BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD03299720C70044E639 /* AppDelegate.swift */; };
 		BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73DD05299720C70044E639 /* SceneDelegate.swift */; };
@@ -44,6 +48,10 @@
 		58F2638829E217F300330627 /* Follow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Follow.hpp; sourceTree = "<group>"; };
 		58F2638C29E21B8100330627 /* PlayerLaneControl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayerLaneControl.hpp; sourceTree = "<group>"; };
 		58F2638D29E21B8100330627 /* PlayerLaneControl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayerLaneControl.mm; sourceTree = "<group>"; };
+		58F2638F29E2795A00330627 /* cave_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cave_tex.jpg; sourceTree = "<group>"; };
+		58F2639029E2795A00330627 /* coin_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coin_tex.jpg; sourceTree = "<group>"; };
+		58F2639129E2795B00330627 /* cave_tex_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cave_tex_2.jpg; sourceTree = "<group>"; };
+		58F2639229E2795B00330627 /* marble_tex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = marble_tex.jpg; sourceTree = "<group>"; };
 		BE481A4E29B2DBD2005C575F /* PreloadedGeometryObject.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreloadedGeometryObject.mm; sourceTree = "<group>"; };
 		BE481A4F29B2DBD2005C575F /* PreloadedGeometryObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PreloadedGeometryObject.hpp; sourceTree = "<group>"; };
 		BE73DD00299720C70044E639 /* WantToCryEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WantToCryEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +116,10 @@
 		BE73DCF7299720C70044E639 = {
 			isa = PBXGroup;
 			children = (
+				58F2639129E2795B00330627 /* cave_tex_2.jpg */,
+				58F2638F29E2795A00330627 /* cave_tex.jpg */,
+				58F2639029E2795A00330627 /* coin_tex.jpg */,
+				58F2639229E2795B00330627 /* marble_tex.jpg */,
 				BE73DD4929A1EF1F0044E639 /* cube.obj */,
 				BE73DD4729A1EA3E0044E639 /* test.jpg */,
 				BE73DD4529A1EA2D0044E639 /* white.jpg */,
@@ -250,10 +262,14 @@
 				BE73DD4629A1EA2D0044E639 /* white.jpg in Resources */,
 				BE73DD4129A1CC5C0044E639 /* tile.jpg in Resources */,
 				BE73DD3F29A197640044E639 /* blender_suzanne.obj in Resources */,
+				58F2639529E2795B00330627 /* cave_tex_2.jpg in Resources */,
 				BE73DD18299726550044E639 /* Shader.fsh in Resources */,
 				BE73DD10299720D70044E639 /* LaunchScreen.storyboard in Resources */,
+				58F2639329E2795B00330627 /* cave_tex.jpg in Resources */,
+				58F2639429E2795B00330627 /* coin_tex.jpg in Resources */,
 				BE73DD0D299720D70044E639 /* Assets.xcassets in Resources */,
 				BE73DD0B299720C70044E639 /* Main.storyboard in Resources */,
+				58F2639629E2795B00330627 /* marble_tex.jpg in Resources */,
 				BE73DD1A299726730044E639 /* Shader.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
