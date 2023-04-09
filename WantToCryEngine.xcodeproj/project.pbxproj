@@ -39,6 +39,7 @@
 		BE7484D929D4D7240030087F /* SimulatedBody.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484D729D4D7240030087F /* SimulatedBody.mm */; };
 		BE7484DC29D53BC30030087F /* BoundingBoxCollision.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484DA29D53BC30030087F /* BoundingBoxCollision.mm */; };
 		BE7484DF29D544FC0030087F /* GlobalCollisionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484DD29D544FB0030087F /* GlobalCollisionHandler.mm */; };
+		BE7484E229E25DF80030087F /* PositionLimiter.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484E029E25DF70030087F /* PositionLimiter.mm */; };
 		BE9338E029B0174F0070B442 /* Utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE9338DE29B0174E0070B442 /* Utility.mm */; };
 		BED8535529CA518F005EF16E /* Component.mm in Sources */ = {isa = PBXBuildFile; fileRef = BED8535329CA518F005EF16E /* Component.mm */; };
 /* End PBXBuildFile section */
@@ -95,6 +96,8 @@
 		BE7484DB29D53BC30030087F /* BoundingBoxCollision.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoundingBoxCollision.hpp; sourceTree = "<group>"; };
 		BE7484DD29D544FB0030087F /* GlobalCollisionHandler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GlobalCollisionHandler.mm; sourceTree = "<group>"; };
 		BE7484DE29D544FC0030087F /* GlobalCollisionHandler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GlobalCollisionHandler.hpp; sourceTree = "<group>"; };
+		BE7484E029E25DF70030087F /* PositionLimiter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PositionLimiter.mm; sourceTree = "<group>"; };
+		BE7484E129E25DF80030087F /* PositionLimiter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PositionLimiter.hpp; sourceTree = "<group>"; };
 		BE9338DE29B0174E0070B442 /* Utility.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Utility.mm; sourceTree = "<group>"; };
 		BE9338DF29B0174E0070B442 /* Utility.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
 		BED8535329CA518F005EF16E /* Component.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Component.mm; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 				BE7484DB29D53BC30030087F /* BoundingBoxCollision.hpp */,
 				BE7484DD29D544FB0030087F /* GlobalCollisionHandler.mm */,
 				BE7484DE29D544FC0030087F /* GlobalCollisionHandler.hpp */,
+				BE7484E029E25DF70030087F /* PositionLimiter.mm */,
+				BE7484E129E25DF80030087F /* PositionLimiter.hpp */,
 			);
 			path = WantToCryEngine;
 			sourceTree = "<group>";
@@ -299,6 +304,7 @@
 				BE73DD04299720C70044E639 /* AppDelegate.swift in Sources */,
 				BE73DD06299720C70044E639 /* SceneDelegate.swift in Sources */,
 				BE73DD2C29988B780044E639 /* GameObject.mm in Sources */,
+				BE7484E229E25DF80030087F /* PositionLimiter.mm in Sources */,
 				58F2638E29E21B8100330627 /* PlayerLaneControl.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
