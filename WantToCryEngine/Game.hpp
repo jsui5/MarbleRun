@@ -18,6 +18,7 @@
 #include "SimulatedBody.hpp"
 #include "BoundingBoxCollision.hpp"
 #include "GlobalCollisionHandler.hpp"
+#include "PositionLimiter.hpp"
 
 class Game{
 public:
