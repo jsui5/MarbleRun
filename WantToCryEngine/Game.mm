@@ -215,10 +215,10 @@ void Game::Update(){
             }
             
             // Spawn new Obstacle
-            objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
+            objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, BOTTOM_OBSTACLE_HEIGHT, OBSTACLE_LENGTH});
             objects[label].preloadedGeometry = loadedGeometry["cube"];
             objects[label].textureIndex = textures["cave1"];
-            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, 0.5, 0.5}, true));
+            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, BOTTOM_OBSTACLE_HEIGHT / 2, OBSTACLE_LENGTH / 2}, true));
             // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
             // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
             // obstacleSB->gravAcceleration = 0;
@@ -243,13 +243,17 @@ void Game::Update(){
             }
             
             // Spawn new Obstacle
-            objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, TOP_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, 2, 1});
+            objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, TOP_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, TOP_OBSTACLE_HEIGHT, OBSTACLE_LENGTH});
             objects[label].preloadedGeometry = loadedGeometry["cube"];
             objects[label].textureIndex = textures["coin"];
-            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, 0.5, 0.5}, true));
-            // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
-            // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
-            // obstacleSB->gravAcceleration = 0;
+            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, TOP_OBSTACLE_HEIGHT / 2, OBSTACLE_LENGTH / 2}, true));
+            
+            if (TOP_OBSTACLE_ALLOW_DROP == 0) {
+                continue;
+            }
+            
+            SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
+            obstacleSB->gravAcceleration = 1;
         }
         
     }

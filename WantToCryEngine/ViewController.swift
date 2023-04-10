@@ -6,6 +6,26 @@
 //
 
 import GLKit
+import AVFoundation
+
+// Unsure if this works or not
+var player: AVAudioPlayer?
+
+func playSound(soundName: String) {
+    guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
+
+    do {
+        try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+        try AVAudioSession.sharedInstance().setActive(true)
+
+        let player = try AVAudioPlayer(contentsOf: url)
+
+        player.play()
+
+    } catch let error {
+        print(error.localizedDescription)
+    }
+}
 
 extension ViewController: GLKViewControllerDelegate {
     func glkViewControllerUpdate(_ controller: GLKViewController) {
@@ -29,7 +49,6 @@ class ViewController: GLKViewController {
             //initialize game (with its renderer)
             game = NewGame(view);
         }
-
     }
     
     override func viewDidLoad() {
@@ -130,6 +149,4 @@ class ViewController: GLKViewController {
     override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         GameDraw(game, rect);
     }
-
 }
-
