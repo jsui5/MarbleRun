@@ -106,6 +106,7 @@ class ViewController: GLKViewController {
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        playSound(soundName: "slide")
         if let swipeGesture = gesture as? UISwipeGestureRecognizer
         {
             switch swipeGesture.direction{
