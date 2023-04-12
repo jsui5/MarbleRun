@@ -12,14 +12,18 @@ import AVFoundation
 var player: AVAudioPlayer?
 
 func playSound(soundName: String) {
+    //gets the file to play
     guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else { return }
     
     do {
+        //attempts setting the audio session
         try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        //makes the session active
         try AVAudioSession.sharedInstance().setActive(true)
         
+        //assigns the file tothe play
         player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-        
+        //null check
         guard let player = player else { return }
         
         player.play()
