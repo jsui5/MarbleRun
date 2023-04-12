@@ -96,6 +96,7 @@ Game::Game(GLKView* view){
     objects["player"].addComponent(std::make_shared<PlayerLaneControl>(objects["player"], 0, -ceil(NUM_LANES / 2), ceil(NUM_LANES / 2)));
     objects["player"].addComponent(std::make_shared<PositionLimiter>(objects["player"], false, true, false, 0, 1, 0, 0, 500, 0));
     SimulatedBody* playerSB = (SimulatedBody*)objects["player"].addComponent(std::make_shared<SimulatedBody>(objects["player"]));
+    Spinner* playerSpinner = (Spinner*)objects["player"].addComponent(std::make_shared<Spinner>(objects["player"], GLKVector3{0, 1, 0}));
     playerSB->gravAcceleration = 2;
     objects["player"].transform.linVelocity = GLKVector3{0.0, 0.0, PLAYER_SPEED};
 }
@@ -368,6 +369,8 @@ void Game::SetScore(UITextView* setTextOf) {
 
 void Game::EventSwipeRight() {
     ((PlayerLaneControl*)objects["player"].getComponent<PlayerLaneControl>())->changeBy(1);
+    
+    
 }
 
 void Game::EventSwipeLeft() {
