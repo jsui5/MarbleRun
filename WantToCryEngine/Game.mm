@@ -52,6 +52,7 @@ Game::Game(GLKView* view){
     //Load models
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     models["cube"] = WavefrontLoader::ReadFile(resourcePath + "cube.obj");
+    models["spikes"] = WavefrontLoader::ReadFile(resourcePath + "spikes.obj");
     models["caveRock"] = WavefrontLoader::ReadFile(resourcePath = "CaveRock02_Obj.obj");
     
     //load models into reusable VAOs
@@ -197,7 +198,47 @@ void Game::Update(){
     } else {
         obstacleTimer = OBSTACLE_SPAWN_INTERVEL;
         
-        // Bottom Obstacles
+        
+
+        /*
+        //Original
+         // Bottom Obstacles
+         for (int i = 0; i < NUM_LANES; i++) {
+             std::string label = "bottomObstacle" + std::to_string(i);
+             
+             // Remove old obstacle
+             if (objects.contains(label)) {
+                 // printf("Erased...");
+                 objects.erase(label);
+                 score += SCORE_ON_PASS_OBSTACLE;
+             }
+             
+             int randNum = rand()%(OBSTACLE_RAND_MAX-OBSTACLE_RAND_MIN + 1)
+                 + OBSTACLE_RAND_MIN;
+             
+             if (randNum < OBSTACLE_RAND_TO_SPAWN) {
+                 continue;
+             }
+             
+             // Generate random rotation angle for Y-axis
+             float randRotation = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+
+             // Spawn new Obstacle
+             objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, randRotation, 0}, GLKVector3{1, BOTTOM_OBSTACLE_HEIGHT, OBSTACLE_LENGTH});
+             objects[label].preloadedGeometry = loadedGeometry["spikes"];
+             objects[label].textureIndex = textures["cave1"];
+             objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, BOTTOM_OBSTACLE_HEIGHT / 2, OBSTACLE_LENGTH / 2}, true));
+             // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
+             // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
+             // obstacleSB->gravAcceleration = 0;
+         }
+        */
+        // Bottom Obstacles (Trying to spin them)
+        
+        // Calling srand() to seed the random number generator
+        srand(static_cast<unsigned>(time(0)));
+        
+        
         for (int i = 0; i < NUM_LANES; i++) {
             std::string label = "bottomObstacle" + std::to_string(i);
             
@@ -206,6 +247,7 @@ void Game::Update(){
                 // printf("Erased...");
                 objects.erase(label);
                 score += SCORE_ON_PASS_OBSTACLE;
+                bottomObstacleRotationSpeeds.erase(label);
             }
             
             int randNum = rand()%(OBSTACLE_RAND_MAX-OBSTACLE_RAND_MIN + 1)
@@ -214,16 +256,28 @@ void Game::Update(){
             if (randNum < OBSTACLE_RAND_TO_SPAWN) {
                 continue;
             }
-            
+
+            // Generate random rotation speed for Y-axis
+            float randRotationSpeed = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+            bottomObstacleRotationSpeeds[label] = randRotationSpeed;
+
             // Spawn new Obstacle
             objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, BOTTOM_OBSTACLE_HEIGHT, OBSTACLE_LENGTH});
-            objects[label].preloadedGeometry = loadedGeometry["cube"];
+            objects[label].preloadedGeometry = loadedGeometry["spikes"];
             objects[label].textureIndex = textures["cave1"];
             objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, BOTTOM_OBSTACLE_HEIGHT / 2, OBSTACLE_LENGTH / 2}, true));
             // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
             // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
             // obstacleSB->gravAcceleration = 0;
         }
+
+        // Update rotation for bottom obstacles
+        for (const auto& [label, rotationSpeed] : bottomObstacleRotationSpeeds) {
+            if (objects.contains(label)) {
+                objects[label].transform.rotation.y += rotationSpeed * deltaTime;
+            }
+        }
+        
         
         // Top Obstacles
         for (int i = 0; i < NUM_LANES; i++) {

@@ -59,9 +59,15 @@
 #include "BoundingBoxCollision.hpp"
 #include "GlobalCollisionHandler.hpp"
 #include "PositionLimiter.hpp"
+#include <unordered_map>
+#include <ctime>
+
 
 class Game{
 public:
+    
+    std::unordered_map<std::string, float> bottomObstacleRotationSpeeds;
+
     std::string resourcePath;
     //these are used to store models, texture indices, and gameobjects in an easily accessible way.
     std::map<std::string, GeometryObject> models;
