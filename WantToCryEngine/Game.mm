@@ -52,6 +52,7 @@ Game::Game(GLKView* view){
     //Load models
     models["monkey"] = WavefrontLoader::ReadFile(resourcePath + "blender_suzanne.obj");
     models["cube"] = WavefrontLoader::ReadFile(resourcePath + "cube.obj");
+    models["subcube"] = WavefrontLoader::ReadFile(resourcePath + "subcube.obj");
     models["spikes"] = WavefrontLoader::ReadFile(resourcePath + "spikes.obj");
     models["caveRock"] = WavefrontLoader::ReadFile(resourcePath = "CaveRock02_Obj.obj");
     
@@ -65,7 +66,7 @@ Game::Game(GLKView* view){
         std::string label = "ground" + std::to_string(platformsSpawned);
         // printf("%s\n", label.c_str());
         objects[label] = GameObject(GLKVector3{0, -1, (float)-platformsSpawned * PLATFORM_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{PLATFORM_WIDTH, PLATFORM_HEIGHT, (float)platformsSpawned * PLATFORM_LENGTH});
-        objects[label].preloadedGeometry = loadedGeometry["cube"];
+        objects[label].preloadedGeometry = loadedGeometry["subcube"];
         objects[label].textureIndex = textures["cave1"];
         objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{PLATFORM_WIDTH / 2, PLATFORM_HEIGHT / 2, PLATFORM_LENGTH / 2}, true));
         platforms[i] = label;
@@ -73,21 +74,23 @@ Game::Game(GLKView* view){
     }
     
     // Spawn Walls
+    /*
     objects["wallLeft"] = GameObject(GLKVector3{-PLATFORM_WIDTH / 2, WALL_HEIGHT / 2, -WALL_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{WALL_WIDTH, WALL_HEIGHT, WALL_LENGTH});
-    objects["wallLeft"].preloadedGeometry = loadedGeometry["cube"];
+    objects["wallLeft"].preloadedGeometry = loadedGeometry["subcube"];
     objects["wallLeft"].textureIndex = textures["cave2"];
     objects["wallLeft"].addComponent(std::make_shared<BoundingBoxCollision>(objects["wallLeft"], GLKVector3{WALL_WIDTH / 2, WALL_HEIGHT / 2, WALL_LENGTH / 2}, true));
     
     objects["wallRight"] = GameObject(GLKVector3{PLATFORM_WIDTH / 2, WALL_HEIGHT / 2, -WALL_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{WALL_WIDTH, WALL_HEIGHT, WALL_LENGTH});
-    objects["wallRight"].preloadedGeometry = loadedGeometry["cube"];
+    objects["wallRight"].preloadedGeometry = loadedGeometry["subcube"];
     objects["wallRight"].textureIndex = textures["cave2"];
     objects["wallRight"].addComponent(std::make_shared<BoundingBoxCollision>(objects["wallRight"], GLKVector3{WALL_WIDTH / 2, WALL_HEIGHT / 2, WALL_LENGTH / 2}, true));
     
     // Spawn Ceiling
     objects["ceiling"] = GameObject(GLKVector3{0, CEIL_SPAWN_Y, -WALL_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{PLATFORM_WIDTH, CEIL_HEIGHT, WALL_LENGTH});
-    objects["ceiling"].preloadedGeometry = loadedGeometry["cube"];
+    objects["ceiling"].preloadedGeometry = loadedGeometry["subcube"];
     objects["ceiling"].textureIndex = textures["cave2"];
     objects["ceiling"].addComponent(std::make_shared<BoundingBoxCollision>(objects["ceiling"], GLKVector3{PLATFORM_WIDTH / 2, CEIL_HEIGHT / 2, WALL_LENGTH / 2}, true));
+    */
     
     // Spawn Player
     objects["player"] = GameObject(GLKVector3{0, 2.0f, -1}, GLKVector3{0, 0, 0}, GLKVector3{0.75, 2, 0.75});
@@ -97,7 +100,7 @@ Game::Game(GLKView* view){
     objects["player"].addComponent(std::make_shared<PlayerLaneControl>(objects["player"], 0, -ceil(NUM_LANES / 2), ceil(NUM_LANES / 2)));
     objects["player"].addComponent(std::make_shared<PositionLimiter>(objects["player"], false, true, false, 0, 1, 0, 0, 500, 0));
     SimulatedBody* playerSB = (SimulatedBody*)objects["player"].addComponent(std::make_shared<SimulatedBody>(objects["player"]));
-    Spinner* playerSpinner = (Spinner*)objects["player"].addComponent(std::make_shared<Spinner>(objects["player"], GLKVector3{0, 1, 0}));
+    objects["player"].addComponent(std::make_shared<Spinner>(objects["player"], GLKVector3{0, 1, 0}));
     playerSB->gravAcceleration = 2;
     objects["player"].transform.linVelocity = GLKVector3{0.0, 0.0, PLAYER_SPEED};
 }
@@ -109,7 +112,7 @@ void Game::FirstUpdate(){
         renderer.setEnvironment(100, 40, GLKVector4{0.65, 0.7, 0.75, 1});
         fogActive = false;
     } else {
-        renderer.setEnvironment(FOG_START_OFFSET_FROM_PLAYER, FOG_END_OFFSET_FROM_PLAYER, GLKVector4{0.65, 0.7, 0.75, 1});
+        renderer.setEnvironment(FOG_START_OFFSET_FROM_PLAYER, FOG_END_OFFSET_FROM_PLAYER, GLKVector4{0.2, 0.2, 0.3, 1});
         fogActive = true;
     }
     
@@ -183,10 +186,10 @@ void Game::Update(){
         std::string label = "ground" + std::to_string(platformsSpawned);
         // printf("New: %s\n", label.c_str());
         objects[label] = GameObject(GLKVector3{0, -1, (float)-platformsSpawned * PLATFORM_LENGTH / 2}, GLKVector3{0, 0, 0}, GLKVector3{PLATFORM_WIDTH, PLATFORM_HEIGHT, (float)platformsSpawned * PLATFORM_LENGTH});
-        objects[label].preloadedGeometry = loadedGeometry["cube"];
+        objects[label].preloadedGeometry = loadedGeometry["subcube"];
         objects[label].textureIndex = textures["cave1"];
         objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{PLATFORM_WIDTH / 2, PLATFORM_HEIGHT / 2, PLATFORM_LENGTH / 2}, true));
-        platforms[4] = label;
+        platforms[NUM_PLATFORMS - 1] = label;
         platformsSpawned++;
         nextRePlatformCheckpoint -= PLATFORM_LENGTH / 2;
         
@@ -278,7 +281,7 @@ void Game::Update(){
             objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, BOTTOM_OBSTACLE_HEIGHT, OBSTACLE_LENGTH});
             objects[label].preloadedGeometry = loadedGeometry["spikes"];
             objects[label].textureIndex = textures[textureName];
-            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, BOTTOM_OBSTACLE_HEIGHT / 2, OBSTACLE_LENGTH / 2}, true));
+            objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, BOTTOM_OBSTACLE_HEIGHT, OBSTACLE_LENGTH * 3}, true));
             // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
             // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
             // obstacleSB->gravAcceleration = 0;
