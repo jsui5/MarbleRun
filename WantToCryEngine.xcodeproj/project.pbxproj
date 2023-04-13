@@ -45,6 +45,7 @@
 		BE7484E229E25DF80030087F /* PositionLimiter.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE7484E029E25DF70030087F /* PositionLimiter.mm */; };
 		BE9338E029B0174F0070B442 /* Utility.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE9338DE29B0174E0070B442 /* Utility.mm */; };
 		BED8535529CA518F005EF16E /* Component.mm in Sources */ = {isa = PBXBuildFile; fileRef = BED8535329CA518F005EF16E /* Component.mm */; };
+		CC357E4129E782590073B032 /* spikes.obj in Resources */ = {isa = PBXBuildFile; fileRef = CC357E4029E782590073B032 /* spikes.obj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +109,8 @@
 		BE9338DF29B0174E0070B442 /* Utility.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
 		BED8535329CA518F005EF16E /* Component.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Component.mm; sourceTree = "<group>"; };
 		BED8535429CA518F005EF16E /* Component.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
+		CC357E4029E782590073B032 /* spikes.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = spikes.obj; path = ../../Downloads/spikes.obj; sourceTree = "<group>"; };
+		CC357E4229E782670073B032 /* spikes.blend */ = {isa = PBXFileReference; lastKnownFileType = file; name = spikes.blend; path = ../../Downloads/spikes.blend; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +144,8 @@
 				58F2639029E2795A00330627 /* coin_tex.jpg */,
 				58F2639229E2795B00330627 /* marble_tex.jpg */,
 				BE73DD4929A1EF1F0044E639 /* cube.obj */,
+				CC357E4029E782590073B032 /* spikes.obj */,
+				CC357E4229E782670073B032 /* spikes.blend */,
 				BE73DD4729A1EA3E0044E639 /* test.jpg */,
 				BE73DD4529A1EA2D0044E639 /* white.jpg */,
 				BE73DD4029A1CC5A0044E639 /* tile.jpg */,
@@ -289,6 +294,7 @@
 				BE73DD18299726550044E639 /* Shader.fsh in Resources */,
 				BE73DD10299720D70044E639 /* LaunchScreen.storyboard in Resources */,
 				58F2639329E2795B00330627 /* cave_tex.jpg in Resources */,
+				CC357E4129E782590073B032 /* spikes.obj in Resources */,
 				58F2639429E2795B00330627 /* coin_tex.jpg in Resources */,
 				BE73DD0D299720D70044E639 /* Assets.xcassets in Resources */,
 				BE73DD0B299720C70044E639 /* Main.storyboard in Resources */,
