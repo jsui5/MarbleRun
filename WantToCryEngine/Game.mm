@@ -234,6 +234,11 @@ void Game::Update(){
          }
         */
         // Bottom Obstacles (Trying to spin them)
+        // The code adds an unordered_map called bottomObstacleRotationSpeeds
+        // to store the rotation speed of each obstacle. Each obstacle gets a
+        // random rotation speed, stored in the bottomObstacleRotationSpeeds map.
+        // Inside the game loop, the rotation of each obstacle is updated based
+        // on its rotation speed and the elapsed time (1.0f).
         
         // Calling srand() to seed the random number generator
         srand(static_cast<unsigned>(time(0)));
@@ -260,11 +265,19 @@ void Game::Update(){
             // Generate random rotation speed for Y-axis
             float randRotationSpeed = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
             bottomObstacleRotationSpeeds[label] = randRotationSpeed;
-
+            
+            // This code generates a random integer (0 or 1)
+            // and then assigns the corresponding texture name to textureName.
+            // It then uses textureName when setting the textureIndex for the obstacle.
+            // Randomize between "cave1" and "cave2" textures
+            int randTextureIndex = rand() % 2;
+            std::string textureName = randTextureIndex == 0 ? "cave1" : "cave2";
+            
+            
             // Spawn new Obstacle
             objects[label] = GameObject(GLKVector3{(float)i - NUM_LANES / 2, BOTTOM_OBSTACLE_SPAWN_Y, playerPosition.z - OBSTACLE_SPAWN_OFFSET_Z}, GLKVector3{0, 0, 0}, GLKVector3{1, BOTTOM_OBSTACLE_HEIGHT, OBSTACLE_LENGTH});
             objects[label].preloadedGeometry = loadedGeometry["spikes"];
-            objects[label].textureIndex = textures["cave1"];
+            objects[label].textureIndex = textures[textureName];
             objects[label].addComponent(std::make_shared<BoundingBoxCollision>(objects[label], GLKVector3{0.5, BOTTOM_OBSTACLE_HEIGHT / 2, OBSTACLE_LENGTH / 2}, true));
             // SimulatedBody* obstacleSB = (SimulatedBody*)objects[label].addComponent(std::make_shared<SimulatedBody>(objects[label]));
             // objects[label].transform.linVelocity = GLKVector3{0, 0, -1};
@@ -274,7 +287,7 @@ void Game::Update(){
         // Update rotation for bottom obstacles
         for (const auto& [label, rotationSpeed] : bottomObstacleRotationSpeeds) {
             if (objects.contains(label)) {
-                objects[label].transform.rotation.y += rotationSpeed * deltaTime;
+                objects[label].transform.rotation.y += rotationSpeed * 1.0f;
             }
         }
         
